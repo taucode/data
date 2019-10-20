@@ -2,14 +2,16 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>TauCode.Data</id>
-    <version>2.19.1</version>
+    <version>3.0</version>
     <authors>TauCode</authors>
     <owners>TauCode</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <projectUrl>http://taucode.com/</projectUrl>
     <description>TauCode all-purpose data structures</description>
-    <releaseNotes>Initial version</releaseNotes>
+    <releaseNotes>
+      Release v3.0
+    </releaseNotes>
     <tags>taucode data</tags>
     <dependencies>
     </dependencies>
