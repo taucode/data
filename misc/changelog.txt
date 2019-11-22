@@ -5,3 +5,8 @@
 2019-10-20
 ==========
     1. Release v3.0
+
+2019-11-22
+==========
+    Version: Release v3.0.0.1
+    1. Updated project structure.
