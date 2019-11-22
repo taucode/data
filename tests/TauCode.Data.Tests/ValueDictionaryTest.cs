@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace TauCode.Data.Test
+namespace TauCode.Data.Tests
 {
     [TestFixture]
     public class ValueDictionaryTest
