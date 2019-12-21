@@ -1,1 +1,0 @@
-dotnet nuget push %1 -k oy2fswonuoa7nsfv5hoa3cvgndpx555urfmvfsbun4rf6m -s https://api.nuget.org/v3/index.json
