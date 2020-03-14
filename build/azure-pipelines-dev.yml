@@ -32,3 +32,14 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'pack'
+    packagesToPack: 'nuget\TauCode.Data.nuspec'
+    versioningScheme: 'off'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'custom'
+    arguments: 'push $(Build.ArtifactStagingDirectory)\TauCode.Data.1.0.0-dev-2020-03-14-22-27.nupkg -ApiKey $(NUGET_API_KEY) -Source https://api.nuget.org/v3/index.json'
