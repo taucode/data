@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>TauCode.Data</id>
-    <version>1.0.0.0-dev-2020-03-14-22-37</version>
+    <version>1.0.0.0-dev-2020-03-15-20-30</version>
     <authors>TauCode</authors>
     <owners>TauCode</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -14,11 +14,12 @@
     </releaseNotes>
     <tags>taucode data</tags>
     <dependencies>
+      <group targetFramework=".NETStandard2.1" />
     </dependencies>
   </metadata>
   <files>
     <file src="..\LICENSE.txt" target="" />
-    <file src="..\src\TauCode.Data\bin\Release\netstandard2.0\TauCode.Data.dll" target="lib\netstandard2.0" />
-    <file src="..\src\TauCode.Data\bin\Release\netstandard2.0\TauCode.Data.pdb" target="lib\netstandard2.0" />
+    <file src="..\src\TauCode.Data\bin\Release\netstandard2.1\TauCode.Data.dll" target="lib\netstandard2.1" />
+    <file src="..\src\TauCode.Data\bin\Release\netstandard2.1\TauCode.Data.pdb" target="lib\netstandard2.1" />
   </files>
 </package>
