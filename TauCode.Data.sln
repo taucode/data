@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{0FB84F73
 		build\azure-pipelines.yml = build\azure-pipelines.yml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TauCode.Data.Tests", "test\TauCode.Data.Tests\TauCode.Data.Tests.csproj", "{BEA60698-7F01-4CC1-A1FE-BDBB7B359756}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TauCode.Data.Tests", "test\TauCode.Data.Tests\TauCode.Data.Tests.csproj", "{07AE12A5-1A2D-46AF-BFF2-3B6DF6AAE97E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,17 +38,17 @@ Global
 		{3975B9B5-0C81-4E32-83C0-9C0B5E245566}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3975B9B5-0C81-4E32-83C0-9C0B5E245566}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3975B9B5-0C81-4E32-83C0-9C0B5E245566}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BEA60698-7F01-4CC1-A1FE-BDBB7B359756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BEA60698-7F01-4CC1-A1FE-BDBB7B359756}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BEA60698-7F01-4CC1-A1FE-BDBB7B359756}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BEA60698-7F01-4CC1-A1FE-BDBB7B359756}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07AE12A5-1A2D-46AF-BFF2-3B6DF6AAE97E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07AE12A5-1A2D-46AF-BFF2-3B6DF6AAE97E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07AE12A5-1A2D-46AF-BFF2-3B6DF6AAE97E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07AE12A5-1A2D-46AF-BFF2-3B6DF6AAE97E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3975B9B5-0C81-4E32-83C0-9C0B5E245566} = {89412E0C-9F93-4FB0-ACB6-DC95174759A0}
-		{BEA60698-7F01-4CC1-A1FE-BDBB7B359756} = {EE8B33C7-90A5-4CCF-99D9-BC9CF029F312}
+		{07AE12A5-1A2D-46AF-BFF2-3B6DF6AAE97E} = {EE8B33C7-90A5-4CCF-99D9-BC9CF029F312}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E033216E-1151-4D66-A416-3EBD14511CA8}
