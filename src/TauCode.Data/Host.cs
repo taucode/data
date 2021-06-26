@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using TauCode.Data.HostParsing;
 
@@ -14,6 +15,7 @@ namespace TauCode.Data
         private const int MaxIPv6AddressLength = 45; // "ffff:ffff:ffff:ffff:ffff:ffff:255.255.255.255".Length
 
         private static readonly HashSet<char> AcceptableTerminatingChars;
+        private static readonly HashSet<char> AcceptableIPv6Chars;
         private static readonly HashSet<char> AcceptableHostChars;
 
         private static readonly IdnMapping _idn; // IdnMapping type is thread-safe
@@ -34,6 +36,16 @@ namespace TauCode.Data
 
             _idn = new IdnMapping();
             _idn.UseStd3AsciiRules = true;
+
+            // ipv6
+            var ipv6List = new List<char>();
+            ipv6List.AddCharRangeInternal('a', 'f');
+            ipv6List.AddCharRangeInternal('A', 'F');
+            ipv6List.AddCharRangeInternal('0', '9');
+            ipv6List.Add(':');
+            ipv6List.Add('.');
+
+            AcceptableIPv6Chars = new HashSet<char>(ipv6List);
         }
 
         private Host(HostKind kind, string value)
@@ -277,43 +289,64 @@ namespace TauCode.Data
 
         private static TextLocation? TryExtractIPv6(string s, in int startPosition, out Host host)
         {
-            throw new NotImplementedException();
+            var index = startPosition;
+            host = default;
 
-            //var index = 0;
-            //host = default;
+            var stringLength = s.Length;
+            int delta;
 
-            //while (true)
-            //{
-            //    if (index == span.Length)
-            //    {
-            //        break;
-            //    }
+            while (true)
+            {
+                if (index == stringLength)
+                {
+                    break;
+                }
 
-            //    var c = span[index];
+                delta = index - startPosition;
 
-            //    if (AcceptableTerminatingChars.Contains(c))
-            //    {
-            //        break;
-            //    }
+                char c;
 
-            //    if (index == MaxIPv6AddressLength)
-            //    {
-            //        return null;
-            //    }
+                if (delta == MaxIPv6AddressLength)
+                {
+                    // last chance todo ut this
+                    c = s[index];
 
-            //    index++;
-            //}
+                    if (AcceptableTerminatingChars.Contains(c))
+                    {
+                        break;
+                    }
 
-            //var ipv6Span = span.Slice(0, index);
-            //var parsed = IPAddress.TryParse(ipv6Span, out var address);
+                    return null;
 
-            //if (parsed)
-            //{
-            //    host = new Host(HostKind.IPv6, address.ToString());
-            //    return new TextLocation(0, index);
-            //}
+                }
 
-            //return null;
+                c = s[index];
+
+                if (AcceptableIPv6Chars.Contains(c))
+                {
+                    index++;
+                    continue;
+                }
+
+                if (AcceptableTerminatingChars.Contains(c))
+                {
+                    break;
+                }
+
+                return null;
+            }
+
+            delta = index - startPosition;
+            var span = s.AsSpan(startPosition, delta);
+
+            var parsed = IPAddress.TryParse(span, out var address);
+            if (parsed)
+            {
+                host = new Host(HostKind.IPv6, address.ToString());
+                return new TextLocation(0, delta);
+            }
+
+            return null;
         }
 
         public static TextLocation? TryExtractTodoRemove(ReadOnlySpan<char> span, out Host host)

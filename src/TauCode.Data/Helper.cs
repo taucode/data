@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using TauCode.Data.HostParsing;
 
 namespace TauCode.Data
@@ -69,5 +71,21 @@ namespace TauCode.Data
                 }
             }
         }
+
+        internal static void AddCharRangeInternal(this List<char> list, char from, char to)
+        {
+            if (list == null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
+            if (from > to)
+            {
+                throw new ArgumentOutOfRangeException(nameof(to), $"'{nameof(to)}' must be not less than '{nameof(from)}'.");
+            }
+
+            list.AddRange(Enumerable.Range(from, to - from + 1).Select(x => (char)x));
+        }
+
     }
 }
