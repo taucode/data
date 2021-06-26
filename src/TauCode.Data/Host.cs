@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Net;
 using TauCode.Data.HostParsing;
 
@@ -276,7 +275,7 @@ namespace TauCode.Data
                     return null;
                 }
 
-                var hostValue = _idn.GetAscii(s, start, delta);
+                var hostValue = _idn.GetAscii(s, start, delta).ToLowerInvariant();
                 var hostKind = gotUnicode ? HostKind.InternationalizedDomainName : HostKind.RegularDomainName;
                 host = new Host(hostKind, hostValue);
                 return new TextLocation(0, delta);

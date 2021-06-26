@@ -18,19 +18,16 @@ namespace TauCode.Data.Tests
             // "2001:1db8:3333:4444:5555:6666:123.156.117.119"
 
             // Arrange
-            //var span = testCase.Host.AsSpan();
 
             // Act
             var textLocation = Host.TryExtract(testCase.Host, 0, out var host);
 
-            // todo uncomment
-            //var contaminatedHost = "abc" + testCase.Host + " def";
-            //var textLocation2 = Host.TryExtract(contaminatedHost, "abc".Length, out var host2);
+            var contaminatedHost = "abc" + testCase.Host + " def";
+            var textLocation2 = Host.TryExtract(contaminatedHost, "abc".Length, out var host2);
 
             // Assert
-            // todo uncomment
-            //Assert.That(textLocation2, Is.EqualTo(textLocation));
-            //Assert.That(host, Is.EqualTo(host2));
+            Assert.That(textLocation2, Is.EqualTo(textLocation));
+            Assert.That(host, Is.EqualTo(host2));
 
             Assert.That(host.Kind, Is.EqualTo(testCase.ExpectedHostKind));
 

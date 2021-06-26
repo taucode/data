@@ -1,6 +1,6 @@
 ﻿[
   {
-    "TestName": "Test 1" ,
+    "TestName": "Test 1",
     "Host": "",
     "ExpectedHost": null,
     "ExpectedHostKind": "Unknown",
@@ -213,6 +213,86 @@
     "ExpectedHost": "some.11.xn--80ajc1ba.xn--g1af",
     "ExpectedHostKind": "InternationalizedDomainName",
     "ExpectedColumnShift": 16,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 28",
+    "Host": " a-b",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 29",
+    "Host": "a-b ",
+    "ExpectedHost": "a-b",
+    "ExpectedHostKind": "RegularDomainName",
+    "ExpectedColumnShift": 3,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 30",
+    "Host": "a-b.РУКА-ЛИЦО.1.d.f\n\n",
+    "ExpectedHost": "a-b.xn----7sbzfhtiy6a.1.d.f",
+    "ExpectedHostKind": "InternationalizedDomainName",
+    "ExpectedColumnShift": 19,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 31",
+    "Host": "-a.com",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 32",
+    "Host": "a-.com",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 33",
+    "Host": "25.01.17.006\n\n",
+    "ExpectedHost": "25.1.17.6",
+    "ExpectedHostKind": "IPv4",
+    "ExpectedColumnShift": 12,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 34",
+    "Host": "⭐.kz\n\n",
+    "ExpectedHost": "xn--f7i.kz",
+    "ExpectedHostKind": "InternationalizedDomainName",
+    "ExpectedColumnShift": 4,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 35",
+    "Host": "🐍.kz\n\n",
+    "ExpectedHost": "xn--4n8h.kz",
+    "ExpectedHostKind": "InternationalizedDomainName",
+    "ExpectedColumnShift": 5,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 36",
+    "Host": "ABC.Com\n",
+    "ExpectedHost": "abc.com",
+    "ExpectedHostKind": "RegularDomainName",
+    "ExpectedColumnShift": 7,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 37",
+    "Host": "ab..adj",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
     "Comment": ""
   }
 ]
