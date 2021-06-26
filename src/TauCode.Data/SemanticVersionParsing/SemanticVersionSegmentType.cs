@@ -1,4 +1,4 @@
-﻿namespace TauCode.Data
+﻿namespace TauCode.Data.SemanticVersionParsing
 {
     internal enum SemanticVersionSegmentType : byte
     {

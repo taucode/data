@@ -1,0 +1,218 @@
+﻿[
+  {
+    "TestName": "Test 1" ,
+    "Host": "",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": "Empty"
+  },
+  {
+    "TestName": "Test 2",
+    "Host": "a",
+    "ExpectedHost": "a",
+    "ExpectedHostKind": "RegularDomainName",
+    "ExpectedColumnShift": 1,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 3",
+    "Host": "a ",
+    "ExpectedHost": "a",
+    "ExpectedHostKind": "RegularDomainName",
+    "ExpectedColumnShift": 1,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 4",
+    "Host": "example.com",
+    "ExpectedHost": "example.com",
+    "ExpectedHostKind": "RegularDomainName",
+    "ExpectedColumnShift": 11,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 5",
+    "Host": "example.com\n ",
+    "ExpectedHost": "example.com",
+    "ExpectedHostKind": "RegularDomainName",
+    "ExpectedColumnShift": 11,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 6",
+    "Host": ".example.com",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 7",
+    "Host": "example.com.",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 8",
+    "Host": "example.com,",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 9",
+    "Host": "йой.укр\r",
+    "ExpectedHost": "xn--i1aao.xn--j1amh",
+    "ExpectedHostKind": "InternationalizedDomainName",
+    "ExpectedColumnShift": 7,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 10",
+    "Host": "xn--i1aao.xn--j1amh",
+    "ExpectedHost": "xn--i1aao.xn--j1amh",
+    "ExpectedHostKind": "InternationalizedDomainName",
+    "ExpectedColumnShift": 19,
+    "Comment": "Punycoded йой.укр"
+  },
+  {
+    "TestName": "Test 11",
+    "Host": "xn--i1aao.xn--j1amh\n",
+    "ExpectedHost": "xn--i1aao.xn--j1amh",
+    "ExpectedHostKind": "InternationalizedDomainName",
+    "ExpectedColumnShift": 19,
+    "Comment": "Punycoded йой.укр with whitespace char"
+  },
+  {
+    "TestName": "Test 12",
+    "Host": "1",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": "Bare number cannot be a host"
+  },
+  {
+    "TestName": "Test 13",
+    "Host": "1 ",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": "Bare number cannot be a host"
+  },
+  {
+    "TestName": "Test 14",
+    "Host": "1.2",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 15",
+    "Host": "1.2.3",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 16",
+    "Host": "1.2.3.4",
+    "ExpectedHost": "1.2.3.4",
+    "ExpectedHostKind": "IPv4",
+    "ExpectedColumnShift": 7,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 17",
+    "Host": "-1.2.3.4",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 18",
+    "Host": "1.2.3.-4",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 19",
+    "Host": "1.2.3.4\n",
+    "ExpectedHost": "1.2.3.4",
+    "ExpectedHostKind": "IPv4",
+    "ExpectedColumnShift": 7,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 20",
+    "Host": "::1",
+    "ExpectedHost": "::1",
+    "ExpectedHostKind": "IPv6",
+    "ExpectedColumnShift": 3,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 21",
+    "Host": "::\n",
+    "ExpectedHost": "::",
+    "ExpectedHostKind": "IPv6",
+    "ExpectedColumnShift": 2,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 22",
+    "Host": "2001:db8:3333:4444:5555:6666:7777:8888\n",
+    "ExpectedHost": "2001:db8:3333:4444:5555:6666:7777:8888",
+    "ExpectedHostKind": "IPv6",
+    "ExpectedColumnShift": 38,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 23",
+    "Host": "777.com    ",
+    "ExpectedHost": "777.com",
+    "ExpectedHostKind": "RegularDomainName",
+    "ExpectedColumnShift": 7,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 24",
+    "Host": "162.12.17.56.com    ",
+    "ExpectedHost": "162.12.17.56.com",
+    "ExpectedHostKind": "RegularDomainName",
+    "ExpectedColumnShift": 16,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 25",
+    "Host": "tooo.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long.long",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": "Too long domain name"
+  },
+  {
+    "TestName": "Test 26",
+    "Host": "too.longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglong.subdomain",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": "Too long sub-domain (label)"
+  },
+  {
+    "TestName": "Test 27",
+    "Host": "some.11.жеппа.кз\r",
+    "ExpectedHost": "some.11.xn--80ajc1ba.xn--g1af",
+    "ExpectedHostKind": "InternationalizedDomainName",
+    "ExpectedColumnShift": 16,
+    "Comment": ""
+  }
+]

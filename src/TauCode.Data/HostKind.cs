@@ -2,8 +2,11 @@
 {
     public enum HostKind : byte
     {
-        DomainName = 1,
-        IPv4 = 2,
-        IPv6 = 3,
+        Unknown = 0,
+
+        RegularDomainName = 1,
+        InternationalizedDomainName = 2,
+        IPv4 = 3,
+        IPv6 = 4,
     }
 }

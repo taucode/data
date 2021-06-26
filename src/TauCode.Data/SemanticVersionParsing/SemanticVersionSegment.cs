@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TauCode.Data
+namespace TauCode.Data.SemanticVersionParsing
 {
     internal readonly struct SemanticVersionSegment : IComparable<SemanticVersionSegment>
     {
