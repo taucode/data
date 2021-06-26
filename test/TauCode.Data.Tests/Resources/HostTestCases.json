@@ -176,6 +176,14 @@
     "Comment": ""
   },
   {
+    "TestName": "Test 22",
+    "Host": "2001:1db8:3333:4444:5555:6666:255.255.255.255\n",
+    "ExpectedHost": "2001:1db8:3333:4444:5555:6666:ffff:ffff",
+    "ExpectedHostKind": "IPv6",
+    "ExpectedColumnShift": 45,
+    "Comment": ""
+  },
+  {
     "TestName": "Test 23",
     "Host": "777.com    ",
     "ExpectedHost": "777.com",
@@ -290,6 +298,22 @@
   {
     "TestName": "Test 37",
     "Host": "ab..adj",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 38",
+    "Host": "abc.com-",
+    "ExpectedHost": null,
+    "ExpectedHostKind": "Unknown",
+    "ExpectedColumnShift": null,
+    "Comment": ""
+  },
+  {
+    "TestName": "Test 39",
+    "Host": ".abc.com",
     "ExpectedHost": null,
     "ExpectedHostKind": "Unknown",
     "ExpectedColumnShift": null,

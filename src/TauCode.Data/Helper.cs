@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TauCode.Data.HostParsing;
 
 namespace TauCode.Data
 {
@@ -42,36 +41,6 @@ namespace TauCode.Data
             return true;
         }
 
-        internal static HostSegmentType? GetSpanSegmentType(this ReadOnlySpan<char> segmentSpan)
-        {
-            if (int.TryParse(segmentSpan, out var n))
-            {
-                if (n < 0)
-                {
-                    return null;
-                }
-                else if (n <= 255)
-                {
-                    return HostSegmentType.Numeric;
-                }
-                else
-                {
-                    return HostSegmentType.LongNumeric;
-                }
-            }
-            else
-            {
-                if (segmentSpan.IsAllLatinLetters())
-                {
-                    return HostSegmentType.Ascii;
-                }
-                else
-                {
-                    return HostSegmentType.Unicode;
-                }
-            }
-        }
-
         internal static void AddCharRangeInternal(this List<char> list, char from, char to)
         {
             if (list == null)
@@ -86,6 +55,5 @@ namespace TauCode.Data
 
             list.AddRange(Enumerable.Range(from, to - from + 1).Select(x => (char)x));
         }
-
     }
 }
