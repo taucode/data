@@ -129,7 +129,7 @@ namespace TauCode.Data
                 throw new ArgumentOutOfRangeException(nameof(start));
             }
 
-            var remainingLength = s.Length - start;
+            var remainingLength = stringLength - start;
             if (remainingLength == 0)
             {
                 return null;
