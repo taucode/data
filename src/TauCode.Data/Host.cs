@@ -16,7 +16,7 @@ namespace TauCode.Data
         private static readonly HashSet<char> AcceptableIPv6Chars;
         private static readonly HashSet<char> AcceptableHostChars;
 
-        private static readonly IdnMapping _idn; // IdnMapping type is thread-safe
+        private static readonly IdnMapping Idn; // IdnMapping type is thread-safe
 
         static Host()
         {
@@ -32,8 +32,8 @@ namespace TauCode.Data
 
             AcceptableTerminatingChars = new HashSet<char>(acceptableTerminatingChars);
 
-            _idn = new IdnMapping();
-            _idn.UseStd3AsciiRules = true;
+            Idn = new IdnMapping();
+            Idn.UseStd3AsciiRules = true;
 
             // ipv6
             var ipv6List = new List<char>();
@@ -274,7 +274,7 @@ namespace TauCode.Data
                     return null;
                 }
 
-                var hostValue = _idn.GetAscii(s, start, delta).ToLowerInvariant();
+                var hostValue = Idn.GetAscii(s, start, delta).ToLowerInvariant();
                 var hostKind = gotUnicode ? HostKind.InternationalizedDomainName : HostKind.RegularDomainName;
                 host = new Host(hostKind, hostValue);
                 return new TextLocation(0, delta);

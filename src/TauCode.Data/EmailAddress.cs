@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using TauCode.Data.EmailAddressParsing;
 
 namespace TauCode.Data
@@ -9,6 +11,33 @@ namespace TauCode.Data
         private const int MaxEmailLength = 254;
         private const int MaxSubDomainLength = 63;
         private const int MaxLocalPartSegmentCount = MaxEmailLength / 2;
+
+        private static readonly HashSet<char> AllowedEmailSymbols;
+
+        static EmailAddress()
+        {
+            var list = new[]
+            {
+                '-',
+                '+',
+                '=',
+                '!',
+                '?',
+                '%',
+                '~',
+                '$',
+                '&',
+                '/',
+                '|',
+                '{',
+                '}',
+                '#',
+                '*',
+                '\'',
+            };
+
+            AllowedEmailSymbols = new HashSet<char>(list);
+        }
 
         public EmailAddress(string localPart, string domain)
         {
@@ -26,6 +55,18 @@ namespace TauCode.Data
         public EmailAddress ToCleanAddress()
         {
             throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            // todo temp
+            var sb = new StringBuilder();
+            sb.Append(this.LocalPart);
+            sb.Append('@');
+            sb.Append(this.Domain);
+
+            var result = sb.ToString();
+            return result;
         }
 
         public static TextLocation? TryExtract(string s, int start, out EmailAddress emailAddress)
@@ -196,7 +237,22 @@ namespace TauCode.Data
 
             #endregion
 
-            throw new NotImplementedException();
+            var lastLocalPartSegment = segments[localPartPlusAtSegmentCount - 2];
+            var localPartLength = lastLocalPartSegment.Start + lastLocalPartSegment.Length;
+            var localPart = s.Substring(start, localPartLength);
+
+            var domainStartWithinEmailAddress = segments[localPartPlusAtSegmentCount].Start;
+            var lastSegment = segments[segmentCount - 1];
+            var domainEndWithinEmailAddress = lastSegment.Start + lastSegment.Length;
+            var domainLength = domainEndWithinEmailAddress - domainStartWithinEmailAddress;
+            var domainStart = start + domainStartWithinEmailAddress;
+
+            var domainPart = s.Substring(domainStart, domainLength);
+
+            emailAddress = new EmailAddress(localPart, domainPart);
+            var textLocation = textLocationBuilder.ToTextLocation();
+
+            return textLocation;
         }
 
         private static EmailAddressSegment? ExtractLocalPartSegment(
@@ -210,6 +266,7 @@ namespace TauCode.Data
             if (
                 char.IsLetterOrDigit(c) ||
                 c == '_' ||
+                AllowedEmailSymbols.Contains(c) ||
                 //this.Settings.EffectiveAllowedSymbols.Contains(c) ||
                 false
                 )
@@ -329,7 +386,7 @@ namespace TauCode.Data
                 if (
                     char.IsLetterOrDigit(c) ||
                     c == '_' ||
-                    //this.Settings.EffectiveAllowedSymbols.Contains(c) ||
+                    AllowedEmailSymbols.Contains(c) ||
                     false
                     )
                 {
@@ -377,17 +434,18 @@ namespace TauCode.Data
             if (c == '.')
             {
                 // we only want sub-domain before period segment
-                throw new NotImplementedException();
+                if (lastNonCommentSegmentType == EmailAddressSegmentType.SubDomain)
+                {
+                    index++;
 
-                //if (lastNonCommentSegmentType == SegmentType.SubDomain)
-                //{
-                //    index++;
-                //    error = EmailValidationError.NoError;
-                //    return new Segment(SegmentType.Period, (byte)(index - 1), 1);
-                //}
+                    // todo clean
+                    //error = EmailValidationError.NoError;
+                    return new EmailAddressSegment(EmailAddressSegmentType.Period, (byte)(index - 1), 1);
+                }
 
+                // todo clean
                 //error = EmailValidationError.InvalidDomainName;
-                //return null;
+                return null;
             }
 
             if (c == '[')

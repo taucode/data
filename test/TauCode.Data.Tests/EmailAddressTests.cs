@@ -21,13 +21,24 @@ namespace TauCode.Data.Tests
             // * contaminated on right
             // * contaminated on both left and right
 
-            var contaminatedEmail = "abc" + email + " aa";
+            var contaminatedEmail = "xyz" + email + " qwe";
 
             // Act
-            var location = EmailAddress.TryExtract(contaminatedEmail, "abc".Length, out var emailAddress);
+            var location = EmailAddress.TryExtract(contaminatedEmail, "xyz".Length, out var emailAddress);
 
             // Assert
-            throw new NotImplementedException("go on!");
+            //throw new NotImplementedException("go on!");
+
+            if (emailAddress == null)
+            {
+                Assert.That(testCase.ExpectedResult, Is.False);
+            }
+            else
+            {
+                Assert.That(email, Is.EqualTo(emailAddress.ToString()));
+            }
+
+            
 
             //Assert.That(isEmail, Is.EqualTo(testCase.ExpectedResult));
         }

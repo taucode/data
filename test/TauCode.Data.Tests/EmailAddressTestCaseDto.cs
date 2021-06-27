@@ -26,7 +26,7 @@
         public override string ToString()
         {
             // todo temp
-            if (this.Email == "a@b")
+            if (this.Email == "+1~1+@iana.org")
             {
                 return "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + this.Email;
             }
