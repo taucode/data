@@ -1,4 +1,4 @@
-2019-07-03
+﻿2019-07-03
 ==========
     1. Initial version
 
@@ -20,4 +20,4 @@
 
 2021-06-25
 ==========
-    1. LibDev initiative started.
+    1. LibDev initiative started

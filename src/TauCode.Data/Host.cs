@@ -12,7 +12,7 @@ namespace TauCode.Data
         private const int MaxSegmentCount = 127;
         private const int MaxIPv6AddressLength = 45; // "ffff:ffff:ffff:ffff:ffff:ffff:255.255.255.255".Length
 
-        private static readonly HashSet<char> AcceptableTerminatingChars;
+        internal static readonly HashSet<char> AcceptableTerminatingChars;
         private static readonly HashSet<char> AcceptableIPv6Chars;
         private static readonly HashSet<char> AcceptableHostChars;
 

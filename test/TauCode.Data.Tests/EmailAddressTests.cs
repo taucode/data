@@ -15,6 +15,12 @@ namespace TauCode.Data.Tests
             // Arrange
             var email = testCase.Email.Replace('␀', '\0');
 
+            // todo: ut 4 cases, actually: 
+            // * non-contaminated
+            // * contaminated on left
+            // * contaminated on right
+            // * contaminated on both left and right
+
             var contaminatedEmail = "abc" + email + " aa";
 
             // Act
