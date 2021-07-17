@@ -69,5 +69,11 @@ namespace TauCode.Data
         public static bool operator >=(TextLocation a, TextLocation b) => a.CompareTo(b) >= 0;
 
         public static bool operator <=(TextLocation a, TextLocation b) => a.CompareTo(b) <= 0;
+
+        public static TextLocation operator +(TextLocation location, TextLocationChange change)
+        {
+            var newLocation = new TextLocation(location.Line + change.LineChange, location.Column + change.ColumnChange);
+            return newLocation;
+        }
     }
 }

@@ -4,11 +4,22 @@
     {
         public string TestName { get; set; }
         public string Host { get; set; }
-        public string ExpectedHost { get; set; }
-        public HostKind ExpectedHostKind { get; set; }
-        public int? ExpectedColumnShift { get; set; }
+        public HostDto ExpectedHost { get; set; }
+        public TextLocationChangeDto ExpectedTextLocationChange { get; set; }
+        public ExtractionErrorDto ExpectedError { get; set; }
         public string Comment { get; set; }
 
-        public override string ToString() => this.Host;
+        public override string ToString()
+        {
+            var result = $"{this.Host} ({this.TestName})";
+
+            // todo temp
+            if (this.Host == "")
+            {
+                result = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + result;
+            }
+
+            return result;
+        }
     }
 }

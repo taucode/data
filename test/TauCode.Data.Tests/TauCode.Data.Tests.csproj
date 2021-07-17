@@ -9,12 +9,14 @@
     <None Remove="Resources\EmailAddressTestCases.Extra.json" />
     <None Remove="Resources\EmailAddressTestCases.json" />
     <None Remove="Resources\HostTestCases.json" />
+    <None Remove="Resources\ZoldHostushTestCases.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\EmailAddressTestCases.Extra.json" />
     <EmbeddedResource Include="Resources\EmailAddressTestCases.json" />
     <EmbeddedResource Include="Resources\HostTestCases.json" />
+    <EmbeddedResource Include="Resources\ZoldHostushTestCases.json" />
   </ItemGroup>
 
   <ItemGroup>
