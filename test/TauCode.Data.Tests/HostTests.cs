@@ -99,7 +99,26 @@ namespace TauCode.Data.Tests
             // Act
             for (var i = 0; i < hostStrings.Length; i++)
             {
-                throw new NotImplementedException();
+                var span = hostStrings[i].AsSpan(starts[i]);
+
+                TextLocationChange? textLocationChange;
+                ExtractionErrorDto error;
+
+
+                if (testCase.ExpectedError == null)
+                {
+                    textLocationChange = Host.TryExtract(span, out hosts[i], true);
+                    error = null;
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+
+
+                textLocationChanges[i] = textLocationChange;
+                errors[i] = error;
+
                 //textLocationChanges[i] = Host.TryExtract(hostStrings[i], starts[i], out hosts[i]);
                 //errors[i] = Host.LastHostExtractionErrorInfo?.ToDto();
             }

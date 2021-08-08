@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace TauCode.Data.Graphs
 {
+    // todo :get rid of 'rho'
     [DebuggerDisplay("{" + nameof(Name) + "}")]
     public class Node : INode
     {

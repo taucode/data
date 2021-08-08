@@ -11,7 +11,7 @@ namespace TauCode.Data
 
         public string Value { get; }
 
-        public static TextLocationChange? TryExtract(ReadOnlySpan<char> span, out Host host)
+        public static TextLocationChange? TryExtract(ReadOnlySpan<char> span, out Host? host, bool throwOnError = false)
         {
             throw new NotImplementedException();
         }
