@@ -26,6 +26,11 @@ namespace TauCode.Lab.Data.Graphs
 
         internal IVertex Vertex { get; }
 
+        internal void AddEdge(IEdge edge)
+        {
+            _edges.Add(edge);
+        }
+
         #endregion
 
         #region IReadOnlyCollection<IEdge> Members

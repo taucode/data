@@ -6,6 +6,8 @@ namespace TauCode.Lab.Data.Graphs
     {
         string Name { get; set; }
 
+        IDictionary<string, object> Properties { get; set; }
+
         IReadOnlyCollection<IEdge> OutgoingEdges { get; }
 
         IReadOnlyCollection<IEdge> IncomingEdges { get; }

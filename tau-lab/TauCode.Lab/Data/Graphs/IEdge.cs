@@ -1,7 +1,13 @@
-﻿namespace TauCode.Lab.Data.Graphs
+﻿using System.Collections.Generic;
+
+namespace TauCode.Lab.Data.Graphs
 {
     public interface IEdge
     {
+        string Name { get; set; }
+
+        IDictionary<string, object> Properties { get; set; }
+
         /// <summary>
         /// Vertex from which edge starts
         /// </summary>
@@ -11,8 +17,6 @@
         /// Vertex with which edge ends
         /// </summary>
         IVertex Head { get; }
-
-        string Name { get; set; }
 
         void Connect(IVertex tail, IVertex head);
     }
