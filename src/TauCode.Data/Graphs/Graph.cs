@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace TauCode.Data.Graphs
 {
@@ -8,65 +8,99 @@ namespace TauCode.Data.Graphs
     {
         #region Fields
 
-        private readonly HashSet<INode> _nodes;
+        private readonly HashSet<IVertex> _vertexes;
 
         #endregion
 
-        #region Constructor
+        #region ctor
 
         public Graph()
         {
-            _nodes = new HashSet<INode>();
+            _vertexes = new HashSet<IVertex>();
         }
 
         #endregion
 
-        #region IRhoGraph Members
+        #region Pvivate
 
-        public string Name { get; set; }
-
-        public IDictionary<string, object> Properties { get; set; }
-
-        public void AddNode(INode node)
+        private void AddPrivate(IVertex vertex)
         {
-            if (node == null)
+            if (vertex == null)
             {
-                throw new ArgumentNullException(nameof(node));
+                throw new ArgumentNullException(nameof(vertex));
             }
 
-            if (_nodes.Contains(node))
+            if (_vertexes.Contains(vertex))
             {
-                throw new ArgumentException("Graph already contains this node.", nameof(node));
+                throw new InvalidOperationException("Graph already contains this vertex.");
             }
 
-            _nodes.Add(node);
+            _vertexes.Add(vertex);
         }
 
-        public bool ContainsNode(INode node)
-        {
-            if (node == null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
+        #endregion
 
-            return _nodes.Contains(node);
+        #region IGraph Members
+
+        public IEnumerator<IVertex> GetEnumerator() => _vertexes.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => _vertexes.GetEnumerator();
+
+        void ICollection<IVertex>.Add(IVertex vertex) => this.AddPrivate(vertex);
+
+        public void ExceptWith(IEnumerable<IVertex> other) => _vertexes.ExceptWith(other);
+
+        public void IntersectWith(IEnumerable<IVertex> other) => _vertexes.IntersectWith(other);
+
+        public bool IsProperSubsetOf(IEnumerable<IVertex> other) => _vertexes.IsProperSubsetOf(other);
+
+        public bool IsProperSupersetOf(IEnumerable<IVertex> other) => _vertexes.IsProperSupersetOf(other);
+
+        public bool IsSubsetOf(IEnumerable<IVertex> other) => _vertexes.IsSubsetOf(other);
+
+        public bool IsSupersetOf(IEnumerable<IVertex> other) => _vertexes.IsSupersetOf(other);
+
+        public bool Overlaps(IEnumerable<IVertex> other) => _vertexes.Overlaps(other);
+
+        public bool SetEquals(IEnumerable<IVertex> other) => _vertexes.SetEquals(other);
+
+        public void SymmetricExceptWith(IEnumerable<IVertex> other) => _vertexes.SymmetricExceptWith(other);
+
+        public void UnionWith(IEnumerable<IVertex> other) => _vertexes.UnionWith(other);
+
+        bool ISet<IVertex>.Add(IVertex vertex)
+        {
+            this.AddPrivate(vertex);
+            return true;
         }
 
-        public bool RemoveNode(INode node)
+        public void Clear() => _vertexes.Clear();
+
+        public bool Contains(IVertex vertex)
         {
-            if (node == null)
+            if (vertex == null)
             {
-                throw new ArgumentNullException(nameof(node));
+                throw new ArgumentNullException(nameof(vertex));
             }
 
-            var removed = _nodes.Remove(node);
-
-            return removed;
+            return _vertexes.Contains(vertex);
         }
 
-        public IReadOnlyCollection<INode> Nodes => _nodes;
+        public void CopyTo(IVertex[] array, int arrayIndex) => _vertexes.CopyTo(array, arrayIndex);
 
-        public IEnumerable<IEdge> Edges => this.Nodes.SelectMany(x => x.GetOutgoingEdgesLyingInGraph(this));
+        public bool Remove(IVertex vertex)
+        {
+            if (vertex == null)
+            {
+                throw new ArgumentNullException(nameof(vertex));
+            }
+
+            return _vertexes.Remove(vertex);
+        }
+
+        public int Count => _vertexes.Count;
+
+        public bool IsReadOnly => ((ICollection<IVertex>)_vertexes).IsReadOnly;
 
         #endregion
     }

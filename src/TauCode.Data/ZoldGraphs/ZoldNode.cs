@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace TauCode.Data.Graphs
+namespace TauCode.Data.ZoldGraphs
 {
     // todo :get rid of 'rho'
     [DebuggerDisplay("{" + nameof(Name) + "}")]
-    public class Node : INode
+    public class ZoldNode : IZoldNode
     {
         #region Fields
 
-        private readonly HashSet<Edge> _outgoingEdges;
-        private readonly HashSet<Edge> _incomingEdges;
+        private readonly HashSet<ZoldEdge> _outgoingEdges;
+        private readonly HashSet<ZoldEdge> _incomingEdges;
 
         #endregion
 
         #region Constructor
 
-        public Node()
+        public ZoldNode()
         {
-            _outgoingEdges = new HashSet<Edge>();
-            _incomingEdges = new HashSet<Edge>();
+            _outgoingEdges = new HashSet<ZoldEdge>();
+            _incomingEdges = new HashSet<ZoldEdge>();
         }
 
         #endregion
@@ -31,20 +31,20 @@ namespace TauCode.Data.Graphs
 
         public IDictionary<string, object> Properties { get; set; }
 
-        public IEdge DrawEdgeTo(INode another)
+        public IZoldEdge DrawEdgeTo(IZoldNode another)
         {
             if (another == null)
             {
                 throw new ArgumentNullException(nameof(another));
             }
 
-            var castedAnother = another as Node;
+            var castedAnother = another as ZoldNode;
             if (castedAnother == null)
             {
-                throw new ArgumentException($"Expected node of type '{typeof(Node).FullName}'.", nameof(another));
+                throw new ArgumentException($"Expected node of type '{typeof(ZoldNode).FullName}'.", nameof(another));
             }
 
-            var edge = new Edge(this, castedAnother);
+            var edge = new ZoldEdge(this, castedAnother);
 
             this._outgoingEdges.Add(edge);
             castedAnother._incomingEdges.Add(edge);
@@ -52,20 +52,20 @@ namespace TauCode.Data.Graphs
             return edge;
         }
 
-        public IReadOnlyCollection<IEdge> OutgoingEdges => _outgoingEdges;
+        public IReadOnlyCollection<IZoldEdge> OutgoingEdges => _outgoingEdges;
 
-        public IReadOnlyCollection<IEdge> IncomingEdges => _incomingEdges;
+        public IReadOnlyCollection<IZoldEdge> IncomingEdges => _incomingEdges;
 
         #endregion
 
         #region Internal
 
-        internal void RemoveOutgoingEdge(Edge outgoingEdge)
+        internal void RemoveOutgoingEdge(ZoldEdge outgoingEdge)
         {
             _outgoingEdges.Remove(outgoingEdge);
         }
 
-        internal void RemoveIncomingEdge(Edge incomingEdge)
+        internal void RemoveIncomingEdge(ZoldEdge incomingEdge)
         {
             _incomingEdges.Remove(incomingEdge);
         }
