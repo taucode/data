@@ -21,3 +21,11 @@
 2021-06-25
 ==========
     1. LibDev initiative started
+
+2021-10-29
+==========
+    1. Resurrected the project.
+
+2021-11-19
+==========
+    1. Resurrected again.

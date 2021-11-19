@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
-// todo: get rid of 'rho', 'node'
-namespace TauCode.Data.Graphs
+namespace TauCode.Data.ZoldGraphs
 {
-    public static class GraphExtensions
+    public static class ZoldGraphExtensions
     {
-        public static IEnumerable<IEdge> GetOutgoingEdgesLyingInGraph(this IVertex vertex, IGraph graph)
+        public static bool IsLoop(this IZoldEdge edge)
         {
-            if (vertex == null)
+            return edge.From == edge.To;
+        }
+
+        public static IEnumerable<IZoldEdge> GetOutgoingEdgesLyingInGraph(this IZoldNode node, IZoldGraph graph)
+        {
+            if (node == null)
             {
-                throw new ArgumentNullException(nameof(vertex));
+                throw new ArgumentNullException(nameof(node));
             }
 
             if (graph == null)
@@ -19,27 +22,27 @@ namespace TauCode.Data.Graphs
                 throw new ArgumentNullException(nameof(graph));
             }
 
-            if (!graph.Contains(vertex))
+            if (!graph.ContainsNode(node))
             {
-                throw new InvalidOperationException("Graph does not contain this vertex.");
+                throw new InvalidOperationException("Graph does not contain this node.");
             }
 
-            foreach (var outgoingEdge in vertex.OutgoingEdges)
+            foreach (var outgoingEdge in node.OutgoingEdges)
             {
-                var head = outgoingEdge.Head;
+                var to = outgoingEdge.To;
 
-                if (graph.Contains(head))
+                if (graph.ContainsNode(to))
                 {
                     yield return outgoingEdge;
                 }
             }
         }
 
-        public static IEnumerable<IEdge> GetIncomingEdgesLyingInGraph(this IVertex vertex, IGraph graph)
+        public static IEnumerable<IZoldEdge> GetIncomingEdgesLyingInGraph(this IZoldNode node, IZoldGraph graph)
         {
-            if (vertex == null)
+            if (node == null)
             {
-                throw new ArgumentNullException(nameof(vertex));
+                throw new ArgumentNullException(nameof(node));
             }
 
             if (graph == null)
@@ -47,36 +50,26 @@ namespace TauCode.Data.Graphs
                 throw new ArgumentNullException(nameof(graph));
             }
 
-            if (!graph.Contains(vertex))
+            if (!graph.ContainsNode(node))
             {
-                throw new InvalidOperationException("Graph does not contain this vertex.");
+                throw new InvalidOperationException("Graph does not contain this node.");
             }
 
-            foreach (var incomingEdge in vertex.IncomingEdges)
+            foreach (var incomingEdge in node.IncomingEdges)
             {
-                var tail = incomingEdge.Tail;
+                var from = incomingEdge.From;
 
-                if (graph.Contains(tail))
+                if (graph.ContainsNode(from))
                 {
                     yield return incomingEdge;
                 }
             }
         }
 
-        public static IEnumerable<IEdge> GetEdges(this IGraph graph)
-        {
-            if (graph == null)
-            {
-                throw new ArgumentNullException(nameof(graph));
-            }
-
-            return graph.SelectMany(x => x.GetOutgoingEdgesLyingInGraph(graph));
-        }
-
         public static void CaptureNodesFrom(
-            this IGraph graph,
-            IGraph otherGraph,
-            IEnumerable<IVertex> otherGraphNodes)
+            this IZoldGraph graph,
+            IZoldGraph otherGraph,
+            IEnumerable<IZoldNode> otherGraphNodes)
         {
             if (graph == null)
             {
@@ -102,23 +95,21 @@ namespace TauCode.Data.Graphs
                     throw new ArgumentException($"'{nameof(otherGraphNode)}' cannot contain nulls.");
                 }
 
-                if (graph.Contains(otherGraphNode))
+                if (graph.ContainsNode(otherGraphNode))
                 {
                     throw new ArgumentException($"Node with index {idx} already belongs to '{nameof(graph)}'.");
                 }
 
-                var captured = otherGraph.Remove(otherGraphNode);
+                var captured = otherGraph.RemoveNode(otherGraphNode);
                 if (!captured)
                 {
                     throw new ArgumentException($"Node with index {idx} does not belong to '{nameof(otherGraph)}'.");
                 }
 
-                graph.Add(otherGraphNode);
+                graph.AddNode(otherGraphNode);
 
                 idx++;
             }
         }
-
-
     }
 }
