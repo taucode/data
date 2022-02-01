@@ -1,9 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Host\**" />
+    <EmbeddedResource Remove="Host\**" />
+    <None Remove="Host\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\EmailAddressTestCases.Extra.json" />
@@ -31,10 +37,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\TauCode.Data\TauCode.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Host\" />
   </ItemGroup>
 
 </Project>

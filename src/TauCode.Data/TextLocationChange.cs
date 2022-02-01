@@ -4,6 +4,8 @@ namespace TauCode.Data
 {
     public readonly struct TextLocationChange : IEquatable<TextLocationChange>
     {
+        public static readonly TextLocationChange Zero = new TextLocationChange(0, 0, 0);
+
         public TextLocationChange(int lineChange, int columnChange, int? indexChange)
         {
             this.LineChange = lineChange;
@@ -19,17 +21,21 @@ namespace TauCode.Data
 
         public bool Equals(TextLocationChange other)
         {
-            return LineChange == other.LineChange && ColumnChange == other.ColumnChange;
+            return
+                this.LineChange == other.LineChange &&
+                this.ColumnChange == other.ColumnChange;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is TextLocationChange other && Equals(other);
+            return
+                obj is TextLocationChange other &&
+                this.Equals(other);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(LineChange, ColumnChange);
+            return HashCode.Combine(this.LineChange, this.ColumnChange);
         }
 
         public static bool operator ==(TextLocationChange change1, TextLocationChange change2) =>
