@@ -1,22 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using TauCode.Data.EmailAddressParsing;
+using TauCode.Data.EmailAddressSupport;
+using TauCode.Data.EmojiSupport;
+using TauCode.Data.Exceptions;
 
 namespace TauCode.Data
 {
-    public class EmailAddress
+    public class EmailAddress : IEquatable<EmailAddress>
     {
-        private const int MaxLocalPartLength = 64;
-        private const int MaxEmailLength = 254;
-        private const int MaxSubDomainLength = 63;
-        private const int MaxLocalPartSegmentCount = MaxEmailLength / 2;
+        #region Constants & Read-only
 
-        private static readonly HashSet<char> AllowedEmailSymbols;
+        public const int MaxEmailAddressLength = 1000; // with all comments and folding whitespaces
+        public const int MaxLocalPartLength = 64;
+        public const int MaxCleanEmailAddressLength = 254;
+
+        private static readonly HashSet<char> AcceptableTerminatingChars;
+        private static readonly HashSet<char> EmptyTerminatingChars;
+        private static readonly HashSet<char> AllowedSymbols;
+        private static readonly HashSet<char> RightBracketTerminating;
+        private static readonly char[] FoldingWhiteSpaceChars;
+
+        #endregion
+
+        #region Static
 
         static EmailAddress()
         {
-            var list = new[]
+            EmptyTerminatingChars = new HashSet<char>();
+            FoldingWhiteSpaceChars = new[] { '\r', '\n', ' ' };
+
+            AcceptableTerminatingChars = new HashSet<char>(HostName
+                .AcceptableTerminatingChars
+                .Except(new[]
+                {
+                    '(',
+                    ')',
+                    '[',
+                    ']',
+                }));
+
+            AllowedSymbols = new HashSet<char>(new[]
             {
                 '-',
                 '+',
@@ -33,515 +58,1075 @@ namespace TauCode.Data
                 '}',
                 '#',
                 '*',
-                '\'',
-            };
+                '^',
+                '_',
+                '`',
+                '\''
+            });
 
-            AllowedEmailSymbols = new HashSet<char>(list);
+            RightBracketTerminating = new HashSet<char>(new[] { ']' });
         }
 
-        public EmailAddress(string localPart, string domain)
-        {
-            // todo checks
+        #endregion
 
+        #region Fields
+
+        public readonly string LocalPart;
+        public readonly HostName Domain;
+
+        private string _value;
+        private bool _valueBuilt;
+
+        #endregion
+
+        #region ctor
+
+        private EmailAddress(string localPart, HostName hostName)
+        {
             this.LocalPart = localPart;
-            this.Domain = domain;
+            this.Domain = hostName;
         }
 
-        public string LocalPart { get; }
-        public string Domain { get; }
-        public Host CleanDomain { get; }
-        public bool IsClean { get; set; }
+        #endregion
 
-        public EmailAddress ToCleanAddress()
+        #region Parsing
+
+        public static EmailAddress Parse(ReadOnlySpan<char> input)
         {
-            throw new NotImplementedException();
-        }
+            var consumed = TryExtractInternal(
+                input,
+                out var emailAddress,
+                out var error,
+                EmptyTerminatingChars);
 
-        public override string ToString()
-        {
-            // todo temp
-            var sb = new StringBuilder();
-            sb.Append(this.LocalPart);
-            sb.Append('@');
-            sb.Append(this.Domain);
-
-            var result = sb.ToString();
-            return result;
-        }
-
-        public static TextLocation? TryExtract(string s, int start, out EmailAddress emailAddress)
-        {
-            emailAddress = default;
-
-            if (s == null)
+            if (consumed == null)
             {
-                throw new ArgumentNullException(nameof(s));
+                throw error;
             }
 
-            if (start < 0 || start > s.Length)
+            return emailAddress;
+        }
+
+        public static bool TryParse(
+            ReadOnlySpan<char> input,
+            out EmailAddress emailAddress,
+            out TextDataExtractionException error)
+        {
+            var consumed = TryExtract(
+                input,
+                out emailAddress,
+                out error,
+                Helper.EmptyChars);
+
+            return consumed.HasValue;
+        }
+
+        #endregion
+
+        #region Extracting
+
+        // todo: ut
+        public static int? Extract(
+            ReadOnlySpan<char> input,
+            out EmailAddress emailAddress,
+            HashSet<char> terminatingChars = null)
+        {
+            var consumed = TryExtractInternal(
+                input,
+                out emailAddress,
+                out var error,
+                terminatingChars);
+
+            if (consumed == null)
             {
-                throw new ArgumentOutOfRangeException(nameof(start));
+                throw error;
             }
 
-            var span = s.AsSpan(start);
-            var spanLength = span.Length;
-            if (spanLength == 0)
+            return consumed;
+        }
+
+        public static int? TryExtract(
+            ReadOnlySpan<char> input,
+            out EmailAddress emailAddress,
+            out TextDataExtractionException error,
+            HashSet<char> terminatingChars = null)
+        {
+            return TryExtractInternal(
+                input,
+                out emailAddress,
+                out error,
+                terminatingChars);
+        }
+
+        #endregion
+
+        #region Private
+
+        private static int? TryExtractInternal(
+            ReadOnlySpan<char> input,
+            out EmailAddress emailAddress,
+            out TextDataExtractionException error,
+            HashSet<char> terminatingChars = null)
+        {
+            terminatingChars ??= AcceptableTerminatingChars;
+
+            foreach (var c in terminatingChars)
             {
+                if (!AcceptableTerminatingChars.Contains(c))
+                {
+                    throw new ArgumentException($"'{c}' is not a valid terminating char.", nameof(terminatingChars));
+                }
+            }
+
+            if (input.IsEmpty)
+            {
+                emailAddress = null;
+                error = Helper.CreateException(ExtractionError.EmptyInput, null);
                 return null;
             }
 
-            // todo clean
-            //var remainingLength = stringLength - start;
-            //if (remainingLength == 0)
-            //{
-            //    return null;
-            //}
-
-            Span<EmailAddressSegment> segments = stackalloc EmailAddressSegment[MaxLocalPartSegmentCount];
-            var segmentCount = 0;
-
-            byte index = 0;
-            TextLocationBuilder textLocationBuilder = default;
-
-            EmailAddressSegmentType? lastNonCommentSegmentType = null;
+            var context = new EmailAddressExtractionContext(terminatingChars);
 
             #region extract local part
 
             while (true)
             {
-                if (index == spanLength)
+                if (context.Index == MaxEmailAddressLength)
                 {
+                    emailAddress = null;
+                    error = Helper.CreateException(ExtractionError.InputTooLong, context.Index);
                     return null;
                 }
 
-                if (index == MaxEmailLength)
-                {
-                    //return new EmailValidationResult(EmailValidationError.EmailTooLong, index);
-
-                    // todo: seems like wrong. what about last chance? (if current char is a whitespeace terminator) ut this!
-                    return null; // todo clean
-                }
-
-                var segment = ExtractLocalPartSegment(
-                    span,
-                    lastNonCommentSegmentType,
-                    ref textLocationBuilder,
-                    ref index);
+                var segment = TryExtractLocalPartSegment(input, context, out error);
 
                 if (segment == null)
                 {
-                    // todo clean
-                    //return new EmailValidationResult(error, index);
+                    emailAddress = null;
                     return null;
                 }
 
                 var segmentValue = segment.Value;
+                var segmentValueType = segmentValue.Type;
 
-                segments[segmentCount] = segmentValue;
-                segmentCount++;
-
-                if (
-                    segmentValue.Type != EmailAddressSegmentType.Comment &&
-                    segmentValue.Type != EmailAddressSegmentType.LocalPartSpace &&
-                    segmentValue.Type != EmailAddressSegmentType.LocalPartFoldingWhiteSpace &&
-                    true)
+                if (segmentValueType.IsLocalPartSegment())
                 {
-                    lastNonCommentSegmentType = segmentValue.Type;
+                    context.AddLocalPartSegment(segmentValue);
                 }
 
-                if (segmentValue.Type == EmailAddressSegmentType.At)
+                if (context.LocalPartLength > MaxLocalPartLength)
                 {
+                    // UT tag: 044523bc-6c75-4ef4-bac0-51ec9628fc0a
+                    error = Helper.CreateException(ExtractionError.LocalPartTooLong, 0);
+                    emailAddress = null;
+                    return null;
+                }
+
+                if (segmentValueType == SegmentType.At)
+                {
+                    context.AtSymbolIndex = segmentValue.Start;
                     break;
                 }
             }
 
             #endregion
 
-            var localPartPlusAtSegmentCount = segmentCount;
-            lastNonCommentSegmentType = null;
-
-            #region extract domain
+            #region extract domain & pack result
 
             while (true)
             {
-                if (index == spanLength)
+                // todo: check we are not out of MaxEmailAddressLength (and ut it!)
+                if (context.Index == input.Length || context.IsAtTerminatingChar(input))
                 {
-                    if (segmentCount == localPartPlusAtSegmentCount)
+                    if (context.DomainSegments.Count == 0)
                     {
-                        // todo clean
-                        //return new EmailValidationResult(EmailValidationError.UnexpectedEnd, index);
+                        emailAddress = null;
+                        error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
                         return null;
                     }
 
-                    // got to the end of the span, let's see what we're packing.
-                    if (lastNonCommentSegmentType == EmailAddressSegmentType.Period)
+                    var lastDomainSegmentType = context.GetLastDomainSegmentType();
+                    
+
+                    // got to the end of the email, let's see what we're packing.
+                    if (lastDomainSegmentType == SegmentType.Period)
                     {
-                        // todo clean
-                        //return new EmailValidationResult(EmailValidationError.InvalidDomainName, index);
+                        var pos = context.GetDomainStartIndex();
+                        error = Helper.CreateException(ExtractionError.InvalidDomain, pos);
+                        emailAddress = null;
                         return null;
                     }
 
-                    //return new EmailValidationResult(EmailValidationError.NoError, null);
-                    throw new NotImplementedException(); // we're good actually
+                    // local part
+                    var localPart = BuildLocalPart(input, context);
+
+                    // domain
+                    if (context.DomainLength == 0)
+                    {
+                        error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                        emailAddress = null;
+                        return null;
+                    }
+
+                    var domain = BuildDomain(input, context, out error);
+
+                    if (domain == null)
+                    {
+                        var pos = context.GetDomainStartIndex();
+                        // todo clean
+                        //error = Helper.CreateException(ExtractionError.InvalidDomain, pos);
+                        emailAddress = null;
+                        return null;
+                    }
+
+                    if (domain.Value.Kind == HostNameKind.IPv4 && context.GetIPHostName() == null)
+                    {
+                        // looks like we've got something like joe@1.1.1.1
+
+                        var pos = context.GetDomainStartIndex();
+                        error = Helper.CreateException(ExtractionError.IPv4MustBeEnclosedInBrackets, pos);
+                        emailAddress = null;
+                        return null;
+                    }
+
+                    emailAddress = new EmailAddress(localPart, domain.Value);
+
+                    if (emailAddress.ToString().Length > MaxCleanEmailAddressLength)
+                    {
+                        emailAddress = null;
+                        error = Helper.CreateException(ExtractionError.EmailAddressTooLong, context.Index);
+                        return null;
+                    }
+
+                    return context.Index;
                 }
 
-                if (index == MaxEmailLength)
+                if (context.Index == MaxEmailAddressLength)
                 {
-                    // todo clean
-                    //return new EmailValidationResult(EmailValidationError.EmailTooLong, index);
+                    error = Helper.CreateException(ExtractionError.InputTooLong, context.Index);
+                    emailAddress = null;
                     return null;
                 }
 
-                var c = span[index];
-                if (Host.AcceptableTerminatingChars.Contains(c))
-                {
-                    if (segmentCount == localPartPlusAtSegmentCount)
-                    {
-                        // no domain segments around
-                        return null;
-                    }
-
-                    if (segments[segmentCount - 1].Type == EmailAddressSegmentType.Period)
-                    {
-                        // domain cannot end with period
-                        return null;
-                    }
-
-                    break;
-                }
-
-                var segment = ExtractDomainSegment(
-                    span,
-                    lastNonCommentSegmentType,
-                    ref textLocationBuilder,
-                    ref index);
+                var segment = TryExtractDomainSegment(
+                    input,
+                    context,
+                    out error);
 
                 if (segment == null)
                 {
-                    // todo clean
-                    //return new EmailValidationResult(error, index);
-
+                    emailAddress = null;
                     return null;
                 }
 
                 var segmentValue = segment.Value;
 
-                segments[segmentCount] = segmentValue;
-                segmentCount++;
+                var segmentValueType = segmentValue.Type;
 
-                if (segmentValue.Type != EmailAddressSegmentType.Comment)
+                if (segmentValueType.IsDomainSegment())
                 {
-                    lastNonCommentSegmentType = segmentValue.Type;
+                    context.AddDomainSegment(segmentValue);
                 }
             }
 
             #endregion
-
-            var lastLocalPartSegment = segments[localPartPlusAtSegmentCount - 2];
-            var localPartLength = lastLocalPartSegment.Start + lastLocalPartSegment.Length;
-            var localPart = s.Substring(start, localPartLength);
-
-            var domainStartWithinEmailAddress = segments[localPartPlusAtSegmentCount].Start;
-            var lastSegment = segments[segmentCount - 1];
-            var domainEndWithinEmailAddress = lastSegment.Start + lastSegment.Length;
-            var domainLength = domainEndWithinEmailAddress - domainStartWithinEmailAddress;
-            var domainStart = start + domainStartWithinEmailAddress;
-
-            var domainPart = s.Substring(domainStart, domainLength);
-
-            emailAddress = new EmailAddress(localPart, domainPart);
-            var textLocation = textLocationBuilder.ToTextLocation();
-
-            return textLocation;
         }
 
-        private static EmailAddressSegment? ExtractLocalPartSegment(
-            in ReadOnlySpan<char> span,
-            EmailAddressSegmentType? lastNonCommentSegmentType,
-            ref TextLocationBuilder textLocationBuilder,
-            ref byte index)
+        private static Segment? TryExtractLocalPartSegment(
+            ReadOnlySpan<char> input,
+            EmailAddressExtractionContext context,
+            out TextDataExtractionException error)
         {
-            var c = span[index];
+            var c = input[context.Index];
+            var lastLocalPartSegmentType = context.GetLastLocalPartSegmentType();
 
             if (
                 char.IsLetterOrDigit(c) ||
-                c == '_' ||
-                AllowedEmailSymbols.Contains(c) ||
-                //this.Settings.EffectiveAllowedSymbols.Contains(c) ||
-                false
-                )
+                AllowedSymbols.Contains(c) ||
+                c.IsEmojiStartingChar() ||
+                false)
             {
                 if (
-                    lastNonCommentSegmentType == null ||
-                    lastNonCommentSegmentType == EmailAddressSegmentType.Period ||
+                    lastLocalPartSegmentType == null ||
+                    lastLocalPartSegmentType == SegmentType.Period ||
                     false)
                 {
-                    return ExtractLocalPartWordSegment(
-                        span,
-                        ref textLocationBuilder,
-                        ref index);
+                    return TryExtractLocalPartWordSegment(input, context, out error);
                 }
 
-                //error = EmailValidationError.UnexpectedCharacter;
+                error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
                 return null;
             }
             else if (c == '.')
             {
-                throw new NotImplementedException();
-                //if (
-                //    lastNonCommentSegmentType == SegmentType.LocalPartWord ||
-                //    lastNonCommentSegmentType == SegmentType.LocalPartQuotedString ||
-                //    false)
-                //{
-                //    var start = index;
-                //    index++;
-                //    error = EmailValidationError.NoError;
-                //    return new Segment(SegmentType.Period, start, 1);
-                //}
-
-                //error = EmailValidationError.UnexpectedCharacter;
-                //return null;
+                if (
+                    lastLocalPartSegmentType == SegmentType.LocalPartWord ||
+                    lastLocalPartSegmentType == SegmentType.LocalPartQuotedString ||
+                    false)
+                {
+                    var start = context.Index;
+                    context.Index++;
+                    error = null;
+                    return new Segment(SegmentType.Period, start, 1, null);
+                }
+                else
+                {
+                    error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                    return null;
+                }
             }
             else if (c == '@')
             {
-                if (lastNonCommentSegmentType == null)
+                if (lastLocalPartSegmentType == null)
                 {
-                    // todo clean
-                    //error = EmailValidationError.EmptyLocalPart;
+                    error = Helper.CreateException(ExtractionError.EmptyLocalPart, context.Index);
                     return null;
                 }
 
                 if (
-                    lastNonCommentSegmentType == EmailAddressSegmentType.LocalPartWord ||
-                    lastNonCommentSegmentType == EmailAddressSegmentType.LocalPartQuotedString ||
+                    lastLocalPartSegmentType == SegmentType.LocalPartWord ||
+                    lastLocalPartSegmentType == SegmentType.LocalPartQuotedString ||
                     false)
                 {
-                    var start = index;
-                    index++;
-                    textLocationBuilder.Column++;
-
-                    // todo clean
-                    //error = EmailValidationError.NoError;
-                    return new EmailAddressSegment(EmailAddressSegmentType.At, start, 1);
+                    var start = context.Index;
+                    context.Index++;
+                    error = null;
+                    return new Segment(SegmentType.At, start, 1, null);
                 }
-
-                // todo clean
-                //error = EmailValidationError.UnexpectedCharacter;
-                return null;
+                else
+                {
+                    error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                    return null;
+                }
             }
             else if (c == ' ')
             {
-                throw new NotImplementedException();
-                //return this.ExtractLocalPartSpaceSegment(input, ref index, out error);
+                return TryExtractLocalPartSpaceSegment(input, context, out error);
             }
             else if (c == '\r')
             {
-                throw new NotImplementedException();
-                //return this.ExtractLocalPartFoldingWhiteSpaceSegment(input, ref index, out error);
+                return TryExtractLocalPartFoldingWhiteSpaceSegment(input, context, out error);
             }
             else if (c == '"')
             {
-                throw new NotImplementedException();
-                //return this.ExtractLocalPartQuotedStringSegment(input, ref index, out error);
+                return TryExtractLocalPartQuotedStringSegment(input, context, out error);
             }
             else if (c == '(')
             {
-                throw new NotImplementedException();
-                //return this.ExtractCommentSegment(input, ref index, out error);
+                return TryExtractCommentSegment(input, context, out error);
             }
 
-            throw new NotImplementedException();
-
-            //error = EmailValidationError.UnexpectedCharacter;
-            //return null;
-        }
-
-        private static EmailAddressSegment? ExtractLocalPartWordSegment(
-            in ReadOnlySpan<char> span,
-            ref TextLocationBuilder textLocationBuilder,
-            ref byte index)
-        {
-            var start = index;
-            index++; // span[start] is a proper char since we've got here
-            var length = span.Length;
-
-            while (true)
-            {
-                if (index - start > MaxLocalPartLength)
-                {
-                    // todo clean
-                    //error = EmailValidationError.LocalPartTooLong;
-                    return null;
-                }
-
-                if (index == length)
-                {
-                    // todo clean
-                    //error = EmailValidationError.UnexpectedEnd;
-                    return null;
-                }
-
-                var c = span[index];
-
-                if (
-                    char.IsLetterOrDigit(c) ||
-                    c == '_' ||
-                    AllowedEmailSymbols.Contains(c) ||
-                    false
-                    )
-                {
-                    index++;
-                    continue;
-                }
-                // end of word.
-                break;
-            }
-
-            // todo clean
-            //error = EmailValidationError.NoError;
-            var delta = index - start;
-            textLocationBuilder.Column += delta;
-            return new EmailAddressSegment(EmailAddressSegmentType.LocalPartWord, start, (byte)delta);
-        }
-
-        private static EmailAddressSegment? ExtractDomainSegment(
-            in ReadOnlySpan<char> span,
-            EmailAddressSegmentType? lastNonCommentSegmentType,
-            ref TextLocationBuilder textLocationBuilder,
-            ref byte index)
-        {
-            var c = span[index];
-
-            if (char.IsLetterOrDigit(c))
-            {
-                // we only want nothing or period before sub-domain segment
-                if (
-                    lastNonCommentSegmentType == null ||
-                    lastNonCommentSegmentType == EmailAddressSegmentType.Period ||
-                    false)
-                {
-                    return ExtractSubDomainSegment(
-                        span,
-                        ref textLocationBuilder,
-                        ref index);
-                }
-
-                // todo clean
-                //error = EmailValidationError.InvalidDomainName;
-                return null;
-            }
-
-            if (c == '.')
-            {
-                // we only want sub-domain before period segment
-                if (lastNonCommentSegmentType == EmailAddressSegmentType.SubDomain)
-                {
-                    index++;
-
-                    // todo clean
-                    //error = EmailValidationError.NoError;
-                    return new EmailAddressSegment(EmailAddressSegmentType.Period, (byte)(index - 1), 1);
-                }
-
-                // todo clean
-                //error = EmailValidationError.InvalidDomainName;
-                return null;
-            }
-
-            if (c == '[')
-            {
-                // we only want nothing before ip address segment
-                throw new NotImplementedException();
-
-                //if (lastNonCommentSegmentType == null)
-                //{
-                //    if (index < input.Length - 1)
-                //    {
-                //        var nextChar = input[index + 1];
-                //        if (char.IsDigit(nextChar))
-                //        {
-                //            return this.ExtractIPv4Segment(input, ref index, out error);
-                //        }
-
-                //        if (nextChar == 'I') // start of 'IPv6:' signature
-                //        {
-                //            return this.ExtractIPv6Segment(input, ref index, out error);
-                //        }
-
-                //        index++;
-                //        error = EmailValidationError.UnexpectedCharacter;
-                //        return null;
-                //    }
-
-                //    index++;
-                //    error = EmailValidationError.UnexpectedEnd;
-                //    return null;
-                //}
-
-                //error = EmailValidationError.UnexpectedCharacter;
-                //return null;
-
-            }
-            if (c == '(')
-            {
-                throw new NotImplementedException();
-                //return this.ExtractCommentSegment(input, ref index, out error);
-            }
-
-            // todo clean
-            //error = EmailValidationError.UnexpectedCharacter; // todo: terminating char predicate here
+            error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
             return null;
         }
 
-        private static EmailAddressSegment? ExtractSubDomainSegment(
-            in ReadOnlySpan<char> span,
-            ref TextLocationBuilder textLocationBuilder,
-            ref byte index)
+        private static Segment? TryExtractDomainSegment(
+            ReadOnlySpan<char> input,
+            EmailAddressExtractionContext context,
+            out TextDataExtractionException error)
         {
-            var start = index;
-            var prevChar = span[start];
-            index++; // initial char is ok since we've got here
-            var length = span.Length;
+            var c = input[context.Index];
+            var lastNonCommentSegmentType = context.GetLastDomainSegmentType();
+
+            if (char.IsLetterOrDigit(c))
+            {
+                if (context.GetIPHostName() != null)
+                {
+                    error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                    return null;
+                }
+
+                // we only want nothing or period before a label
+                if (
+                    lastNonCommentSegmentType == null ||
+                    lastNonCommentSegmentType == SegmentType.Period ||
+                    false)
+                {
+                    return TryExtractLabelSegment(input, context, out error);
+                }
+                else
+                {
+                    error = Helper.CreateException(ExtractionError.InvalidDomain, context.Index);
+                    return null;
+                }
+            }
+            else if (c == '.')
+            {
+                if (context.GetIPHostName() != null)
+                {
+                    error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                    return null;
+                }
+
+                // we only want label before period segment
+                if (lastNonCommentSegmentType == SegmentType.Label)
+                {
+                    context.Index++;
+                    error = null;
+                    return new Segment(SegmentType.Period, (context.Index - 1), 1, null);
+                }
+                else
+                {
+                    error = Helper.CreateException(ExtractionError.InvalidDomain, context.Index);
+                    return null;
+                }
+            }
+            else if (c == '[')
+            {
+                if (context.GetIPHostName() != null || context.GotLabelOrPeriod())
+                {
+                    error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                    return null;
+                }
+
+                // we only want nothing 'clean' before ip address segment
+                // todo: not really. comment can precede IP address. ut this.
+
+                if (lastNonCommentSegmentType == null)
+                {
+                    if (context.Index < input.Length - 1)
+                    {
+                        var nextChar = input[context.Index + 1];
+                        if (char.IsDigit(nextChar))
+                        {
+                            return TryExtractIPv4Segment(input, context, out error);
+                        }
+
+                        if (nextChar == 'I') // start of 'IPv6:' signature
+                        {
+                            return TryExtractIPv6Segment(input, context, out error);
+                        }
+
+                        context.Index++;
+                        error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                        return null;
+                    }
+                    else
+                    {
+                        context.Index++;
+                        error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                        return null;
+                    }
+                }
+
+                error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                return null;
+
+            }
+            else if (c == '(')
+            {
+                return TryExtractCommentSegment(input, context, out error);
+            }
+
+            //error = EmailValidationError.UnexpectedCharacter; // todo: terminating char predicate here
+
+            error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+            return null;
+        }
+
+        private static Segment? TryExtractCommentSegment(
+            ReadOnlySpan<char> input,
+            EmailAddressExtractionContext context,
+            out TextDataExtractionException error)
+        {
+            var start = context.Index;
+            context.Index++; // input[start] is '('
+            var length = input.Length;
+
+            var depth = 1;
+
+            var escapeMode = false;
 
             while (true)
             {
-                if (index == length)
+                if (context.Index == length)
                 {
-                    break;
-                }
-
-                if (index - start > MaxSubDomainLength)
-                {
-                    // todo clean
-                    //error = EmailValidationError.InvalidDomainName;
+                    error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
                     return null;
                 }
 
-                if (index == MaxEmailLength)
+                if (context.Index == MaxEmailAddressLength)
                 {
-                    // todo clean
-                    //error = EmailValidationError.EmailTooLong;
+                    error = Helper.CreateException(ExtractionError.InputTooLong, context.Index);
                     return null;
                 }
 
-                var c = span[index];
-
-                if (Host.AcceptableTerminatingChars.Contains(c))
+                var c = input[context.Index];
+                if (c == ')')
                 {
-                    // got end of domain
-                    if (prevChar == '-')
+                    context.Index++;
+
+                    if (escapeMode)
                     {
-                        // domain name part cannot end with '-'
+                        escapeMode = false;
+                    }
+                    else
+                    {
+                        depth--;
+                        if (depth == 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+                else if (c == '(')
+                {
+                    context.Index++;
+
+                    if (escapeMode)
+                    {
+                        escapeMode = false;
+                    }
+                    else
+                    {
+                        depth++;
+                    }
+                }
+                else if (c == '\\')
+                {
+                    context.Index++;
+                    escapeMode = !escapeMode;
+                }
+                else
+                {
+                    escapeMode = false;
+
+                    var skipped = TrySkipEmoji(input[context.Index..], out var emojiError);
+                    if (emojiError != null)
+                    {
+                        error = TransformInnerExtractionException(emojiError, context.Index);
                         return null;
                     }
 
+                    if (skipped > 0)
+                    {
+                        context.Index += skipped;
+                        continue;
+                    }
+
+                    if (
+                        char.IsLetterOrDigit(c) ||
+                        AllowedSymbols.Contains(c) ||
+                        (
+                            (
+                                char.IsSymbol(c) ||
+                                char.IsSeparator(c)
+                            ) &&
+                            c >= 0x80
+                        ) ||
+                        c == ' ' ||
+                        c == '@' ||
+                        c == '.' ||
+                        c == ':' ||
+                        c == '\r' || // todo this is wrong: mind folding whitespace
+                        c == '\n' || // todo this is wrong: mind folding whitespace
+                        c == '"' || // todo: unite into hashSet; todo: ut these chars
+                        // todo: '[', ']' are accepted too.
+                        false)
+                    {
+                        context.Index++;
+                    }
+                    else
+                    {
+                        // not an allowed char
+                        error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                        return null;
+                    }
+                }
+            }
+
+            var delta = context.Index - start;
+            error = null;
+            return new Segment(SegmentType.Comment, start, delta, null);
+        }
+
+        private static int TrySkipEmoji(
+            ReadOnlySpan<char> emojiSpan,
+            out TextDataExtractionException error)
+        {
+            var skipped = EmojiHelper.Skip(emojiSpan, out var emojiExtractionError);
+            var c = emojiSpan[0];
+
+            switch (emojiExtractionError)
+            {
+                case null:
+                    // successfully skipped emoji
+                    error = null;
+                    return skipped;
+
+                case ExtractionError.NonEmojiChar:
+                    switch (skipped)
+                    {
+                        case 0:
+                            // 0th char was not emoji
+                            // do nothing - following code will deal with it
+                            error = null;
+                            return 0;
+
+                        case 1:
+                            if (c.IsAsciiEmojiStartingChar())
+                            {
+                                error = null;
+                                return 0;
+
+                                // something like #, *, 0..9
+                                // do nothing - following code will deal with it
+                            }
+                            else
+                            {
+                                error = Helper.CreateException(ExtractionError.BadEmoji, 0); // NOT 'skipped'
+                                return 0;
+                            }
+
+                        default:
+                            error = Helper.CreateException(ExtractionError.BadEmoji, 0); // NOT 'skipped'
+                            return 0;
+                    }
+
+                case ExtractionError.IncompleteEmoji:
+                    error = Helper.CreateException(ExtractionError.IncompleteEmoji, 0); // NOT 'skipped'
+                    return skipped;
+
+                default:
+                    error = Helper.CreateException(ExtractionError.InternalError, null); // should never happen
+                    return 0;
+            }
+        }
+
+        #region Local Part Extraction
+
+        private static Segment? TryExtractLocalPartSpaceSegment(
+            ReadOnlySpan<char> input,
+            EmailAddressExtractionContext context,
+            out TextDataExtractionException error)
+        {
+            var start = context.Index;
+            context.Index++; // input[start] is a proper char since we've got here
+            var length = input.Length;
+
+            while (true)
+            {
+                if (context.Index - start > MaxLocalPartLength)
+                {
+                    error = Helper.CreateException(ExtractionError.LocalPartTooLong, context.Index);
+                    return null;
+                }
+
+                if (context.Index == length)
+                {
+                    error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                    return null;
+                }
+
+                var c = input[context.Index];
+
+                if (c == ' ')
+                {
+                    context.Index++;
+                    continue;
+                }
+
+                // end of white space.
+                break;
+            }
+
+            error = null;
+            var delta = context.Index - start;
+            return new Segment(SegmentType.LocalPartSpace, start, delta, null);
+        }
+
+        private static Segment? TryExtractLocalPartFoldingWhiteSpaceSegment(
+            ReadOnlySpan<char> input,
+            EmailAddressExtractionContext context,
+            out TextDataExtractionException error)
+        {
+            var start = context.Index;
+            context.Index++; // input[start] is a proper char since we've got here
+            var length = input.Length;
+
+            var fwsLength = FoldingWhiteSpaceChars.Length;
+
+            int delta;
+
+            while (true)
+            {
+                if (context.Index == length)
+                {
+                    error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                    return null;
+                }
+
+                delta = context.Index - start;
+
+                if (delta == fwsLength)
+                {
                     break;
                 }
+
+                var c = input[context.Index];
+                if (c == FoldingWhiteSpaceChars[delta])
+                {
+                    context.Index++;
+                    continue;
+                }
+
+                error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                return null;
+            }
+
+            error = null;
+            return new Segment(
+                SegmentType.LocalPartFoldingWhiteSpace,
+                start,
+                delta,
+                null); // actually, delta MUST be 3.
+        }
+
+        private static Segment? TryExtractLocalPartQuotedStringSegment(
+            ReadOnlySpan<char> input,
+            EmailAddressExtractionContext context,
+            out TextDataExtractionException error)
+        {
+            var start = context.Index;
+            context.Index++; // skip '"'
+            var length = input.Length;
+
+            var escapeMode = false;
+
+            while (true)
+            {
+                if (context.Index - start > MaxLocalPartLength)
+                {
+                    error = Helper.CreateException(ExtractionError.LocalPartTooLong, context.Index);
+                    return null;
+                }
+
+                if (context.Index == length)
+                {
+                    error = Helper.CreateException(ExtractionError.UnclosedQuotedString, context.Index);
+                    return null;
+                }
+
+                var c = input[context.Index];
+                if (c == '"')
+                {
+                    context.Index++;
+
+                    if (escapeMode)
+                    {
+                        // no more actions
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                    escapeMode = false;
+                }
+                else if (c == '\0' || c == '\r' || c == '\n')
+                {
+                    if (escapeMode)
+                    {
+                        context.Index++;
+                    }
+                    else
+                    {
+                        error = Helper.CreateException(ExtractionError.UnescapedSpecialCharacter, context.Index);
+                        return null;
+                    }
+
+                    escapeMode = false;
+                }
+                
+                else if (c == '\\')
+                {
+                    context.Index++;
+                    escapeMode = !escapeMode;
+                }
+                else
+                {
+                    escapeMode = false;
+
+                    var skipped = TrySkipEmoji(input[context.Index..], out var emojiError);
+                    if (emojiError != null)
+                    {
+                        error = TransformInnerExtractionException(emojiError, context.Index);
+                        return null;
+                    }
+
+                    if (skipped > 0)
+                    {
+                        context.Index += skipped;
+                        continue;
+                    }
+
+                    if (
+                        char.IsLetterOrDigit(c) ||
+                        AllowedSymbols.Contains(c) ||
+                        (
+                            (
+                                char.IsSymbol(c) ||
+                                char.IsSeparator(c)
+                            ) &&
+                            c >= 0x80
+                        ) ||
+                        c == ' ' ||
+                        c == '@' ||
+                        c == '.' ||
+                        c == ':' ||
+                        c == '(' || // todo: unite into hashSet; todo: ut these chars
+                        c == ')' || // todo: unite into hashSet; todo: ut these chars
+                        c == ']' || // todo: unite into hashSet; todo: ut these chars
+                        c == '[' || // todo: unite into hashSet; todo: ut these chars
+                        false)
+                    {
+                        context.Index++;
+                    }
+                    else
+                    {
+                        error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                        return null;
+                    }
+                }
+            }
+
+            error = null;
+            var delta = context.Index - start;
+
+            if (delta == 2)
+            {
+                // todo: ut empty quoted string in the middle of local part
+                // empty string
+                error = Helper.CreateException(ExtractionError.EmptyQuotedString, context.Index - 2);
+                context.Index = start;
+                return null;
+            }
+
+            return new Segment(SegmentType.LocalPartQuotedString, start, delta, null);
+        }
+
+        private static Segment? TryExtractLocalPartWordSegment(
+            ReadOnlySpan<char> input,
+            EmailAddressExtractionContext context,
+            out TextDataExtractionException error)
+        {
+            var start = context.Index;
+
+            var length = input.Length;
+
+            while (true)
+            {
+                if (context.Index - start > MaxLocalPartLength)
+                {
+                    error = Helper.CreateException(ExtractionError.LocalPartTooLong, context.Index);
+                    return null;
+                }
+
+                // todo: local part with comments too long, local part with comments is not too long when extract clean local part.
+
+                if (context.Index == length)
+                {
+                    error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                    return null;
+                }
+
+                var c = input[context.Index];
+
+                var skipped = TrySkipEmoji(input[context.Index..], out var emojiError);
+                if (emojiError != null)
+                {
+                    error = TransformInnerExtractionException(emojiError, context.Index);
+                    return null;
+                }
+
+                if (skipped > 0)
+                {
+                    context.Index += skipped;
+                    continue;
+                }
+
+                if (
+                    char.IsLetterOrDigit(c) ||
+                    AllowedSymbols.Contains(c))
+                {
+                    // letter, digit or symbol => go on.
+                    context.Index++;
+                }
+                else
+                {
+                    // not a char allowed in a word
+                    break;
+                }
+            }
+
+            error = null;
+            var delta = context.Index - start;
+            return new Segment(SegmentType.LocalPartWord, start, delta, null);
+        }
+
+        #endregion
+
+        #region Domain Extraction
+
+        private static Segment? TryExtractIPv6Segment(
+            ReadOnlySpan<char> input,
+            EmailAddressExtractionContext context,
+            out TextDataExtractionException error)
+        {
+            // todo: ut john.doe@[IPv6:::] (success)
+            var length = input.Length;
+            var start = context.Index;
+            context.Index++; // skip '['
+            const string prefix = "IPv6:";
+            const int prefixLength = 5; // "IPv6:".Length
+            const int minRemainingLength =
+                prefixLength +
+                2 + /* :: */
+                1; /* ] */
+
+            var remaining = length - context.Index;
+
+            if (remaining < minRemainingLength)
+            {
+                error = Helper.CreateException(ExtractionError.InvalidIPv6Address, context.Index);
+                return null;
+            }
+
+            ReadOnlySpan<char> prefixSpan = prefix;
+            if (input.Slice(context.Index, prefixLength).Equals(prefixSpan, StringComparison.Ordinal))
+            {
+                // good.
+            }
+            else
+            {
+                error = Helper.CreateException(ExtractionError.InvalidIPv6Address, context.Index);
+                return null;
+            }
+
+            context.Index += prefixLength;
+
+            var ipv6Span = input[context.Index..];
+            var consumed = HostName.TryExtract(
+                ipv6Span,
+                out var hostName,
+                out var hostNameError,
+                RightBracketTerminating);
+
+            if (consumed == null || hostName.Kind != HostNameKind.IPv6)
+            {
+                error = TransformInnerExtractionException(hostNameError, context.Index);
+                return null;
+            }
+
+            context.Index += consumed.Value; // skip ipv6 address
+
+            if (context.Index == length)
+            {
+                error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                return null;
+            }
+
+            var c = input[context.Index];
+
+            if (c == ']')
+            {
+                context.Index++;
+
+                var segmentLength = context.Index - start;
+                var segment = new Segment(SegmentType.IPAddress, start, segmentLength, hostName);
+
+                error = null;
+                return segment;
+            }
+
+            // this should never happen, actually.
+            error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+            return null;
+
+        }
+
+        private static Segment? TryExtractIPv4Segment(
+            ReadOnlySpan<char> input,
+            EmailAddressExtractionContext context,
+            out TextDataExtractionException error)
+        {
+            var start = context.Index;
+            context.Index++; // skip '['
+
+            var hostSpan = input[context.Index..];
+            var consumed = HostName.TryExtract(
+                hostSpan,
+                out var hostName,
+                out var hostNameError,
+                RightBracketTerminating);
+
+            if (consumed == null)
+            {
+                error = TransformInnerExtractionException(hostNameError, context.Index);
+                return null;
+            }
+
+            // we gotta skip ']'
+            context.Index += consumed.Value;
+
+            if (context.Index == input.Length)
+            {
+                // we failed to achieve our ']'
+                error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                return null;
+            }
+
+            var c = input[context.Index];
+
+            if (c == ']')
+            {
+                context.Index++;
+                error = null;
+
+                var length =
+                    1 + // '['
+                    consumed.Value + // hostName
+                    1 + // ']'
+                    0;
+                var segment = new Segment(SegmentType.IPAddress, start, length, hostName);
+                return segment;
+            }
+
+            // this should never happen, actually.
+            error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+            return null;
+        }
+
+        private static Segment? TryExtractLabelSegment(
+            ReadOnlySpan<char> input,
+            EmailAddressExtractionContext context,
+            out TextDataExtractionException error)
+        {
+            var start = context.Index;
+            var prevChar = input[start];
+            context.Index++; // initial char is ok since we've got here
+            var length = input.Length;
+
+            while (true)
+            {
+                // todo: should we be aware of MaxEmailAddressLength? ut this.
+                if (context.Index == length)
+                {
+                    break;
+                }
+
+                if (context.Index - start > Helper.MaxAsciiLabelLength)
+                {
+                    error = Helper.CreateException(ExtractionError.DomainLabelTooLong, start);
+                    return null;
+                }
+
+                var c = input[context.Index];
 
                 if (char.IsLetterOrDigit(c))
                 {
                     prevChar = c;
-                    index++;
+                    context.Index++;
                     continue;
                 }
 
@@ -550,13 +1135,12 @@ namespace TauCode.Data
                     if (prevChar == '.')
                     {
                         // '.' cannot be followed by '-'
-                        // todo clean
-                        //error = EmailValidationError.InvalidDomainName;
+                        error = Helper.CreateException(ExtractionError.InvalidDomain, context.Index);
                         return null;
                     }
 
                     prevChar = c;
-                    index++;
+                    context.Index++;
                     continue;
                 }
 
@@ -571,24 +1155,190 @@ namespace TauCode.Data
                     break;
                 }
 
-                // todo clean
-                //error = EmailValidationError.InvalidDomainName;
+                if (context.TerminatingChars.Contains(c))
+                {
+                    break;
+                }
+
+                error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
                 return null;
             }
 
             if (prevChar == '-')
             {
-                // sub-domain cannot end with '-'
-
-                //index--; // todo wtf?
-                //error = EmailValidationError.InvalidDomainName;
+                // label cannot end with '-'
+                error = Helper.CreateException(ExtractionError.InvalidDomain, context.Index);
                 return null;
             }
 
-            //error = EmailValidationError.NoError;
-            var delta = index - start;
-            textLocationBuilder.Column += delta;
-            return new EmailAddressSegment(EmailAddressSegmentType.SubDomain, start, (byte)delta);
+            error = null;
+            var delta = context.Index - start;
+            return new Segment(SegmentType.Label, start, delta, null);
         }
+
+        #endregion
+
+        #region Building
+
+        private static string BuildLocalPart(
+            ReadOnlySpan<char> input,
+            EmailAddressExtractionContext context)
+        {
+            var localPartArray = new char[context.LocalPartLength];
+            var pos = 0;
+
+            foreach (var segment in context.LocalPartSegments)
+            {
+                var span = input.Slice(segment.Start, segment.Length);
+                var destination = new Span<char>(localPartArray, pos, span.Length);
+                span.CopyTo(destination);
+                pos += span.Length;
+            }
+
+            var localPart = new string(localPartArray);
+            return localPart;
+        }
+
+        private static HostName? BuildDomain(
+            ReadOnlySpan<char> input,
+            EmailAddressExtractionContext context,
+            out TextDataExtractionException error)
+        {
+            var contextIPHostName = context.GetIPHostName();
+
+            if (contextIPHostName != null)
+            {
+                error = null;
+                return contextIPHostName;
+            }
+
+            // got 'domain name' host
+            var domainArray = new char[context.DomainLength];
+            var pos = 0;
+
+            foreach (var segment in context.DomainSegments)
+            {
+                var span = input.Slice(segment.Start, segment.Length);
+                var destination = new Span<char>(domainArray, pos, span.Length);
+                span.CopyTo(destination);
+                pos += span.Length;
+            }
+
+            var domainString = new string(domainArray);
+            var parsed = HostName.TryParse(
+                domainString,
+                out var domain,
+                out var hostNameError);
+
+            if (hostNameError != null)
+            {
+                if (hostNameError.ExtractionError == ExtractionError.InputTooLong)
+                {
+                    error = Helper.CreateException(
+                        ExtractionError.HostNameTooLong,
+                        context.GetDomainStartIndex() + hostNameError.ErrorIndex);
+                }
+                else
+                {
+                    error = TransformInnerExtractionException(hostNameError, context.Index);
+                }
+
+
+                return null;
+            }
+
+            error = null;
+            return domain;
+        }
+
+        private string BuildValue()
+        {
+            if (this.Domain.Value == null) // domain is default(HostName), which should not happen, actually
+            {
+                return null;
+            }
+
+            var sb = new StringBuilder();
+
+            sb.Append(this.LocalPart);
+            sb.Append("@");
+
+            string format;
+
+            switch (this.Domain.Kind)
+            {
+                case HostNameKind.Regular:
+                case HostNameKind.Internationalized:
+                    format = "{0}";
+                    break;
+
+                case HostNameKind.IPv4:
+                    format = "[{0}]";
+                    break;
+
+                case HostNameKind.IPv6:
+                    format = "[IPv6:{0}]";
+                    break;
+
+                default:
+                    throw new FormatException("Cannot build email value.");
+            }
+
+            sb.AppendFormat(format, this.Domain.Value);
+            var result = sb.ToString();
+            return result;
+        }
+
+        #endregion
+
+        private static TextDataExtractionException TransformInnerExtractionException(
+            TextDataExtractionException error,
+            int index)
+        {
+            return new TextDataExtractionException(error.Message, index + error.ErrorIndex ?? 0);
+        }
+
+        #endregion
+
+        #region IEquatable<EmailAddress> Members
+
+        public bool Equals(EmailAddress other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return
+                this.LocalPart == other.LocalPart &&
+                this.Domain.Equals(other.Domain);
+        }
+
+        #endregion
+
+        #region Overridden
+
+        public override bool Equals(object obj)
+        {
+            return obj is EmailAddress other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.LocalPart, this.Domain);
+        }
+
+        public override string ToString()
+        {
+            if (!_valueBuilt)
+            {
+                _value = this.BuildValue();
+                _valueBuilt = true;
+            }
+
+            return _value;
+        }
+
+        #endregion
     }
 }

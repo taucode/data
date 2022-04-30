@@ -1,8 +1,0 @@
-﻿[
-  {
-    "Name": "Extra Test # 1",
-    "Email": "  first.last@iana.org",
-    "ExpectedResult": true,
-    "Comment": "Leading spaces"
-  }
-]

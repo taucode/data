@@ -1,83 +1,163 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Newtonsoft.Json;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
+using TauCode.Data.Exceptions;
+using TauCode.Data.Tests.Dto;
 using TauCode.Extensions;
 
-namespace TauCode.Data.Tests
+namespace TauCode.Data.Tests;
+
+// todo re-arrange, regions
+[TestFixture]
+public class EmailAddressTests
 {
-    [TestFixture]
-    public class EmailAddressTests
+    [Test]
+    [TestCaseSource(nameof(GetTestCasesSuccess))]
+    public void TryExtract_ValidInput_ReturnsExpectedResult(EmailAddressTestDto dto)
     {
-        [TestCaseSource(nameof(TestCases))]
-        public void TryExtract_InputProvided_ExpectedResult(EmailAddressTestCaseDto testCase)
+        // Arrange
+        var testEmailAddress1 = dto.TestEmailAddress;
+        var testEmailAddress2 = dto.TestEmailAddress + " ";
+
+        // Act
+        var consumed1 = EmailAddress.TryExtract(
+            testEmailAddress1,
+            out var emailAddress1,
+            out var error1,
+            new HashSet<char>(new char[] { ' ' }));
+
+        var consumed2 = EmailAddress.TryExtract(
+            testEmailAddress2,
+            out var emailAddress2,
+            out var error2,
+            new HashSet<char>(new char[] { ' ' }));
+
+        // Assert
+        Assert.That(consumed1, Is.Not.Null);
+        Assert.That(error1, Is.Null);
+
+        Assert.That(consumed2, Is.Not.Null);
+        Assert.That(error2, Is.Null);
+
+        Assert.That(consumed1, Is.EqualTo(dto.ExpectedResult));
+
+        Assert.That(emailAddress1.ToString(), Is.EqualTo(dto.ExpectedEmailAddress));
+        Assert.That(emailAddress2.ToString(), Is.EqualTo(dto.ExpectedEmailAddress));
+    }
+
+    [Test]
+    [TestCaseSource(nameof(GetTestCasesFailForParsing))]
+    public void Parse_InvalidInput_ThrowsExpectedException(EmailAddressTestDto dto)
+    {
+        // Arrange
+        var testEmailAddress = dto.TestEmailAddress;
+
+        // Act
+        EmailAddress emailAddress = null;
+
+        var ex = Assert.Throws<TextDataExtractionException>(() =>
         {
-            // Arrange
-            var email = testCase.Email.Replace('␀', '\0');
+            emailAddress  = EmailAddress.Parse(testEmailAddress);
+        });
 
-            // todo: ut 4 cases, actually: 
-            // * non-contaminated
-            // * contaminated on left
-            // * contaminated on right
-            // * contaminated on both left and right
+        // Assert
+        Assert.That(emailAddress, Is.Null);
+        Assert.That(ex, Is.Not.Null);
 
-            var contaminatedEmail = "xyz" + email + " qwe";
+        Assert.That(ex.Message, Is.EqualTo(dto.ExpectedError.Message));
+        Assert.That(ex.ErrorIndex, Is.EqualTo(dto.ExpectedError.ErrorIndex));
+    }
 
-            // Act
-            var location = EmailAddress.TryExtract(contaminatedEmail, "xyz".Length, out var emailAddress);
+    [Test]
+    public void TryExtract_CommentWithIncompleteEmoji_ReturnsIncompleteEmojiError()
+    {
+        // Arrange
+        var sb = new StringBuilder("(abc🐆");
+        sb.Length -= 1;
+        var input = sb.ToString();
 
-            // Assert
-            //throw new NotImplementedException("go on!");
+        // Act
+        var consumed = EmailAddress.TryExtract(input, out var emailAddress, out var error);
 
-            if (emailAddress == null)
+        // Assert
+        Assert.That(consumed, Is.Null);
+        Assert.That(emailAddress, Is.Null);
+
+        Assert.That(error.Message, Is.EqualTo("Incomplete emoji."));
+        Assert.That(error.ErrorIndex, Is.EqualTo(4));
+    }
+
+    [Test]
+    public void TryExtract_CommentWithBadEmoji_ReturnsBadEmojiError()
+    {
+        // Arrange
+        var sb = new StringBuilder("(abc🐆)a@m.net");
+        sb[5] = 'X';
+        var input = sb.ToString();
+
+        // Act
+        var consumed = EmailAddress.TryExtract(input, out var emailAddress, out var error);
+
+        // Assert
+        Assert.That(consumed, Is.Null);
+        Assert.That(emailAddress, Is.Null);
+
+        Assert.That(error.Message, Is.EqualTo("Bad emoji."));
+        Assert.That(error.ErrorIndex, Is.EqualTo(4));
+    }
+
+    [Test]
+    public void TryExtract_CommentWithLongerBadEmoji_ReturnsBadEmojiError()
+    {
+        // Arrange
+        var sb = new StringBuilder("(abc🇵🇫)a@m.net");
+        sb[7] = 'X';
+        var input = sb.ToString();
+
+        // Act
+        var consumed = EmailAddress.TryExtract(input, out var emailAddress, out var error);
+
+        // Assert
+        Assert.That(consumed, Is.Null);
+        Assert.That(emailAddress, Is.Null);
+
+        Assert.That(error.Message, Is.EqualTo("Bad emoji."));
+        Assert.That(error.ErrorIndex, Is.EqualTo(4));
+    }
+
+    public static IList<EmailAddressTestDto> GetTestCasesSuccess()
+    {
+        return GetTestCases(".EmailAddressTests.Success.json");
+    }
+
+    public static IList<EmailAddressTestDto> GetTestCasesFailForParsing()
+    {
+        return GetTestCases(".EmailAddressTests.Fail.ForParsing.json");
+    }
+
+    private static IList<EmailAddressTestDto> GetTestCases(string resourceName)
+    {
+        var json = typeof(EmailAddressTests).Assembly.GetResourceText(resourceName, true);
+        var testCases = JsonConvert.DeserializeObject<IList<EmailAddressTestDto>>(json);
+
+        foreach (var testCase in testCases)
+        {
+            testCase.TestEmailAddress = testCase.TestEmailAddress.Replace('␀', '\0');
+
+            if (testCase.ExpectedEmailAddress != null)
             {
-                Assert.That(testCase.ExpectedResult, Is.False);
+                testCase.ExpectedEmailAddress = testCase.ExpectedEmailAddress.Replace('␀', '\0');
             }
-            else
+
+            testCase.TestEmailAddress = TestHelper.TransformTestString(testCase.TestEmailAddress);
+            if (testCase.ExpectedEmailAddress != null)
             {
-                Assert.That(email, Is.EqualTo(emailAddress.ToString()));
+                testCase.ExpectedEmailAddress = TestHelper.TransformTestString(testCase.ExpectedEmailAddress);
             }
-
-            
-
-            //Assert.That(isEmail, Is.EqualTo(testCase.ExpectedResult));
         }
 
-        [TestCaseSource(nameof(ExtraTestCases))]
-        public void TryExtract_ExtraCases_ExpectedResult(EmailAddressTestCaseDto testCase)
-        {
-            // Arrange
-            var email = testCase.Email.Replace('␀', '\0');
-
-            var contaminatedEmail = "abc" + email + " aa";
-
-            // Act
-            var location = EmailAddress.TryExtract(contaminatedEmail, "abc".Length, out var emailAddress);
-
-            // Assert
-            throw new NotImplementedException("go on!");
-
-            //Assert.That(isEmail, Is.EqualTo(testCase.ExpectedResult));
-        }
-
-        public static IList<EmailAddressTestCaseDto> TestCases
-        {
-            get
-            {
-                var json = typeof(EmailAddressTests).Assembly.GetResourceText("EmailAddressTestCases.json", true);
-                var list = JsonConvert.DeserializeObject<IList<EmailAddressTestCaseDto>>(json);
-                return list;
-            }
-        }
-
-        public static IList<EmailAddressTestCaseDto> ExtraTestCases
-        {
-            get
-            {
-                var json = typeof(EmailAddressTests).Assembly.GetResourceText("EmailAddressTestCases.Extra.json", true);
-                var list = JsonConvert.DeserializeObject<IList<EmailAddressTestCaseDto>>(json);
-                return list;
-            }
-        }
+        return testCases;
     }
 }
