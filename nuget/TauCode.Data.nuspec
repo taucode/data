@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>TauCode.Data</id>
-    <version>1.3.7-alpha.1.2021-11-19.16-34</version>
+    <version>1.3.7-alpha.1.2022-05-29.18-29</version>
     <authors>TauCode</authors>
     <owners>TauCode</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,9 +11,11 @@
     <repository type="git" url="https://github.com/taucode/taucode.data"/>
     <description>TauCode all-purpose data structures</description>
     <releaseNotes>
-      Resurrection.
+      * Refactored HostName data structure
+      * Refactored EmailAddress data structure
+      * Added Emoji data structure
     </releaseNotes>
-    <tags>taucode data semantic version email address</tags>
+    <tags>taucode data semantic version email address emoji parsing</tags>
     <dependencies>
       <group targetFramework=".NETStandard2.1" />
     </dependencies>

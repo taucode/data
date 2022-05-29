@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TauCode.Data.SemanticVersionParsing;
+using TauCode.Data.SemanticVersionSupport;
 
 namespace TauCode.Data
 {
@@ -91,7 +91,7 @@ namespace TauCode.Data
 
                 #region check numeric segment
 
-                if (stringSegment.All(x => x.IsDecimalDigitInternal()))
+                if (stringSegment.All(x => x.IsDecimalDigit()))
                 {
                     if (stringSegment[0] == '0')
                     {

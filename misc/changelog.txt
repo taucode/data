@@ -29,3 +29,10 @@
 2021-11-19
 ==========
     1. Resurrected again.
+
+2022-05-29
+==========
+    1. Resurrected again
+    2. Refactored HostName data structure
+    3. Refactored EmailAddress data structure
+    4. Added Emoji data structure
