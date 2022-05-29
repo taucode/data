@@ -2,26 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using TauCode.Data.Exceptions;
 using TauCode.Data.SemanticVersionSupport;
 
 namespace TauCode.Data
 {
     public class SemanticVersion : IComparable<SemanticVersion>, IEquatable<SemanticVersion>
     {
-        #region Constants
+        #region Constants & Invariants
+
+        private const string Pattern = @"^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)(?:-(?<preRelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildMetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$";
 
         private const int MaxLength = 256;
-        private const int MaxIntLength = 10;
+        private static readonly HashSet<char> AcceptableChars;
+        private static readonly HashSet<char> AcceptableTerminatingChars;
+        private static readonly HashSet<char> EmptyCharSet = new HashSet<char>();
 
         #endregion
 
-        #region Private Static
-
-        private static readonly HashSet<char> AcceptableSegmentChars;
+        #region Static ctor
 
         static SemanticVersion()
         {
-            var chars = new List<char> { '-', '.' };
+            #region AcceptableChars
+
+            var chars = new List<char> { '+', '-', '.' };
 
             for (var c = 'a'; c <= 'z'; c++)
             {
@@ -38,183 +44,143 @@ namespace TauCode.Data
                 chars.Add(c);
             }
 
-            AcceptableSegmentChars = new HashSet<char>(chars);
+            AcceptableChars = new HashSet<char>(chars);
 
-        }
 
-        private static List<SemanticVersionSegment> BreakToSegments(string s, string paramName)
-        {
-            if (s == null)
+            #endregion
+
+            #region AcceptableTerminatingChars
+
+            var list = new List<char>
             {
-                throw new ArgumentNullException(nameof(s)); // should never happen
-            }
+                '\r',
+                '\n',
+                '\t',
+                '\v',
+                '\f',
+                ' ',
+                '~',
+                '`',
+                '!',
+                '@',
+                '#',
+                '$',
+                '%',
+                '^',
+                '&',
+                '*',
+                '(',
+                ')',
+                '=',
+                '\'',
+                '"',
+                '[',
+                ']',
+                '{',
+                '}',
+                '|',
+                '/',
+                '\\',
+                ',',
+                '?',
+                '<',
+                '>',
+                ';',
+            };
 
-            var stringSegments = s.Split('.');
+            AcceptableTerminatingChars = new HashSet<char>(list);
 
-            var list = new List<SemanticVersionSegment>();
-
-            foreach (var stringSegment in stringSegments)
-            {
-                var isNumeric = false;
-
-                #region segment cannot be empty
-
-                if (stringSegment.Length == 0)
-                {
-                    if (paramName == null)
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Segment must not be empty.", paramName);
-                    }
-                }
-
-                #endregion
-
-                #region segment cannot be too long
-
-                if (stringSegment.Length > MaxLength)
-                {
-                    if (paramName == null)
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Segment is too long.", paramName);
-                    }
-                }
-
-                #endregion
-
-                #region check numeric segment
-
-                if (stringSegment.All(x => x.IsDecimalDigit()))
-                {
-                    if (stringSegment[0] == '0')
-                    {
-                        if (paramName == null)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            throw new ArgumentException("Numeric segment cannot start with '0'.", paramName);
-                        }
-                    }
-
-                    isNumeric = true;
-                }
-
-                #endregion
-
-                #region check segment symbols are acceptable
-
-                if (stringSegment.Any(x => !AcceptableSegmentChars.Contains(x)))
-                {
-                    if (stringSegment[0] == '0')
-                    {
-                        if (paramName == null)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            throw new ArgumentException("Numeric segment cannot start with '0'.", paramName);
-                        }
-                    }
-                }
-
-                #endregion
-
-                var type = isNumeric ? SemanticVersionSegmentType.Numeric : SemanticVersionSegmentType.Text;
-                var segment = new SemanticVersionSegment(type, stringSegment);
-
-                list.Add(segment);
-            }
-
-            return list;
+            #endregion
         }
-
 
         #endregion
 
         #region Fields
 
-        private readonly List<SemanticVersionSegment> _suffixSegments;
+        public readonly int Major;
+        public readonly int Minor;
+        public readonly int Patch;
+        public readonly string PreRelease;
+        public readonly string BuildMetadata;
+
+        private List<SemanticVersionIdentifier> _preReleaseIdentifiers;
+        private List<SemanticVersionIdentifier> _buildMetadataIdentifiers;
 
         #endregion
 
-        #region .ctor
+        #region ctor
 
-        public SemanticVersion(
+        private SemanticVersion(
             int major,
             int minor,
             int patch,
-            string suffix,
-            string metadata)
+            string preRelease,
+            string buildMetadata)
         {
             this.Major = major;
             this.Minor = minor;
             this.Patch = patch;
-
-            _suffixSegments = null;
-            if (suffix != null)
-            {
-                _suffixSegments = BreakToSegments(suffix, nameof(suffix));
-            }
-            this.Suffix = suffix;
-
-            if (metadata != null)
-            {
-                BreakToSegments(metadata, nameof(metadata)); // just for checking
-            }
-
-            this.Metadata = metadata;
+            this.PreRelease = preRelease;
+            this.BuildMetadata = buildMetadata;
         }
-
-        public SemanticVersion(string s)
-        {
-            var parsed = Parse(s);
-            this.Major = parsed.Major;
-            this.Minor = parsed.Minor;
-            this.Patch = parsed.Patch;
-            this.Suffix = parsed.Suffix;
-            this.Metadata = parsed.Metadata;
-
-            _suffixSegments = parsed._suffixSegments;
-        }
-
-        public SemanticVersion(ReadOnlySpan<char> span)
-        {
-            var parsed = Parse(span);
-            this.Major = parsed.Major;
-            this.Minor = parsed.Minor;
-            this.Patch = parsed.Patch;
-            this.Suffix = parsed.Suffix;
-            this.Metadata = parsed.Metadata;
-
-            _suffixSegments = parsed._suffixSegments;
-        }
-
 
         #endregion
 
-        #region Public
+        #region Private
 
-        public int Major { get; }
+        private List<SemanticVersionIdentifier> PreReleaseIdentifiers
+        {
+            get
+            {
+                if (_preReleaseIdentifiers == null)
+                {
+                    if (this.PreRelease == null)
+                    {
+                        _preReleaseIdentifiers = new List<SemanticVersionIdentifier>();
+                    }
+                    else
+                    {
+                        _preReleaseIdentifiers = ResolveMetadataIdentifiers(this.PreRelease);
+                    }
+                }
 
-        public int Minor { get; }
+                return _preReleaseIdentifiers;
+            }
+        }
 
-        public int Patch { get; }
+        private List<SemanticVersionIdentifier> BuildMetadataIdentifiers
+        {
+            get
+            {
+                if (_buildMetadataIdentifiers == null)
+                {
+                    if (this.BuildMetadata == null)
+                    {
+                        _buildMetadataIdentifiers = new List<SemanticVersionIdentifier>();
+                    }
+                    else
+                    {
+                        _buildMetadataIdentifiers = ResolveMetadataIdentifiers(this.BuildMetadata);
+                    }
+                }
 
-        public string Suffix { get; }
+                return _buildMetadataIdentifiers;
+            }
+        }
 
-        public string Metadata { get; }
+        private static List<SemanticVersionIdentifier> ResolveMetadataIdentifiers(string value)
+        {
+            return value
+                .Split('.')
+                .Select(x => new SemanticVersionIdentifier(x))
+                .ToList();
+        }
 
-        public string ToString(bool includeMetadata)
+        #endregion
+
+        #region Custom ToString()
+
+        public string ToString(bool includeBuildMetadata)
         {
             var sb = new StringBuilder();
 
@@ -224,34 +190,20 @@ namespace TauCode.Data
             sb.Append('.');
             sb.Append(this.Patch);
 
-            if (this.Suffix != null)
+            if (this.PreRelease != null)
             {
                 sb.Append('-');
-                sb.Append(this.Suffix);
+                sb.Append(this.PreRelease);
             }
 
-            if (includeMetadata && this.Metadata != null)
+            if (includeBuildMetadata && this.BuildMetadata != null)
             {
                 sb.Append('+');
-                sb.Append(this.Metadata);
+                sb.Append(this.BuildMetadata);
             }
 
             var res = sb.ToString();
             return res;
-        }
-
-        public SemanticVersion GetReleaseVersion() => new SemanticVersion(
-            this.Major,
-            this.Minor,
-            this.Patch,
-            null,
-            null);
-
-        public string[] GetSuffixSegments()
-        {
-            return _suffixSegments
-                .Select(x => x.Value)
-                .ToArray();
         }
 
         #endregion
@@ -267,7 +219,11 @@ namespace TauCode.Data
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Major, Minor, Patch, Suffix);
+            return HashCode.Combine(
+                this.Major,
+                this.Minor,
+                this.Patch,
+                this.PreRelease);
         }
 
 
@@ -277,16 +233,21 @@ namespace TauCode.Data
 
         public bool Equals(SemanticVersion other)
         {
+            if (other == null)
+            {
+                return false;
+            }
+
             return
                 this.Major == other.Major &&
                 this.Minor == other.Minor &&
                 this.Patch == other.Patch &&
-                this.Suffix == other.Suffix;
+                this.PreRelease == other.PreRelease;
         }
 
         #endregion
 
-        #region IComparable<SemanticVersion> Members
+        #region IComparable<SemanticVersion2> Members
 
         public int CompareTo(SemanticVersion other)
         {
@@ -308,10 +269,10 @@ namespace TauCode.Data
                 return patchComparison;
             }
 
-            if (this.Suffix == null)
+            if (this.PreRelease == null)
             {
                 // 'this' is a release version
-                if (other.Suffix == null)
+                if (other.PreRelease == null)
                 {
                     return 0;
                 }
@@ -319,10 +280,10 @@ namespace TauCode.Data
                 return 1; // 'this' is a release, 'other' is pre-release => 'this' is bigger
             }
 
-            if (other.Suffix == null)
+            if (other.PreRelease == null)
             {
                 // 'other' is a release version
-                if (this.Suffix == null)
+                if (this.PreRelease == null)
                 {
                     return 0;
                 }
@@ -330,203 +291,36 @@ namespace TauCode.Data
                 return -1; // 'this' is a pre-release, 'other' is release => 'this' is smaller
             }
 
-            var minLength = Math.Min(this._suffixSegments.Count, other._suffixSegments.Count);
+            var minLength = Math.Min(this.PreReleaseIdentifiers.Count, other.PreReleaseIdentifiers.Count);
 
             for (var i = 0; i < minLength; i++)
             {
-                var thisSegment = this._suffixSegments[i];
-                var otherSegment = other._suffixSegments[i];
+                var thisIdentifier = this.PreReleaseIdentifiers[i];
+                var otherIdentifier = other.PreReleaseIdentifiers[i];
 
-                var segmentComparison = thisSegment.CompareTo(otherSegment);
-                if (segmentComparison != 0)
+                var identifierComparison = thisIdentifier.CompareTo(otherIdentifier);
+                if (identifierComparison != 0)
                 {
-                    return segmentComparison;
+                    return identifierComparison;
                 }
             }
 
-
-            return this._suffixSegments.Count.CompareTo(other._suffixSegments.Count);
+            return this.PreReleaseIdentifiers.Count.CompareTo(other.PreReleaseIdentifiers.Count);
         }
 
         #endregion
 
-        #region Public Static
+        #region Operators
 
-        public static SemanticVersion Parse(string s)
+        public static bool operator ==(SemanticVersion v1, SemanticVersion v2)
         {
-            if (s == null)
+            if (ReferenceEquals(v1, null))
             {
-                throw new ArgumentNullException(nameof(s));
+                return ReferenceEquals(v2, null);
             }
 
-            return Parse(s.AsSpan());
+            return v1.Equals(v2);
         }
-
-        public static SemanticVersion Parse(ReadOnlySpan<char> span)
-        {
-            var parsed = TryParse(span, out var v);
-            if (parsed)
-            {
-                return v;
-            }
-
-            throw new ArgumentException("Failed to parse semantic version.", nameof(span));
-        }
-
-        public static bool TryParse(string s, out SemanticVersion v)
-        {
-            if (s == null)
-            {
-                throw new ArgumentNullException(nameof(s));
-            }
-
-            return TryParse(s.AsSpan(), out v);
-        }
-
-        public static bool TryParse(ReadOnlySpan<char> span, out SemanticVersion v)
-        {
-            if (span.Length == 0 || span.Length > MaxLength)
-            {
-                v = default;
-                return false;
-            }
-
-            var plusPosition = span.IndexOf('+');
-
-            var versionWithoutMetadataSpan = span;
-            var metadataSpan = ReadOnlySpan<char>.Empty;
-
-            if (plusPosition >= 0)
-            {
-                // got metadata
-                versionWithoutMetadataSpan = span.Slice(0, plusPosition);
-                metadataSpan = span.Slice(plusPosition + 1);
-
-                if (versionWithoutMetadataSpan.Length == 0 || metadataSpan.Length == 0)
-                {
-                    v = default;
-                    return false;
-                }
-            }
-
-            var releasePartSpan = versionWithoutMetadataSpan;
-            var suffixSpan = ReadOnlySpan<char>.Empty;
-
-            var minusPosition = span.IndexOf('-');
-            if (minusPosition >= 0)
-            {
-                releasePartSpan = versionWithoutMetadataSpan.Slice(0, minusPosition);
-                suffixSpan = versionWithoutMetadataSpan.Slice(minusPosition + 1);
-
-                if (releasePartSpan.Length == 0 || suffixSpan.Length == 0)
-                {
-                    v = default;
-                    return false;
-                }
-            }
-
-            var releasePartParsed = ParseReleasePart(releasePartSpan, out var major, out var minor, out var patch);
-            if (!releasePartParsed)
-            {
-                v = default;
-                return false;
-            }
-
-            string suffix = null;
-            if (suffixSpan.Length > 0)
-            {
-                suffix = suffixSpan.ToString();
-            }
-
-            string metadata = null;
-            if (metadataSpan.Length > 0)
-            {
-                metadata = metadataSpan.ToString();
-            }
-
-            v = new SemanticVersion(major, minor, patch, suffix, metadata);
-            return true;
-        }
-
-        private static bool ParseReleasePart(in ReadOnlySpan<char> releasePartSpan, out int major, out int minor, out int patch)
-        {
-            major = default;
-            minor = default;
-            patch = default;
-
-            Span<int> numbers = stackalloc int[3];
-            var numberCount = 0;
-
-            var remainingSpan = releasePartSpan;
-
-            while (true)
-            {
-                if (numberCount == 3)
-                {
-                    return false;
-                }
-
-                var dotPosition = remainingSpan.IndexOf('.');
-
-                if (dotPosition >= 0)
-                {
-                    if (dotPosition == 0)
-                    {
-                        return false;
-                    }
-
-                    var numberSpan = remainingSpan.Slice(0, dotPosition);
-                    if (numberSpan[0] == '0' && numberSpan.Length > 1)
-                    {
-                        return false;
-                    }
-
-                    var numberParsed = int.TryParse(numberSpan, out var n);
-                    if (!numberParsed || n < 0)
-                    {
-                        return false;
-                    }
-
-                    numbers[numberCount] = n;
-                    numberCount++;
-
-                    remainingSpan = remainingSpan.Slice(dotPosition + 1);
-
-                    continue;
-                }
-                else
-                {
-                    // all remaining span is ours.
-                    if (remainingSpan.Length > MaxIntLength || remainingSpan.Length == 0)
-                    {
-                        return false;
-                    }
-
-                    if (remainingSpan[0] == '0' && remainingSpan.Length > 1)
-                    {
-                        return false;
-                    }
-
-                    var numberParsed = int.TryParse(remainingSpan, out var n);
-                    if (!numberParsed || n < 0)
-                    {
-                        return false;
-                    }
-
-                    numbers[numberCount] = n;
-                    numberCount++;
-                    break;
-                }
-            }
-
-            major = numbers[0];
-            minor = numbers[1];
-            patch = numbers[2];
-
-            return true;
-        }
-
-        public static bool operator ==(SemanticVersion v1, SemanticVersion v2) => v1.Equals(v2);
 
         public static bool operator !=(SemanticVersion v1, SemanticVersion v2)
         {
@@ -552,7 +346,130 @@ namespace TauCode.Data
         {
             return !(v1 < v2);
         }
-        
+
+        #endregion
+
+        #region Parsing
+
+        public static SemanticVersion Parse(ReadOnlySpan<char> input)
+        {
+            Extract(input, out var semanticVersion, EmptyCharSet);
+            return semanticVersion;
+        }
+
+        #endregion
+
+        #region Extraction
+
+        public static int Extract(
+            ReadOnlySpan<char> input,
+            out SemanticVersion semanticVersion,
+            HashSet<char> terminatingChars = null)
+        {
+            var result = TryExtract(
+                input,
+                out semanticVersion,
+                out var error,
+                terminatingChars);
+
+            if (error != null)
+            {
+                throw error;
+            }
+
+            return result;
+        }
+
+        public static int TryExtract(
+            ReadOnlySpan<char> input,
+            out SemanticVersion semanticVersion,
+            out TextDataExtractionException error,
+            HashSet<char> terminatingChars = null)
+        {
+            // todo check terminatingChars
+            // todo ut terminatingChars
+            terminatingChars ??= AcceptableTerminatingChars;
+
+            int pos;
+
+            for (pos = 0; pos < input.Length; pos++)
+            {
+                var c = input[pos];
+
+                if (terminatingChars.Contains(c))
+                {
+                    break;
+                }
+
+                if (AcceptableChars.Contains(c))
+                {
+                    continue;
+                }
+
+
+                semanticVersion = null;
+                error = Helper.CreateException(ExtractionError.UnexpectedChar, pos);
+
+                return 0;
+            }
+
+            if (pos == 0)
+            {
+                semanticVersion = null;
+                error = Helper.CreateException(ExtractionError.EmptyInput, null);
+                return 0;
+            }
+
+            var stringInput = input[..pos].ToString(); // bad (performance), but let it be.
+
+            var match = Regex.Match(stringInput, Pattern);
+            if (!match.Success)
+            {
+                semanticVersion = null;
+                error = Helper.CreateException(ExtractionError.InvalidSemanticVersion, 0);
+                return 0;
+            }
+
+            int major;
+            int minor;
+            int patch;
+
+            try
+            {
+                // not great performance
+                var majorString = match.Groups["major"].Value;
+                major = int.Parse(majorString);
+
+                var minorString = match.Groups["minor"].Value;
+                minor = int.Parse(minorString);
+
+                var patchString = match.Groups["patch"].Value;
+                patch = int.Parse(patchString);
+            }
+            catch
+            {
+                semanticVersion = null;
+                error = Helper.CreateException(ExtractionError.InvalidSemanticVersion, 0);
+                return 0;
+            }
+
+            var preRelease = match.Groups["preRelease"].Value;
+            if (preRelease == string.Empty)
+            {
+                preRelease = null;
+            }
+
+            var buildMetadata = match.Groups["buildMetadata"].Value;
+            if (buildMetadata == string.Empty)
+            {
+                buildMetadata = null;
+            }
+
+            semanticVersion = new SemanticVersion(major, minor, patch, preRelease, buildMetadata);
+            error = null;
+            return match.Length;
+        }
+
         #endregion
     }
 }

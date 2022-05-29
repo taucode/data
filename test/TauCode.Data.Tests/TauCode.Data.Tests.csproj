@@ -17,11 +17,15 @@
     <None Remove="Resources\HostNameTests.IPv6.Fail.json" />
     <None Remove="Resources\HostNameTests.IPv6.Success.json" />
     <None Remove="Resources\HostNameTests.json" />
+    <None Remove="Resources\SemanticVersionTests.Fail.json" />
+    <None Remove="Resources\SemanticVersionTests.Success.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\EmailAddressTests.Fail.ForParsing.json" />
     <EmbeddedResource Include="Resources\EmailAddressTests.Success.json" />
+    <EmbeddedResource Include="Resources\SemanticVersionTests.Fail.json" />
+    <EmbeddedResource Include="Resources\SemanticVersionTests.Success.json" />
     <EmbeddedResource Include="Resources\HostNameTests.IPv6.Fail.json" />
     <EmbeddedResource Include="Resources\HostNameTests.IPv6.Success.json" />
     <EmbeddedResource Include="Resources\HostNameTests.json" />

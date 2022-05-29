@@ -109,9 +109,13 @@ namespace TauCode.Data
                 ExtractionError.IPv4MustBeEnclosedInBrackets =>
                     "IPv4 address must be enclosed in '[' and ']'.",
 
+                // Emoji
                 ExtractionError.NonEmojiChar => "Non-emoji character.",
                 ExtractionError.IncompleteEmoji => "Incomplete emoji.",
                 ExtractionError.BadEmoji => "Bad emoji.",
+
+                // SemanticVersion
+                ExtractionError.InvalidSemanticVersion => "Invalid semantic version.",
 
                 _ => "Unknown error",
             };

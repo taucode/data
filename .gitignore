@@ -13,6 +13,7 @@
 *.userprefs
 
 .trash
+.temp
 
 # Build results
 [Dd]ebug/

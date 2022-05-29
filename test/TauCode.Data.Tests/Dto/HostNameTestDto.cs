@@ -12,7 +12,6 @@ public class HostNameTestDto
     public string Comment { get; set; }
     public ErrorDto ExpectedError { get; set; }
 
-
     public override string ToString()
     {
         var sb = new StringBuilder();
