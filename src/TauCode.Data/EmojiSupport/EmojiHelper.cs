@@ -148,9 +148,9 @@ namespace TauCode.Data.EmojiSupport
             return root;
         }
 
-        internal static int Skip(ReadOnlySpan<char> input, out ExtractionError? error)
+        internal static int Skip(ReadOnlySpan<char> input, out ExtractionErrorTag? errorTag)
         {
-            return Root.Skip(input, out error);
+            return Root.Skip(input, out errorTag);
         }
     }
 }

@@ -10,7 +10,7 @@ public class HostNameTestDto
     public string ExpectedHostName { get; set; }
     public HostNameKind? ExpectedHostNameKind { get; set; }
     public string Comment { get; set; }
-    public ErrorDto ExpectedError { get; set; }
+    public ExceptionDto ExpectedException { get; set; }
 
     public override string ToString()
     {

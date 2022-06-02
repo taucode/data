@@ -6,9 +6,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "'.' is not a valid host name",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -18,7 +18,7 @@
     "ExpectedHostName": "a",
     "ExpectedHostNameKind": "Regular",
     "Comment": "Technically, a valid host name",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 2,
@@ -27,9 +27,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Empty string",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Empty input.",
-      "ErrorIndex": null
+      "Index": null
     }
   },
   {
@@ -39,9 +39,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Leading space",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -51,9 +51,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Trailing space",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 7
+      "Index": 7
     }
   },
   {
@@ -63,9 +63,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "NB: this is a replacement pattern (see code). Domain label is too long.",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Domain label is too long.",
-      "ErrorIndex": 63
+      "Index": 63
     }
   },
   {
@@ -75,7 +75,7 @@
     "ExpectedHostName": "127.0.0.1",
     "ExpectedHostNameKind": "IPv4",
     "Comment": "Normal IPv4 address",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 7,
@@ -84,9 +84,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Has only digital segments, but not a valid IPv4 address",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv4 address.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -96,7 +96,7 @@
     "ExpectedHostName": "35.12.16.5",
     "ExpectedHostNameKind": "IPv4",
     "Comment": "Normal IPv4 address",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 9,
@@ -105,7 +105,7 @@
     "ExpectedHostName": "localhost",
     "ExpectedHostNameKind": "Regular",
     "Comment": "Normal host, lowercased",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 10,
@@ -114,7 +114,7 @@
     "ExpectedHostName": "xn--80atrm.xn--e1ayd4b",
     "ExpectedHostNameKind": "Internationalized",
     "Comment": "Unicode host",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 11,
@@ -123,9 +123,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Trailing '.'",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 8
+      "Index": 8
     }
   },
   {
@@ -135,9 +135,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Has only digital segments, but not a valid IPv4 address",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid host name.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -147,9 +147,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Has only digital segments, but not a valid IPv4 address",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 6
+      "Index": 6
     }
   },
   {
@@ -159,9 +159,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Obvious",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -171,9 +171,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Obvious",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 11
+      "Index": 11
     }
   },
   {
@@ -183,9 +183,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Obvious",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 6
+      "Index": 6
     }
   },
   {
@@ -195,9 +195,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Obvious",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 7
+      "Index": 7
     }
   },
   {
@@ -207,9 +207,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Obvious",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 7
+      "Index": 7
     }
   },
   {
@@ -219,9 +219,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Obvious",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -231,7 +231,7 @@
     "ExpectedHostName": "a-b",
     "ExpectedHostNameKind": "Regular",
     "Comment": "hyphen",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 21,
@@ -240,9 +240,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Obvious",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -252,9 +252,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Obvious",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 2
+      "Index": 2
     }
   },
   {
@@ -264,9 +264,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Obvious",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 2
+      "Index": 2
     }
   },
   {
@@ -276,9 +276,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Obvious",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 2
+      "Index": 2
     }
   },
   {
@@ -288,9 +288,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Obvious",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 6
+      "Index": 6
     }
   },
   {
@@ -300,7 +300,7 @@
     "ExpectedHostName": "money.econera.com",
     "ExpectedHostNameKind": "Regular",
     "Comment": "Normal host, lowercased",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 27,
@@ -309,7 +309,7 @@
     "ExpectedHostName": "no.this.is.net",
     "ExpectedHostNameKind": "Regular",
     "Comment": "Normal host, lowercased",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 28,
@@ -318,7 +318,7 @@
     "ExpectedHostName": "a--b",
     "ExpectedHostNameKind": "Internationalized",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 29,
@@ -327,7 +327,7 @@
     "ExpectedHostName": "xaaaaaaaaaaaaaaaa-60-chars-between-x-aaaaaaaaaaaaaaaaaaaaaax-d1.com",
     "ExpectedHostNameKind": "Regular",
     "Comment": "Label with length 63 chars, OK",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 30,
@@ -336,9 +336,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Label with length 64 chars, fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Domain label is too long.",
-      "ErrorIndex": 63
+      "Index": 63
     }
   },
   {
@@ -348,7 +348,7 @@
     "ExpectedHostName": "xn--dq-8f72aaaaaaaa41bbbbbbb42jcacccccc770hdadddddd518zeaeeeeee.com",
     "ExpectedHostNameKind": "Internationalized",
     "Comment": "Label with length 63 chars, OK",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 32,
@@ -357,7 +357,7 @@
     "ExpectedHostName": "a-1-d-ddd-deee-36-222-ko-la-maaaaaa-3-dee-pppp-33-depeak-222-ll.net",
     "ExpectedHostNameKind": "Regular",
     "Comment": "Another label with length 63 chars, OK",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 33,
@@ -366,9 +366,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Another label with length 64 chars, fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Domain label is too long.",
-      "ErrorIndex": 66
+      "Index": 66
     }
   },
   {
@@ -378,9 +378,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 4
+      "Index": 4
     }
   },
   {
@@ -390,9 +390,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Another label with length 64 chars, fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 8
+      "Index": 8
     }
   },
   {
@@ -402,9 +402,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 7
+      "Index": 7
     }
   },
   {
@@ -414,9 +414,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "Another label with length 64 chars, fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 7
+      "Index": 7
     }
   },
   {
@@ -426,9 +426,9 @@
     "ExpectedHostName": null,
     "ExpectedHostNameKind": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid host name.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -438,6 +438,6 @@
     "ExpectedHostName": "{@abcd.:50@}com",
     "ExpectedHostNameKind": "Regular",
     "Comment": "total length is 253, ok",
-    "ExpectedError": null
+    "ExpectedException": null
   }
 ]

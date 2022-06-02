@@ -80,54 +80,54 @@ namespace TauCode.Data
         }
 
         // todo: ut all messages
-        internal static string GetErrorMessage(ExtractionError error)
+        internal static string GetErrorMessage(ExtractionErrorTag errorTag)
         {
-            return error switch
+            return errorTag switch
             {
                 // Common
-                ExtractionError.EmptyInput => "Empty input.",
-                ExtractionError.InputTooLong => "Input is too long.",
-                ExtractionError.UnexpectedChar => "Unexpected character.",
-                ExtractionError.UnexpectedEnd => "Unexpected end.",
-                ExtractionError.InternalError => "Internal error.",
+                ExtractionErrorTag.EmptyInput => "Empty input.",
+                ExtractionErrorTag.InputTooLong => "Input is too long.",
+                ExtractionErrorTag.UnexpectedChar => "Unexpected character.",
+                ExtractionErrorTag.UnexpectedEnd => "Unexpected end.",
+                ExtractionErrorTag.InternalError => "Internal error.",
 
                 // HostName
-                ExtractionError.HostNameTooLong => "Host name is too long.",
-                ExtractionError.DomainLabelTooLong => "Domain label is too long.",
-                ExtractionError.InvalidHostName => "Invalid host name.",
-                ExtractionError.InvalidIPv4Address => "Invalid IPv4 address.",
-                ExtractionError.InvalidIPv6Address => "Invalid IPv6 address specification.",
+                ExtractionErrorTag.HostNameTooLong => "Host name is too long.",
+                ExtractionErrorTag.DomainLabelTooLong => "Domain label is too long.",
+                ExtractionErrorTag.InvalidHostName => "Invalid host name.",
+                ExtractionErrorTag.InvalidIPv4Address => "Invalid IPv4 address.",
+                ExtractionErrorTag.InvalidIPv6Address => "Invalid IPv6 address specification.",
 
                 // EmailAddress
-                ExtractionError.EmptyLocalPart => "Empty local part.",
-                ExtractionError.LocalPartTooLong => "Local part is too long.",
-                ExtractionError.EmailAddressTooLong => "Email address is too long.",
-                ExtractionError.InvalidDomain => "Invalid domain.",
-                ExtractionError.UnescapedSpecialCharacter => "Unescaped special character.",
-                ExtractionError.UnclosedQuotedString => "Unclosed quoted string.",
-                ExtractionError.EmptyQuotedString => "Empty quoted string.",
-                ExtractionError.IPv4MustBeEnclosedInBrackets =>
+                ExtractionErrorTag.EmptyLocalPart => "Empty local part.",
+                ExtractionErrorTag.LocalPartTooLong => "Local part is too long.",
+                ExtractionErrorTag.EmailAddressTooLong => "Email address is too long.",
+                ExtractionErrorTag.InvalidDomain => "Invalid domain.",
+                ExtractionErrorTag.UnescapedSpecialCharacter => "Unescaped special character.",
+                ExtractionErrorTag.UnclosedQuotedString => "Unclosed quoted string.",
+                ExtractionErrorTag.EmptyQuotedString => "Empty quoted string.",
+                ExtractionErrorTag.IPv4MustBeEnclosedInBrackets =>
                     "IPv4 address must be enclosed in '[' and ']'.",
 
                 // Emoji
-                ExtractionError.NonEmojiChar => "Non-emoji character.",
-                ExtractionError.IncompleteEmoji => "Incomplete emoji.",
-                ExtractionError.BadEmoji => "Bad emoji.",
+                ExtractionErrorTag.NonEmojiChar => "Non-emoji character.",
+                ExtractionErrorTag.IncompleteEmoji => "Incomplete emoji.",
+                ExtractionErrorTag.BadEmoji => "Bad emoji.",
 
                 // SemanticVersion
-                ExtractionError.InvalidSemanticVersion => "Invalid semantic version.",
+                ExtractionErrorTag.InvalidSemanticVersion => "Invalid semantic version.",
 
                 _ => "Unknown error",
             };
         }
 
-        internal static TextDataExtractionException CreateException(ExtractionError error, int? errorIndex)
+        internal static TextDataExtractionException CreateException(ExtractionErrorTag errorTag, int? errorPosition)
         {
             // todo: ut all usages
-            var message = Helper.GetErrorMessage(error);
-            var ex = new TextDataExtractionException(message, errorIndex)
+            var message = Helper.GetErrorMessage(errorTag);
+            var ex = new TextDataExtractionException(message, errorPosition)
             {
-                ExtractionError = error
+                ExtractionError = errorTag
             };
             return ex;
         }

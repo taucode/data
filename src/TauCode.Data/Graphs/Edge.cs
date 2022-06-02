@@ -26,7 +26,6 @@ namespace TauCode.Data.Graphs
 
         public IDictionary<string, object> Properties { get; set; }
 
-
         public IVertex Tail { get; internal set; }
 
         public IVertex Head { get; internal set; }
@@ -43,20 +42,17 @@ namespace TauCode.Data.Graphs
                 throw new ArgumentNullException(nameof(head));
             }
 
-            if (this.Tail != null)
+            if (this.Tail != null || this.Head != null)
             {
-                throw new InvalidOperationException("Edge already connects vertexes.");
+                throw new InvalidOperationException("Edge is not free.");
             }
 
-
-            var tailImpl = tail as Vertex;
-            if (tailImpl == null)
+            if (!(tail is Vertex tailImpl))
             {
                 throw new ArgumentException($"'{nameof(tail)}' is not an instance of '{typeof(Vertex).FullName}'.", nameof(tail));
             }
-            
-            var headImpl = head as Vertex;
-            if (headImpl == null)
+
+            if (!(head is Vertex headImpl))
             {
                 throw new ArgumentException($"'{nameof(head)}' is not an instance of '{typeof(Vertex).FullName}'.", nameof(head));
             }
@@ -66,6 +62,11 @@ namespace TauCode.Data.Graphs
 
             this.Tail = tail;
             this.Head = head;
+        }
+
+        public void Disconnect()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

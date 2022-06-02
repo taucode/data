@@ -21,7 +21,7 @@ public class HostNameTests
         // Arrange
 
         // Act
-        var parsed = HostName.TryParse(dto.TestHostName, out var hostName, out var error);
+        var parsed = HostName.TryParse(dto.TestHostName, out var hostName, out var exception);
 
         // Assert
         var expectedParsed = dto.ExpectedResult.HasValue;
@@ -33,27 +33,27 @@ public class HostNameTests
             // check dto
             Assert.That(dto.ExpectedHostName, Is.Not.Null);
             Assert.That(dto.ExpectedHostNameKind, Is.Not.Null);
-            Assert.That(dto.ExpectedError, Is.Null);
+            Assert.That(dto.ExpectedException, Is.Null);
 
 
             // check result
             Assert.That(hostName.ToString(), Is.EqualTo(dto.ExpectedHostName));
             Assert.That(hostName.Kind, Is.EqualTo(dto.ExpectedHostNameKind));
-            Assert.That(error, Is.Null);
+            Assert.That(exception, Is.Null);
         }
         else
         {
             // check dto
             Assert.That(dto.ExpectedHostName, Is.Null);
             Assert.That(dto.ExpectedHostNameKind, Is.Null);
-            Assert.That(dto.ExpectedError, Is.Not.Null);
+            Assert.That(dto.ExpectedException, Is.Not.Null);
 
 
             // check result
             Assert.That(hostName, Is.EqualTo(default(HostName)));
 
-            Assert.That(error.Message, Is.EqualTo(dto.ExpectedError.Message));
-            Assert.That(error.ErrorIndex, Is.EqualTo(dto.ExpectedError.ErrorIndex));
+            Assert.That(exception.Message, Is.EqualTo(dto.ExpectedException.Message));
+            Assert.That(exception.Index, Is.EqualTo(dto.ExpectedException.Index));
         }
     }
 
@@ -64,7 +64,7 @@ public class HostNameTests
         // Arrange
 
         // Act
-        var parsed = HostName.TryParse(dto.TestHostName, out var hostName, out var error);
+        var parsed = HostName.TryParse(dto.TestHostName, out var hostName, out var exception);
 
         // Assert
 
@@ -72,14 +72,14 @@ public class HostNameTests
         Assert.That(dto.ExpectedResult, Is.Null);
         Assert.That(dto.ExpectedHostName, Is.Null);
         Assert.That(dto.ExpectedHostNameKind, Is.Null);
-        Assert.That(dto.ExpectedError, Is.Not.Null);
+        Assert.That(dto.ExpectedException, Is.Not.Null);
 
         // check result
         Assert.That(parsed, Is.False);
         Assert.That(hostName, Is.EqualTo(default(HostName)));
 
-        Assert.That(error.Message, Is.EqualTo(dto.ExpectedError.Message));
-        Assert.That(error.ErrorIndex, Is.EqualTo(dto.ExpectedError.ErrorIndex));
+        Assert.That(exception.Message, Is.EqualTo(dto.ExpectedException.Message));
+        Assert.That(exception.Index, Is.EqualTo(dto.ExpectedException.Index));
     }
 
     [Test]
@@ -89,7 +89,7 @@ public class HostNameTests
         // Arrange
 
         // Act
-        var parsed = HostName.TryParse(dto.TestHostName, out var hostName, out var error);
+        var parsed = HostName.TryParse(dto.TestHostName, out var hostName, out var exception);
 
         // Assert
 
@@ -97,14 +97,14 @@ public class HostNameTests
         Assert.That(dto.ExpectedResult, Is.Not.Null);
         Assert.That(dto.ExpectedHostName, Is.Not.Null);
         Assert.That(dto.ExpectedHostNameKind, Is.Not.Null);
-        Assert.That(dto.ExpectedError, Is.Null);
+        Assert.That(dto.ExpectedException, Is.Null);
 
         // check result
         Assert.That(parsed, Is.True);
         Assert.That(hostName.Value, Is.EqualTo(dto.ExpectedHostName));
         Assert.That(hostName.Kind, Is.EqualTo(dto.ExpectedHostNameKind));
 
-        Assert.That(error, Is.Null);
+        Assert.That(exception, Is.Null);
     }
 
     #endregion
@@ -122,7 +122,7 @@ public class HostNameTests
         var consumed = HostName.TryExtract(
             input,
             out var hostName,
-            out var error,
+            out var exception,
             new HashSet<char>(new[] { ';' }));
 
         // Assert
@@ -134,27 +134,27 @@ public class HostNameTests
             // check dto
             Assert.That(dto.ExpectedHostName, Is.Not.Null);
             Assert.That(dto.ExpectedHostNameKind, Is.Not.Null);
-            Assert.That(dto.ExpectedError, Is.Null);
+            Assert.That(dto.ExpectedException, Is.Null);
 
 
             // check result
             Assert.That(hostName.ToString(), Is.EqualTo(dto.ExpectedHostName));
             Assert.That(hostName.Kind, Is.EqualTo(dto.ExpectedHostNameKind));
-            Assert.That(error, Is.Null);
+            Assert.That(exception, Is.Null);
         }
         else
         {
             // check dto
             Assert.That(dto.ExpectedHostName, Is.Null);
             Assert.That(dto.ExpectedHostNameKind, Is.Null);
-            Assert.That(dto.ExpectedError, Is.Not.Null);
+            Assert.That(dto.ExpectedException, Is.Not.Null);
 
 
             // check result
             Assert.That(hostName, Is.EqualTo(default(HostName)));
 
-            Assert.That(error.Message, Is.EqualTo(dto.ExpectedError.Message));
-            Assert.That(error.ErrorIndex, Is.EqualTo(dto.ExpectedError.ErrorIndex));
+            Assert.That(exception.Message, Is.EqualTo(dto.ExpectedException.Message));
+            Assert.That(exception.Index, Is.EqualTo(dto.ExpectedException.Index));
         }
     }
 
@@ -166,7 +166,7 @@ public class HostNameTests
         var input = dto.TestHostName + ";";
 
         // Act
-        var consumed = HostName.TryExtract(input, out var hostName, out var error);
+        var consumed = HostName.TryExtract(input, out var hostName, out var exception);
 
         // Assert
 
@@ -174,14 +174,14 @@ public class HostNameTests
         Assert.That(dto.ExpectedResult, Is.Not.Null);
         Assert.That(dto.ExpectedHostName, Is.Not.Null);
         Assert.That(dto.ExpectedHostNameKind, Is.Not.Null);
-        Assert.That(dto.ExpectedError, Is.Null);
+        Assert.That(dto.ExpectedException, Is.Null);
 
         // check result
         Assert.That(consumed, Is.EqualTo(dto.ExpectedResult));
         Assert.That(hostName.Value, Is.EqualTo(dto.ExpectedHostName));
         Assert.That(hostName.Kind, Is.EqualTo(dto.ExpectedHostNameKind));
 
-        Assert.That(error, Is.Null);
+        Assert.That(exception, Is.Null);
     }
 
     #endregion
@@ -282,7 +282,7 @@ public class HostNameTests
             }
 
             int? expectedResult;
-            ErrorDto error;
+            ExceptionDto exceptionDto;
             string expectedHostName;
             HostNameKind? expectedHostNameKind;
 
@@ -292,17 +292,17 @@ public class HostNameTests
                     expectedResult = ipv6.Length;
                     expectedHostName = secondIpv6.ToLowerInvariant();
                     expectedHostNameKind = HostNameKind.IPv6;
-                    error = null;
+                    exceptionDto = null;
                     break;
 
                 case "!1":
                     expectedResult = null;
                     expectedHostName = null;
                     expectedHostNameKind = null;
-                    error = new ErrorDto
+                    exceptionDto = new ExceptionDto
                     {
                         Message = "<replace-with-real-message>",
-                        ErrorIndex = 1599,
+                        Index = 1599,
                     };
                     break;
 
@@ -318,7 +318,7 @@ public class HostNameTests
                 ExpectedHostName = expectedHostName,
                 ExpectedHostNameKind = expectedHostNameKind,
                 Comment = comment,
-                ExpectedError = error,
+                ExpectedException = exceptionDto,
             };
 
             dtos.Add(dto);

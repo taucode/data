@@ -96,12 +96,12 @@ namespace TauCode.Data
             var consumed = TryExtractInternal(
                 input,
                 out var emailAddress,
-                out var error,
+                out var exception,
                 EmptyTerminatingChars);
 
             if (consumed == null)
             {
-                throw error;
+                throw exception;
             }
 
             return emailAddress;
@@ -110,12 +110,12 @@ namespace TauCode.Data
         public static bool TryParse(
             ReadOnlySpan<char> input,
             out EmailAddress emailAddress,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
             var consumed = TryExtract(
                 input,
                 out emailAddress,
-                out error,
+                out exception,
                 Helper.EmptyChars);
 
             return consumed.HasValue;
@@ -134,12 +134,12 @@ namespace TauCode.Data
             var consumed = TryExtractInternal(
                 input,
                 out emailAddress,
-                out var error,
+                out var exception,
                 terminatingChars);
 
             if (consumed == null)
             {
-                throw error;
+                throw exception;
             }
 
             return consumed;
@@ -148,13 +148,13 @@ namespace TauCode.Data
         public static int? TryExtract(
             ReadOnlySpan<char> input,
             out EmailAddress emailAddress,
-            out TextDataExtractionException error,
+            out TextDataExtractionException exception,
             HashSet<char> terminatingChars = null)
         {
             return TryExtractInternal(
                 input,
                 out emailAddress,
-                out error,
+                out exception,
                 terminatingChars);
         }
 
@@ -165,7 +165,7 @@ namespace TauCode.Data
         private static int? TryExtractInternal(
             ReadOnlySpan<char> input,
             out EmailAddress emailAddress,
-            out TextDataExtractionException error,
+            out TextDataExtractionException exception,
             HashSet<char> terminatingChars = null)
         {
             terminatingChars ??= AcceptableTerminatingChars;
@@ -181,7 +181,7 @@ namespace TauCode.Data
             if (input.IsEmpty)
             {
                 emailAddress = null;
-                error = Helper.CreateException(ExtractionError.EmptyInput, null);
+                exception = Helper.CreateException(ExtractionErrorTag.EmptyInput, null);
                 return null;
             }
 
@@ -191,14 +191,14 @@ namespace TauCode.Data
 
             while (true)
             {
-                if (context.Index == MaxEmailAddressLength)
+                if (context.Position == MaxEmailAddressLength)
                 {
                     emailAddress = null;
-                    error = Helper.CreateException(ExtractionError.InputTooLong, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.InputTooLong, context.Position);
                     return null;
                 }
 
-                var segment = TryExtractLocalPartSegment(input, context, out error);
+                var segment = TryExtractLocalPartSegment(input, context, out exception);
 
                 if (segment == null)
                 {
@@ -217,7 +217,7 @@ namespace TauCode.Data
                 if (context.LocalPartLength > MaxLocalPartLength)
                 {
                     // UT tag: 044523bc-6c75-4ef4-bac0-51ec9628fc0a
-                    error = Helper.CreateException(ExtractionError.LocalPartTooLong, 0);
+                    exception = Helper.CreateException(ExtractionErrorTag.LocalPartTooLong, 0);
                     emailAddress = null;
                     return null;
                 }
@@ -236,12 +236,12 @@ namespace TauCode.Data
             while (true)
             {
                 // todo: check we are not out of MaxEmailAddressLength (and ut it!)
-                if (context.Index == input.Length || context.IsAtTerminatingChar(input))
+                if (context.Position == input.Length || context.IsAtTerminatingChar(input))
                 {
                     if (context.DomainSegments.Count == 0)
                     {
                         emailAddress = null;
-                        error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                        exception = Helper.CreateException(ExtractionErrorTag.UnexpectedEnd, context.Position);
                         return null;
                     }
 
@@ -252,7 +252,7 @@ namespace TauCode.Data
                     if (lastDomainSegmentType == SegmentType.Period)
                     {
                         var pos = context.GetDomainStartIndex();
-                        error = Helper.CreateException(ExtractionError.InvalidDomain, pos);
+                        exception = Helper.CreateException(ExtractionErrorTag.InvalidDomain, pos);
                         emailAddress = null;
                         return null;
                     }
@@ -263,18 +263,15 @@ namespace TauCode.Data
                     // domain
                     if (context.DomainLength == 0)
                     {
-                        error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                        exception = Helper.CreateException(ExtractionErrorTag.UnexpectedEnd, context.Position);
                         emailAddress = null;
                         return null;
                     }
 
-                    var domain = BuildDomain(input, context, out error);
+                    var domain = BuildDomain(input, context, out exception);
 
                     if (domain == null)
                     {
-                        var pos = context.GetDomainStartIndex();
-                        // todo clean
-                        //error = Helper.CreateException(ExtractionError.InvalidDomain, pos);
                         emailAddress = null;
                         return null;
                     }
@@ -284,7 +281,7 @@ namespace TauCode.Data
                         // looks like we've got something like joe@1.1.1.1
 
                         var pos = context.GetDomainStartIndex();
-                        error = Helper.CreateException(ExtractionError.IPv4MustBeEnclosedInBrackets, pos);
+                        exception = Helper.CreateException(ExtractionErrorTag.IPv4MustBeEnclosedInBrackets, pos);
                         emailAddress = null;
                         return null;
                     }
@@ -294,16 +291,16 @@ namespace TauCode.Data
                     if (emailAddress.ToString().Length > MaxCleanEmailAddressLength)
                     {
                         emailAddress = null;
-                        error = Helper.CreateException(ExtractionError.EmailAddressTooLong, context.Index);
+                        exception = Helper.CreateException(ExtractionErrorTag.EmailAddressTooLong, context.Position);
                         return null;
                     }
 
-                    return context.Index;
+                    return context.Position;
                 }
 
-                if (context.Index == MaxEmailAddressLength)
+                if (context.Position == MaxEmailAddressLength)
                 {
-                    error = Helper.CreateException(ExtractionError.InputTooLong, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.InputTooLong, context.Position);
                     emailAddress = null;
                     return null;
                 }
@@ -311,7 +308,7 @@ namespace TauCode.Data
                 var segment = TryExtractDomainSegment(
                     input,
                     context,
-                    out error);
+                    out exception);
 
                 if (segment == null)
                 {
@@ -335,9 +332,9 @@ namespace TauCode.Data
         private static Segment? TryExtractLocalPartSegment(
             ReadOnlySpan<char> input,
             EmailAddressExtractionContext context,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
-            var c = input[context.Index];
+            var c = input[context.Position];
             var lastLocalPartSegmentType = context.GetLastLocalPartSegmentType();
 
             if (
@@ -351,10 +348,10 @@ namespace TauCode.Data
                     lastLocalPartSegmentType == SegmentType.Period ||
                     false)
                 {
-                    return TryExtractLocalPartWordSegment(input, context, out error);
+                    return TryExtractLocalPartWordSegment(input, context, out exception);
                 }
 
-                error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
                 return null;
             }
             else if (c == '.')
@@ -364,14 +361,14 @@ namespace TauCode.Data
                     lastLocalPartSegmentType == SegmentType.LocalPartQuotedString ||
                     false)
                 {
-                    var start = context.Index;
-                    context.Index++;
-                    error = null;
+                    var start = context.Position;
+                    context.Position++;
+                    exception = null;
                     return new Segment(SegmentType.Period, start, 1, null);
                 }
                 else
                 {
-                    error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
                     return null;
                 }
             }
@@ -379,7 +376,7 @@ namespace TauCode.Data
             {
                 if (lastLocalPartSegmentType == null)
                 {
-                    error = Helper.CreateException(ExtractionError.EmptyLocalPart, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.EmptyLocalPart, context.Position);
                     return null;
                 }
 
@@ -388,51 +385,51 @@ namespace TauCode.Data
                     lastLocalPartSegmentType == SegmentType.LocalPartQuotedString ||
                     false)
                 {
-                    var start = context.Index;
-                    context.Index++;
-                    error = null;
+                    var start = context.Position;
+                    context.Position++;
+                    exception = null;
                     return new Segment(SegmentType.At, start, 1, null);
                 }
                 else
                 {
-                    error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
                     return null;
                 }
             }
             else if (c == ' ')
             {
-                return TryExtractLocalPartSpaceSegment(input, context, out error);
+                return TryExtractLocalPartSpaceSegment(input, context, out exception);
             }
             else if (c == '\r')
             {
-                return TryExtractLocalPartFoldingWhiteSpaceSegment(input, context, out error);
+                return TryExtractLocalPartFoldingWhiteSpaceSegment(input, context, out exception);
             }
             else if (c == '"')
             {
-                return TryExtractLocalPartQuotedStringSegment(input, context, out error);
+                return TryExtractLocalPartQuotedStringSegment(input, context, out exception);
             }
             else if (c == '(')
             {
-                return TryExtractCommentSegment(input, context, out error);
+                return TryExtractCommentSegment(input, context, out exception);
             }
 
-            error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+            exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
             return null;
         }
 
         private static Segment? TryExtractDomainSegment(
             ReadOnlySpan<char> input,
             EmailAddressExtractionContext context,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
-            var c = input[context.Index];
+            var c = input[context.Position];
             var lastNonCommentSegmentType = context.GetLastDomainSegmentType();
 
             if (char.IsLetterOrDigit(c))
             {
                 if (context.GetIPHostName() != null)
                 {
-                    error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
                     return null;
                 }
 
@@ -442,11 +439,11 @@ namespace TauCode.Data
                     lastNonCommentSegmentType == SegmentType.Period ||
                     false)
                 {
-                    return TryExtractLabelSegment(input, context, out error);
+                    return TryExtractLabelSegment(input, context, out exception);
                 }
                 else
                 {
-                    error = Helper.CreateException(ExtractionError.InvalidDomain, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.InvalidDomain, context.Position);
                     return null;
                 }
             }
@@ -454,20 +451,20 @@ namespace TauCode.Data
             {
                 if (context.GetIPHostName() != null)
                 {
-                    error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
                     return null;
                 }
 
                 // we only want label before period segment
                 if (lastNonCommentSegmentType == SegmentType.Label)
                 {
-                    context.Index++;
-                    error = null;
-                    return new Segment(SegmentType.Period, (context.Index - 1), 1, null);
+                    context.Position++;
+                    exception = null;
+                    return new Segment(SegmentType.Period, (context.Position - 1), 1, null);
                 }
                 else
                 {
-                    error = Helper.CreateException(ExtractionError.InvalidDomain, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.InvalidDomain, context.Position);
                     return null;
                 }
             }
@@ -475,7 +472,7 @@ namespace TauCode.Data
             {
                 if (context.GetIPHostName() != null || context.GotLabelOrPeriod())
                 {
-                    error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
                     return null;
                 }
 
@@ -484,53 +481,53 @@ namespace TauCode.Data
 
                 if (lastNonCommentSegmentType == null)
                 {
-                    if (context.Index < input.Length - 1)
+                    if (context.Position < input.Length - 1)
                     {
-                        var nextChar = input[context.Index + 1];
+                        var nextChar = input[context.Position + 1];
                         if (char.IsDigit(nextChar))
                         {
-                            return TryExtractIPv4Segment(input, context, out error);
+                            return TryExtractIPv4Segment(input, context, out exception);
                         }
 
                         if (nextChar == 'I') // start of 'IPv6:' signature
                         {
-                            return TryExtractIPv6Segment(input, context, out error);
+                            return TryExtractIPv6Segment(input, context, out exception);
                         }
 
-                        context.Index++;
-                        error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                        context.Position++;
+                        exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
                         return null;
                     }
                     else
                     {
-                        context.Index++;
-                        error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                        context.Position++;
+                        exception = Helper.CreateException(ExtractionErrorTag.UnexpectedEnd, context.Position);
                         return null;
                     }
                 }
 
-                error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
                 return null;
 
             }
             else if (c == '(')
             {
-                return TryExtractCommentSegment(input, context, out error);
+                return TryExtractCommentSegment(input, context, out exception);
             }
 
-            //error = EmailValidationError.UnexpectedCharacter; // todo: terminating char predicate here
+            //er-ror = EmailValidationError.UnexpectedCharacter; // todo: terminating char predicate here?
 
-            error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+            exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
             return null;
         }
 
         private static Segment? TryExtractCommentSegment(
             ReadOnlySpan<char> input,
             EmailAddressExtractionContext context,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
-            var start = context.Index;
-            context.Index++; // input[start] is '('
+            var start = context.Position;
+            context.Position++; // input[start] is '('
             var length = input.Length;
 
             var depth = 1;
@@ -539,22 +536,22 @@ namespace TauCode.Data
 
             while (true)
             {
-                if (context.Index == length)
+                if (context.Position == length)
                 {
-                    error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.UnexpectedEnd, context.Position);
                     return null;
                 }
 
-                if (context.Index == MaxEmailAddressLength)
+                if (context.Position == MaxEmailAddressLength)
                 {
-                    error = Helper.CreateException(ExtractionError.InputTooLong, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.InputTooLong, context.Position);
                     return null;
                 }
 
-                var c = input[context.Index];
+                var c = input[context.Position];
                 if (c == ')')
                 {
-                    context.Index++;
+                    context.Position++;
 
                     if (escapeMode)
                     {
@@ -571,7 +568,7 @@ namespace TauCode.Data
                 }
                 else if (c == '(')
                 {
-                    context.Index++;
+                    context.Position++;
 
                     if (escapeMode)
                     {
@@ -584,23 +581,23 @@ namespace TauCode.Data
                 }
                 else if (c == '\\')
                 {
-                    context.Index++;
+                    context.Position++;
                     escapeMode = !escapeMode;
                 }
                 else
                 {
                     escapeMode = false;
 
-                    var skipped = TrySkipEmoji(input[context.Index..], out var emojiError);
+                    var skipped = TrySkipEmoji(input[context.Position..], out var emojiError);
                     if (emojiError != null)
                     {
-                        error = TransformInnerExtractionException(emojiError, context.Index);
+                        exception = TransformInnerExtractionException(emojiError, context.Position);
                         return null;
                     }
 
                     if (skipped > 0)
                     {
-                        context.Index += skipped;
+                        context.Position += skipped;
                         continue;
                     }
 
@@ -624,49 +621,49 @@ namespace TauCode.Data
                         // todo: '[', ']' are accepted too.
                         false)
                     {
-                        context.Index++;
+                        context.Position++;
                     }
                     else
                     {
                         // not an allowed char
-                        error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                        exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
                         return null;
                     }
                 }
             }
 
-            var delta = context.Index - start;
-            error = null;
+            var delta = context.Position - start;
+            exception = null;
             return new Segment(SegmentType.Comment, start, delta, null);
         }
 
         private static int TrySkipEmoji(
             ReadOnlySpan<char> emojiSpan,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
-            var skipped = EmojiHelper.Skip(emojiSpan, out var emojiExtractionError);
+            var skipped = EmojiHelper.Skip(emojiSpan, out var emojiExtractionErrorTag);
             var c = emojiSpan[0];
 
-            switch (emojiExtractionError)
+            switch (emojiExtractionErrorTag)
             {
                 case null:
                     // successfully skipped emoji
-                    error = null;
+                    exception = null;
                     return skipped;
 
-                case ExtractionError.NonEmojiChar:
+                case ExtractionErrorTag.NonEmojiChar:
                     switch (skipped)
                     {
                         case 0:
                             // 0th char was not emoji
                             // do nothing - following code will deal with it
-                            error = null;
+                            exception = null;
                             return 0;
 
                         case 1:
                             if (c.IsAsciiEmojiStartingChar())
                             {
-                                error = null;
+                                exception = null;
                                 return 0;
 
                                 // something like #, *, 0..9
@@ -674,21 +671,21 @@ namespace TauCode.Data
                             }
                             else
                             {
-                                error = Helper.CreateException(ExtractionError.BadEmoji, 0); // NOT 'skipped'
+                                exception = Helper.CreateException(ExtractionErrorTag.BadEmoji, 0); // NOT 'skipped'
                                 return 0;
                             }
 
                         default:
-                            error = Helper.CreateException(ExtractionError.BadEmoji, 0); // NOT 'skipped'
+                            exception = Helper.CreateException(ExtractionErrorTag.BadEmoji, 0); // NOT 'skipped'
                             return 0;
                     }
 
-                case ExtractionError.IncompleteEmoji:
-                    error = Helper.CreateException(ExtractionError.IncompleteEmoji, 0); // NOT 'skipped'
+                case ExtractionErrorTag.IncompleteEmoji:
+                    exception = Helper.CreateException(ExtractionErrorTag.IncompleteEmoji, 0); // NOT 'skipped'
                     return skipped;
 
                 default:
-                    error = Helper.CreateException(ExtractionError.InternalError, null); // should never happen
+                    exception = Helper.CreateException(ExtractionErrorTag.InternalError, null); // should never happen
                     return 0;
             }
         }
@@ -698,31 +695,31 @@ namespace TauCode.Data
         private static Segment? TryExtractLocalPartSpaceSegment(
             ReadOnlySpan<char> input,
             EmailAddressExtractionContext context,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
-            var start = context.Index;
-            context.Index++; // input[start] is a proper char since we've got here
+            var start = context.Position;
+            context.Position++; // input[start] is a proper char since we've got here
             var length = input.Length;
 
             while (true)
             {
-                if (context.Index - start > MaxLocalPartLength)
+                if (context.Position - start > MaxLocalPartLength)
                 {
-                    error = Helper.CreateException(ExtractionError.LocalPartTooLong, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.LocalPartTooLong, context.Position);
                     return null;
                 }
 
-                if (context.Index == length)
+                if (context.Position == length)
                 {
-                    error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.UnexpectedEnd, context.Position);
                     return null;
                 }
 
-                var c = input[context.Index];
+                var c = input[context.Position];
 
                 if (c == ' ')
                 {
-                    context.Index++;
+                    context.Position++;
                     continue;
                 }
 
@@ -730,18 +727,18 @@ namespace TauCode.Data
                 break;
             }
 
-            error = null;
-            var delta = context.Index - start;
+            exception = null;
+            var delta = context.Position - start;
             return new Segment(SegmentType.LocalPartSpace, start, delta, null);
         }
 
         private static Segment? TryExtractLocalPartFoldingWhiteSpaceSegment(
             ReadOnlySpan<char> input,
             EmailAddressExtractionContext context,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
-            var start = context.Index;
-            context.Index++; // input[start] is a proper char since we've got here
+            var start = context.Position;
+            context.Position++; // input[start] is a proper char since we've got here
             var length = input.Length;
 
             var fwsLength = FoldingWhiteSpaceChars.Length;
@@ -750,31 +747,31 @@ namespace TauCode.Data
 
             while (true)
             {
-                if (context.Index == length)
+                if (context.Position == length)
                 {
-                    error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.UnexpectedEnd, context.Position);
                     return null;
                 }
 
-                delta = context.Index - start;
+                delta = context.Position - start;
 
                 if (delta == fwsLength)
                 {
                     break;
                 }
 
-                var c = input[context.Index];
+                var c = input[context.Position];
                 if (c == FoldingWhiteSpaceChars[delta])
                 {
-                    context.Index++;
+                    context.Position++;
                     continue;
                 }
 
-                error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
                 return null;
             }
 
-            error = null;
+            exception = null;
             return new Segment(
                 SegmentType.LocalPartFoldingWhiteSpace,
                 start,
@@ -785,32 +782,32 @@ namespace TauCode.Data
         private static Segment? TryExtractLocalPartQuotedStringSegment(
             ReadOnlySpan<char> input,
             EmailAddressExtractionContext context,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
-            var start = context.Index;
-            context.Index++; // skip '"'
+            var start = context.Position;
+            context.Position++; // skip '"'
             var length = input.Length;
 
             var escapeMode = false;
 
             while (true)
             {
-                if (context.Index - start > MaxLocalPartLength)
+                if (context.Position - start > MaxLocalPartLength)
                 {
-                    error = Helper.CreateException(ExtractionError.LocalPartTooLong, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.LocalPartTooLong, context.Position);
                     return null;
                 }
 
-                if (context.Index == length)
+                if (context.Position == length)
                 {
-                    error = Helper.CreateException(ExtractionError.UnclosedQuotedString, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.UnclosedQuotedString, context.Position);
                     return null;
                 }
 
-                var c = input[context.Index];
+                var c = input[context.Position];
                 if (c == '"')
                 {
-                    context.Index++;
+                    context.Position++;
 
                     if (escapeMode)
                     {
@@ -827,11 +824,11 @@ namespace TauCode.Data
                 {
                     if (escapeMode)
                     {
-                        context.Index++;
+                        context.Position++;
                     }
                     else
                     {
-                        error = Helper.CreateException(ExtractionError.UnescapedSpecialCharacter, context.Index);
+                        exception = Helper.CreateException(ExtractionErrorTag.UnescapedSpecialCharacter, context.Position);
                         return null;
                     }
 
@@ -840,23 +837,23 @@ namespace TauCode.Data
                 
                 else if (c == '\\')
                 {
-                    context.Index++;
+                    context.Position++;
                     escapeMode = !escapeMode;
                 }
                 else
                 {
                     escapeMode = false;
 
-                    var skipped = TrySkipEmoji(input[context.Index..], out var emojiError);
+                    var skipped = TrySkipEmoji(input[context.Position..], out var emojiError);
                     if (emojiError != null)
                     {
-                        error = TransformInnerExtractionException(emojiError, context.Index);
+                        exception = TransformInnerExtractionException(emojiError, context.Position);
                         return null;
                     }
 
                     if (skipped > 0)
                     {
-                        context.Index += skipped;
+                        context.Position += skipped;
                         continue;
                     }
 
@@ -880,25 +877,25 @@ namespace TauCode.Data
                         c == '[' || // todo: unite into hashSet; todo: ut these chars
                         false)
                     {
-                        context.Index++;
+                        context.Position++;
                     }
                     else
                     {
-                        error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                        exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
                         return null;
                     }
                 }
             }
 
-            error = null;
-            var delta = context.Index - start;
+            exception = null;
+            var delta = context.Position - start;
 
             if (delta == 2)
             {
                 // todo: ut empty quoted string in the middle of local part
                 // empty string
-                error = Helper.CreateException(ExtractionError.EmptyQuotedString, context.Index - 2);
-                context.Index = start;
+                exception = Helper.CreateException(ExtractionErrorTag.EmptyQuotedString, context.Position - 2);
+                context.Position = start;
                 return null;
             }
 
@@ -908,40 +905,40 @@ namespace TauCode.Data
         private static Segment? TryExtractLocalPartWordSegment(
             ReadOnlySpan<char> input,
             EmailAddressExtractionContext context,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
-            var start = context.Index;
+            var start = context.Position;
 
             var length = input.Length;
 
             while (true)
             {
-                if (context.Index - start > MaxLocalPartLength)
+                if (context.Position - start > MaxLocalPartLength)
                 {
-                    error = Helper.CreateException(ExtractionError.LocalPartTooLong, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.LocalPartTooLong, context.Position);
                     return null;
                 }
 
                 // todo: local part with comments too long, local part with comments is not too long when extract clean local part.
 
-                if (context.Index == length)
+                if (context.Position == length)
                 {
-                    error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                    exception = Helper.CreateException(ExtractionErrorTag.UnexpectedEnd, context.Position);
                     return null;
                 }
 
-                var c = input[context.Index];
+                var c = input[context.Position];
 
-                var skipped = TrySkipEmoji(input[context.Index..], out var emojiError);
+                var skipped = TrySkipEmoji(input[context.Position..], out var emojiError);
                 if (emojiError != null)
                 {
-                    error = TransformInnerExtractionException(emojiError, context.Index);
+                    exception = TransformInnerExtractionException(emojiError, context.Position);
                     return null;
                 }
 
                 if (skipped > 0)
                 {
-                    context.Index += skipped;
+                    context.Position += skipped;
                     continue;
                 }
 
@@ -950,7 +947,7 @@ namespace TauCode.Data
                     AllowedSymbols.Contains(c))
                 {
                     // letter, digit or symbol => go on.
-                    context.Index++;
+                    context.Position++;
                 }
                 else
                 {
@@ -959,8 +956,8 @@ namespace TauCode.Data
                 }
             }
 
-            error = null;
-            var delta = context.Index - start;
+            exception = null;
+            var delta = context.Position - start;
             return new Segment(SegmentType.LocalPartWord, start, delta, null);
         }
 
@@ -971,12 +968,12 @@ namespace TauCode.Data
         private static Segment? TryExtractIPv6Segment(
             ReadOnlySpan<char> input,
             EmailAddressExtractionContext context,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
             // todo: ut john.doe@[IPv6:::] (success)
             var length = input.Length;
-            var start = context.Index;
-            context.Index++; // skip '['
+            var start = context.Position;
+            context.Position++; // skip '['
             const string prefix = "IPv6:";
             const int prefixLength = 5; // "IPv6:".Length
             const int minRemainingLength =
@@ -984,28 +981,28 @@ namespace TauCode.Data
                 2 + /* :: */
                 1; /* ] */
 
-            var remaining = length - context.Index;
+            var remaining = length - context.Position;
 
             if (remaining < minRemainingLength)
             {
-                error = Helper.CreateException(ExtractionError.InvalidIPv6Address, context.Index);
+                exception = Helper.CreateException(ExtractionErrorTag.InvalidIPv6Address, context.Position);
                 return null;
             }
 
             ReadOnlySpan<char> prefixSpan = prefix;
-            if (input.Slice(context.Index, prefixLength).Equals(prefixSpan, StringComparison.Ordinal))
+            if (input.Slice(context.Position, prefixLength).Equals(prefixSpan, StringComparison.Ordinal))
             {
                 // good.
             }
             else
             {
-                error = Helper.CreateException(ExtractionError.InvalidIPv6Address, context.Index);
+                exception = Helper.CreateException(ExtractionErrorTag.InvalidIPv6Address, context.Position);
                 return null;
             }
 
-            context.Index += prefixLength;
+            context.Position += prefixLength;
 
-            var ipv6Span = input[context.Index..];
+            var ipv6Span = input[context.Position..];
             var consumed = HostName.TryExtract(
                 ipv6Span,
                 out var hostName,
@@ -1014,33 +1011,33 @@ namespace TauCode.Data
 
             if (consumed == null || hostName.Kind != HostNameKind.IPv6)
             {
-                error = TransformInnerExtractionException(hostNameError, context.Index);
+                exception = TransformInnerExtractionException(hostNameError, context.Position);
                 return null;
             }
 
-            context.Index += consumed.Value; // skip ipv6 address
+            context.Position += consumed.Value; // skip ipv6 address
 
-            if (context.Index == length)
+            if (context.Position == length)
             {
-                error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                exception = Helper.CreateException(ExtractionErrorTag.UnexpectedEnd, context.Position);
                 return null;
             }
 
-            var c = input[context.Index];
+            var c = input[context.Position];
 
             if (c == ']')
             {
-                context.Index++;
+                context.Position++;
 
-                var segmentLength = context.Index - start;
+                var segmentLength = context.Position - start;
                 var segment = new Segment(SegmentType.IPAddress, start, segmentLength, hostName);
 
-                error = null;
+                exception = null;
                 return segment;
             }
 
             // this should never happen, actually.
-            error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+            exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
             return null;
 
         }
@@ -1048,12 +1045,12 @@ namespace TauCode.Data
         private static Segment? TryExtractIPv4Segment(
             ReadOnlySpan<char> input,
             EmailAddressExtractionContext context,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
-            var start = context.Index;
-            context.Index++; // skip '['
+            var start = context.Position;
+            context.Position++; // skip '['
 
-            var hostSpan = input[context.Index..];
+            var hostSpan = input[context.Position..];
             var consumed = HostName.TryExtract(
                 hostSpan,
                 out var hostName,
@@ -1062,26 +1059,26 @@ namespace TauCode.Data
 
             if (consumed == null)
             {
-                error = TransformInnerExtractionException(hostNameError, context.Index);
+                exception = TransformInnerExtractionException(hostNameError, context.Position);
                 return null;
             }
 
             // we gotta skip ']'
-            context.Index += consumed.Value;
+            context.Position += consumed.Value;
 
-            if (context.Index == input.Length)
+            if (context.Position == input.Length)
             {
                 // we failed to achieve our ']'
-                error = Helper.CreateException(ExtractionError.UnexpectedEnd, context.Index);
+                exception = Helper.CreateException(ExtractionErrorTag.UnexpectedEnd, context.Position);
                 return null;
             }
 
-            var c = input[context.Index];
+            var c = input[context.Position];
 
             if (c == ']')
             {
-                context.Index++;
-                error = null;
+                context.Position++;
+                exception = null;
 
                 var length =
                     1 + // '['
@@ -1093,40 +1090,40 @@ namespace TauCode.Data
             }
 
             // this should never happen, actually.
-            error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+            exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
             return null;
         }
 
         private static Segment? TryExtractLabelSegment(
             ReadOnlySpan<char> input,
             EmailAddressExtractionContext context,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
-            var start = context.Index;
+            var start = context.Position;
             var prevChar = input[start];
-            context.Index++; // initial char is ok since we've got here
+            context.Position++; // initial char is ok since we've got here
             var length = input.Length;
 
             while (true)
             {
                 // todo: should we be aware of MaxEmailAddressLength? ut this.
-                if (context.Index == length)
+                if (context.Position == length)
                 {
                     break;
                 }
 
-                if (context.Index - start > Helper.MaxAsciiLabelLength)
+                if (context.Position - start > Helper.MaxAsciiLabelLength)
                 {
-                    error = Helper.CreateException(ExtractionError.DomainLabelTooLong, start);
+                    exception = Helper.CreateException(ExtractionErrorTag.DomainLabelTooLong, start);
                     return null;
                 }
 
-                var c = input[context.Index];
+                var c = input[context.Position];
 
                 if (char.IsLetterOrDigit(c))
                 {
                     prevChar = c;
-                    context.Index++;
+                    context.Position++;
                     continue;
                 }
 
@@ -1135,12 +1132,12 @@ namespace TauCode.Data
                     if (prevChar == '.')
                     {
                         // '.' cannot be followed by '-'
-                        error = Helper.CreateException(ExtractionError.InvalidDomain, context.Index);
+                        exception = Helper.CreateException(ExtractionErrorTag.InvalidDomain, context.Position);
                         return null;
                     }
 
                     prevChar = c;
-                    context.Index++;
+                    context.Position++;
                     continue;
                 }
 
@@ -1160,19 +1157,19 @@ namespace TauCode.Data
                     break;
                 }
 
-                error = Helper.CreateException(ExtractionError.UnexpectedChar, context.Index);
+                exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, context.Position);
                 return null;
             }
 
             if (prevChar == '-')
             {
                 // label cannot end with '-'
-                error = Helper.CreateException(ExtractionError.InvalidDomain, context.Index);
+                exception = Helper.CreateException(ExtractionErrorTag.InvalidDomain, context.Position);
                 return null;
             }
 
-            error = null;
-            var delta = context.Index - start;
+            exception = null;
+            var delta = context.Position - start;
             return new Segment(SegmentType.Label, start, delta, null);
         }
 
@@ -1202,13 +1199,13 @@ namespace TauCode.Data
         private static HostName? BuildDomain(
             ReadOnlySpan<char> input,
             EmailAddressExtractionContext context,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
             var contextIPHostName = context.GetIPHostName();
 
             if (contextIPHostName != null)
             {
-                error = null;
+                exception = null;
                 return contextIPHostName;
             }
 
@@ -1232,22 +1229,22 @@ namespace TauCode.Data
 
             if (hostNameError != null)
             {
-                if (hostNameError.ExtractionError == ExtractionError.InputTooLong)
+                if (hostNameError.ExtractionError == ExtractionErrorTag.InputTooLong)
                 {
-                    error = Helper.CreateException(
-                        ExtractionError.HostNameTooLong,
-                        context.GetDomainStartIndex() + hostNameError.ErrorIndex);
+                    exception = Helper.CreateException(
+                        ExtractionErrorTag.HostNameTooLong,
+                        context.GetDomainStartIndex() + hostNameError.Index);
                 }
                 else
                 {
-                    error = TransformInnerExtractionException(hostNameError, context.Index);
+                    exception = TransformInnerExtractionException(hostNameError, context.Position);
                 }
 
 
                 return null;
             }
 
-            error = null;
+            exception = null;
             return domain;
         }
 
@@ -1292,10 +1289,10 @@ namespace TauCode.Data
         #endregion
 
         private static TextDataExtractionException TransformInnerExtractionException(
-            TextDataExtractionException error,
+            TextDataExtractionException exception,
             int index)
         {
-            return new TextDataExtractionException(error.Message, index + error.ErrorIndex ?? 0);
+            return new TextDataExtractionException(exception.Message, index + exception.Index ?? 0);
         }
 
         #endregion

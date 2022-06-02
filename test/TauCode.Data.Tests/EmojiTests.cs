@@ -22,14 +22,14 @@ namespace TauCode.Data.Tests
             var blackFlagEmoji = Emoji.EnumerateAll().Single(x => x.Name == "black flag");
 
             // Act
-            var consumed = Emoji.TryExtract(input, out var emoji, out var error);
+            var consumed = Emoji.TryExtract(input, out var emoji, out var exception);
 
             // Assert
             Assert.That(consumed, Is.Not.Null);
             Assert.That(consumed, Is.EqualTo(blackFlagEmoji.Value.Length));
 
             Assert.That(emoji, Is.EqualTo(blackFlagEmoji));
-            Assert.That(error, Is.Null);
+            Assert.That(exception, Is.Null);
         }
 
         [Test]
@@ -39,14 +39,14 @@ namespace TauCode.Data.Tests
             var input = "abc";
 
             // Act
-            var consumed = Emoji.TryExtract(input, out var emoji, out var error);
+            var consumed = Emoji.TryExtract(input, out var emoji, out var exception);
 
             // Assert
             Assert.That(consumed, Is.Null);
             Assert.That(emoji, Is.Null);
-            Assert.That(error, Is.Not.Null);
-            Assert.That(error.ErrorIndex, Is.EqualTo(0));
-            Assert.That(error.Message, Is.EqualTo("Non-emoji character."));
+            Assert.That(exception, Is.Not.Null);
+            Assert.That(exception.Index, Is.EqualTo(0));
+            Assert.That(exception.Message, Is.EqualTo("Non-emoji character."));
         }
     }
 }

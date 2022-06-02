@@ -75,3 +75,9 @@
 ==========
         Semantic Version: long & pseudo-long input, term.char and w/o term.char
         Semantic Version: unexpected chars
+        Get rid of 1488 (and of this one, too)
+
+2022-06-05
+==========
+        ut Graphs
+        ut Interval

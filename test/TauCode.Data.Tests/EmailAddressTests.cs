@@ -67,8 +67,8 @@ public class EmailAddressTests
         Assert.That(emailAddress, Is.Null);
         Assert.That(ex, Is.Not.Null);
 
-        Assert.That(ex.Message, Is.EqualTo(dto.ExpectedError.Message));
-        Assert.That(ex.ErrorIndex, Is.EqualTo(dto.ExpectedError.ErrorIndex));
+        Assert.That(ex.Message, Is.EqualTo(dto.ExpectedException.Message));
+        Assert.That(ex.Index, Is.EqualTo(dto.ExpectedException.Index));
     }
 
     [Test]
@@ -80,14 +80,14 @@ public class EmailAddressTests
         var input = sb.ToString();
 
         // Act
-        var consumed = EmailAddress.TryExtract(input, out var emailAddress, out var error);
+        var consumed = EmailAddress.TryExtract(input, out var emailAddress, out var exception);
 
         // Assert
         Assert.That(consumed, Is.Null);
         Assert.That(emailAddress, Is.Null);
 
-        Assert.That(error.Message, Is.EqualTo("Incomplete emoji."));
-        Assert.That(error.ErrorIndex, Is.EqualTo(4));
+        Assert.That(exception.Message, Is.EqualTo("Incomplete emoji."));
+        Assert.That(exception.Index, Is.EqualTo(4));
     }
 
     [Test]
@@ -99,14 +99,14 @@ public class EmailAddressTests
         var input = sb.ToString();
 
         // Act
-        var consumed = EmailAddress.TryExtract(input, out var emailAddress, out var error);
+        var consumed = EmailAddress.TryExtract(input, out var emailAddress, out var exception);
 
         // Assert
         Assert.That(consumed, Is.Null);
         Assert.That(emailAddress, Is.Null);
 
-        Assert.That(error.Message, Is.EqualTo("Bad emoji."));
-        Assert.That(error.ErrorIndex, Is.EqualTo(4));
+        Assert.That(exception.Message, Is.EqualTo("Bad emoji."));
+        Assert.That(exception.Index, Is.EqualTo(4));
     }
 
     [Test]
@@ -118,14 +118,14 @@ public class EmailAddressTests
         var input = sb.ToString();
 
         // Act
-        var consumed = EmailAddress.TryExtract(input, out var emailAddress, out var error);
+        var consumed = EmailAddress.TryExtract(input, out var emailAddress, out var exception);
 
         // Assert
         Assert.That(consumed, Is.Null);
         Assert.That(emailAddress, Is.Null);
 
-        Assert.That(error.Message, Is.EqualTo("Bad emoji."));
-        Assert.That(error.ErrorIndex, Is.EqualTo(4));
+        Assert.That(exception.Message, Is.EqualTo("Bad emoji."));
+        Assert.That(exception.Index, Is.EqualTo(4));
     }
 
     public static IList<EmailAddressTestDto> GetTestCasesSuccess()

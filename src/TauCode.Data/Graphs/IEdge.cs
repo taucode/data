@@ -19,5 +19,7 @@ namespace TauCode.Data.Graphs
         IVertex Head { get; }
 
         void Connect(IVertex tail, IVertex head);
+
+        void Disconnect();
     }
 }
