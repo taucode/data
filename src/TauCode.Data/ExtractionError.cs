@@ -34,5 +34,8 @@
         NonEmojiChar = 4000,
         IncompleteEmoji, // todo ut
         BadEmoji,
+
+        // Semantic version
+        InvalidSemanticVersion = 5000,
     }
 }

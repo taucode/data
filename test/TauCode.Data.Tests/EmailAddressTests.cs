@@ -42,6 +42,7 @@ public class EmailAddressTests
         Assert.That(error2, Is.Null);
 
         Assert.That(consumed1, Is.EqualTo(dto.ExpectedResult));
+        Assert.That(consumed2, Is.EqualTo(dto.ExpectedResult));
 
         Assert.That(emailAddress1.ToString(), Is.EqualTo(dto.ExpectedEmailAddress));
         Assert.That(emailAddress2.ToString(), Is.EqualTo(dto.ExpectedEmailAddress));
