@@ -16,7 +16,7 @@ namespace TauCode.Data.EmailAddressSupport
             _domainSegments = new List<Segment>();
         }
 
-        internal int Index;
+        internal int Position;
 
         internal readonly HashSet<char> TerminatingChars;
 
@@ -41,7 +41,7 @@ namespace TauCode.Data.EmailAddressSupport
 
         internal bool IsAtTerminatingChar(ReadOnlySpan<char> input)
         {
-            var c = input[this.Index];
+            var c = input[this.Position];
             return this.TerminatingChars.Contains(c);
         }
 
@@ -77,7 +77,7 @@ namespace TauCode.Data.EmailAddressSupport
                 return this.AtSymbolIndex.Value + 1;
             }
 
-            throw Helper.CreateException(ExtractionError.InternalError, 0);
+            throw Helper.CreateException(ExtractionErrorTag.InternalError, 0);
         }
 
         internal HostName? GetIPHostName()

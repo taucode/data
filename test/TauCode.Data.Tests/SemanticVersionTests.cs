@@ -43,7 +43,7 @@ public class SemanticVersionTests
         Assert.That(dto.ExpectedMajor, Is.Not.Null);
         Assert.That(dto.ExpectedMinor, Is.Not.Null);
         Assert.That(dto.ExpectedPatch, Is.Not.Null);
-        Assert.That(dto.ExpectedError, Is.Null);
+        Assert.That(dto.ExpectedException, Is.Null);
 
         // assertions themselves
         Assert.That(consumed1, Is.GreaterThan(0));
@@ -100,7 +100,7 @@ public class SemanticVersionTests
         Assert.That(dto.ExpectedPatch, Is.Null);
         Assert.That(dto.ExpectedPreRelease, Is.Null);
         Assert.That(dto.ExpectedBuildMetadata, Is.Null);
-        Assert.That(dto.ExpectedError, Is.Not.Null);
+        Assert.That(dto.ExpectedException, Is.Not.Null);
 
         // assertions themselves
         Assert.That(consumed1, Is.Zero);
@@ -110,12 +110,12 @@ public class SemanticVersionTests
         Assert.That(error2, Is.Not.Null);
 
         Assert.That(semanticVersion1, Is.Null);
-        Assert.That(error1.Message, Is.EqualTo(dto.ExpectedError.Message));
-        Assert.That(error1.ErrorIndex, Is.EqualTo(dto.ExpectedError.ErrorIndex));
+        Assert.That(error1.Message, Is.EqualTo(dto.ExpectedException.Message));
+        Assert.That(error1.Index, Is.EqualTo(dto.ExpectedException.Index));
 
         Assert.That(semanticVersion2, Is.Null);
-        Assert.That(error2.Message, Is.EqualTo(dto.ExpectedError.Message));
-        Assert.That(error2.ErrorIndex, Is.EqualTo(dto.ExpectedError.ErrorIndex));
+        Assert.That(error2.Message, Is.EqualTo(dto.ExpectedException.Message));
+        Assert.That(error2.Index, Is.EqualTo(dto.ExpectedException.Index));
     }
 
     #endregion

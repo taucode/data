@@ -104,18 +104,21 @@ namespace TauCode.Data
 
         public static int? Extract(ReadOnlySpan<char> input, out Emoji? emoji)
         {
-            var consumed = TryExtract(input, out emoji, out var error);
-            if (error != null)
+            var consumed = TryExtract(input, out emoji, out var exception);
+            if (exception != null)
             {
-                throw error;
+                throw exception;
             }
 
             return consumed;
         }
 
-        public static int? TryExtract(ReadOnlySpan<char> input, out Emoji? emoji, out TextDataExtractionException error)
+        public static int? TryExtract(
+            ReadOnlySpan<char> input,
+            out Emoji? emoji,
+            out TextDataExtractionException exception)
         {
-            return EmojiHelper.Root.TryExtract(input, out emoji, out error);
+            return EmojiHelper.Root.TryExtract(input, out emoji, out exception);
         }
 
         #endregion

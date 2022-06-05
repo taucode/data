@@ -5,9 +5,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Empty input.",
-      "ErrorIndex": null
+      "Index": null
     }
   },
   {
@@ -16,9 +16,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -27,9 +27,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Top Level Domain won't be all-numeric (see RFC 3696 Section 2). I disagree with Dave Child on this one.",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "IPv4 address must be enclosed in '[' and ']'.",
-      "ErrorIndex": 7
+      "Index": 7
     }
   },
   {
@@ -38,9 +38,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: ip need to be []",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "IPv4 address must be enclosed in '[' and ']'.",
-      "ErrorIndex": 10
+      "Index": 10
     }
   },
   {
@@ -49,9 +49,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Mistyped comma instead of dot (replaces old #3 which was the same as #57)",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -60,9 +60,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Escaping can only happen within a quoted string",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -71,9 +71,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Entire address is longer than 254 characters",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Email address is too long.",
-      "ErrorIndex": 255
+      "Index": 255
     }
   },
   {
@@ -82,9 +82,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: No @",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 10
+      "Index": 10
     }
   },
   {
@@ -93,9 +93,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Local part more than 64 characters",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Local part is too long.",
-      "ErrorIndex": 65
+      "Index": 65
     }
   },
   {
@@ -104,9 +104,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Local part starts with a dot",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -115,9 +115,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Local part ends with a dot",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 11
+      "Index": 11
     }
   },
   {
@@ -126,9 +126,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Local part has consecutive dots",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 6
+      "Index": 6
     }
   },
   {
@@ -137,9 +137,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Local part contains unescaped excluded characters",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 7
+      "Index": 7
     }
   },
   {
@@ -148,9 +148,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Local part contains unescaped excluded characters",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Empty quoted string.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -159,9 +159,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Local part cannot end with a backslash",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unclosed quoted string.",
-      "ErrorIndex": 12
+      "Index": 12
     }
   },
   {
@@ -170,9 +170,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Local part is effectively empty",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Empty quoted string.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -181,9 +181,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Local part contains unescaped excluded characters",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -192,9 +192,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: No domain",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 11
+      "Index": 11
     }
   },
   {
@@ -203,9 +203,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Domain exceeds 255 chars",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Host name is too long.",
-      "ErrorIndex": 255
+      "Index": 255
     }
   },
   {
@@ -214,9 +214,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Only char that can precede IPv4 address is ':'",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 12
+      "Index": 12
     }
   },
   {
@@ -225,9 +225,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Can't be interpreted as IPv4 so IPv6 tag is missing",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv4 address.",
-      "ErrorIndex": 12
+      "Index": 12
     }
   },
   {
@@ -236,9 +236,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 tag is missing",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 12
+      "Index": 12
     }
   },
   {
@@ -247,9 +247,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 tag is wrong",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 12
+      "Index": 12
     }
   },
   {
@@ -258,9 +258,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Not enough IPv6 groups",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -269,9 +269,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Too many IPv6 groups (6 max)",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -280,9 +280,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Not enough IPv6 groups",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -291,9 +291,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Too many IPv6 groups (8 max)",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -302,9 +302,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Too many '::' (can be none or one)",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -313,9 +313,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: x is not valid in an IPv6 address",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 30
+      "Index": 30
     }
   },
   {
@@ -324,9 +324,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: 33333 is not a valid group in an IPv6 address",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -335,9 +335,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Label can't begin with a hyphen",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 11
+      "Index": 11
     }
   },
   {
@@ -346,9 +346,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Label can't end with a hyphen",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid domain.",
-      "ErrorIndex": 18
+      "Index": 18
     }
   },
   {
@@ -357,9 +357,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Label can't be longer than 63 octets",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Domain label is too long.",
-      "ErrorIndex": 11
+      "Index": 11
     }
   },
   {
@@ -368,9 +368,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: This example from RFC 3696 was corrected in an erratum",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 3
+      "Index": 3
     }
   },
   {
@@ -379,9 +379,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: This example from RFC 3696 was corrected in an erratum",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 3
+      "Index": 3
     }
   },
   {
@@ -390,9 +390,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Escaping can only happen in a quoted string",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 4
+      "Index": 4
     }
   },
   {
@@ -401,9 +401,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Doug Lovell says this should fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 7
+      "Index": 7
     }
   },
   {
@@ -412,9 +412,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Doug Lovell says this should fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 3
+      "Index": 3
     }
   },
   {
@@ -423,9 +423,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Doug Lovell says this should fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 3
+      "Index": 3
     }
   },
   {
@@ -434,9 +434,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: No local part",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Empty local part.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -445,9 +445,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Doug Lovell says this should fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -456,9 +456,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Doug Lovell says this should fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unclosed quoted string.",
-      "ErrorIndex": 12
+      "Index": 12
     }
   },
   {
@@ -467,9 +467,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Doug Lovell says this should fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unclosed quoted string.",
-      "ErrorIndex": 13
+      "Index": 13
     }
   },
   {
@@ -478,9 +478,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Doug Lovell says this should fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -489,9 +489,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Doug Lovell says this should fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 4
+      "Index": 4
     }
   },
   {
@@ -500,9 +500,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Doug Lovell says this should fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 4
+      "Index": 4
     }
   },
   {
@@ -511,9 +511,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Doug Lovell says this should fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 7
+      "Index": 7
     }
   },
   {
@@ -522,9 +522,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Doug Lovell says this should fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 4
+      "Index": 4
     }
   },
   {
@@ -533,9 +533,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Doug Lovell says this should fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -544,9 +544,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Doug Lovell says this should fail",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid domain.",
-      "ErrorIndex": 7
+      "Index": 7
     }
   },
   {
@@ -555,9 +555,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 13
+      "Index": 13
     }
   },
   {
@@ -566,9 +566,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -577,9 +577,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -588,9 +588,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -599,9 +599,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 9
+      "Index": 9
     }
   },
   {
@@ -610,9 +610,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -621,9 +621,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: No spaces allowed in local part",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 2
+      "Index": 2
     }
   },
   {
@@ -632,9 +632,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Square brackets only allowed within quotes",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -643,9 +643,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Quotes cannot be nested",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 6
+      "Index": 6
     }
   },
   {
@@ -654,9 +654,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Disallowed Characters",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 2
+      "Index": 2
     }
   },
   {
@@ -665,9 +665,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Dave Child says so",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid domain.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -676,9 +676,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Dave Child says so",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid domain.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -687,9 +687,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Dave Child says so",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid domain.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -698,9 +698,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: 255 characters is maximum length for domain. This is 256.",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Domain label is too long.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -709,9 +709,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Dave Child says so",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 21
+      "Index": 21
     }
   },
   {
@@ -720,9 +720,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Dave Child says so",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 20
+      "Index": 20
     }
   },
   {
@@ -731,9 +731,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Phil Haack says so",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 10
+      "Index": 10
     }
   },
   {
@@ -742,9 +742,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Phil Haack says so",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Empty local part.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -753,9 +753,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Quoted string specifically excludes carriage returns",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unescaped special character.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -764,9 +764,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Phil Haack says so",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 6
+      "Index": 6
     }
   },
   {
@@ -775,9 +775,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Phil Haack says so",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -786,9 +786,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Phil Haack says so",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 3
+      "Index": 3
     }
   },
   {
@@ -797,9 +797,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Phil Haack says so",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 11
+      "Index": 11
     }
   },
   {
@@ -808,9 +808,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Phil Haack says so",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -819,9 +819,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Phil Haack says so",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 3
+      "Index": 3
     }
   },
   {
@@ -830,9 +830,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Escaping can only happen in a quoted string",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 6
+      "Index": 6
     }
   },
   {
@@ -841,9 +841,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Contains an unescaped quote",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 9
+      "Index": 9
     }
   },
   {
@@ -852,9 +852,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: RFC 5321 specifies the syntax for address-literal and does not allow escaping",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -863,9 +863,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Contains a zero-length element",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Empty quoted string.",
-      "ErrorIndex": 6
+      "Index": 6
     }
   },
   {
@@ -874,9 +874,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Unquoted string must be an atom",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -885,9 +885,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Was incorrectly given as a valid address in the original RFC 3696",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 3
+      "Index": 3
     }
   },
   {
@@ -896,9 +896,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Was incorrectly given as a valid address in the original RFC 3696",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 4
+      "Index": 4
     }
   },
   {
@@ -907,9 +907,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Was incorrectly given as a valid address in the original RFC 3696",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 4
+      "Index": 4
     }
   },
   {
@@ -918,9 +918,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv4 part contains an invalid octet",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -929,9 +929,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Folding white space can't appear within a quoted pair",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unescaped special character.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -940,9 +940,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: This is a throwaway example from Doug Lovell's article. Actually it's not a valid address.",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 3
+      "Index": 3
     }
   },
   {
@@ -951,9 +951,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Unclosed parenthesis in comment",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 23
+      "Index": 23
     }
   },
   {
@@ -962,9 +962,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Too many closing parentheses",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 12
+      "Index": 12
     }
   },
   {
@@ -973,9 +973,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Backslash at end of comment has nothing to escape",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 20
+      "Index": 20
     }
   },
   {
@@ -984,9 +984,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Canonical example from RFC 5322",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 22
+      "Index": 22
     }
   },
   {
@@ -995,9 +995,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Canonical example from RFC 5322",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 4
+      "Index": 4
     }
   },
   {
@@ -1006,9 +1006,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Can't have a comment or white space except at an element boundary",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 13
+      "Index": 13
     }
   },
   {
@@ -1017,9 +1017,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Can't have comments or white space except at an element boundary",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 25
+      "Index": 25
     }
   },
   {
@@ -1028,9 +1028,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Braces are not properly matched",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 33
+      "Index": 33
     }
   },
   {
@@ -1039,9 +1039,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -1050,9 +1050,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Empty local part.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -1061,9 +1061,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Empty local part.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -1072,9 +1072,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 7
+      "Index": 7
     }
   },
   {
@@ -1083,9 +1083,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid domain.",
-      "ErrorIndex": 4
+      "Index": 4
     }
   },
   {
@@ -1094,9 +1094,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid domain.",
-      "ErrorIndex": 4
+      "Index": 4
     }
   },
   {
@@ -1105,9 +1105,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: extra data outside ip",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 21
+      "Index": 21
     }
   },
   {
@@ -1116,9 +1116,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: not a valid IP",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv4 address.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -1127,9 +1127,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid domain.",
-      "ErrorIndex": 2
+      "Index": 2
     }
   },
   {
@@ -1138,9 +1138,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 2
+      "Index": 2
     }
   },
   {
@@ -1149,9 +1149,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid domain.",
-      "ErrorIndex": 4
+      "Index": 4
     }
   },
   {
@@ -1160,9 +1160,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid domain.",
-      "ErrorIndex": 2
+      "Index": 2
     }
   },
   {
@@ -1171,9 +1171,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid domain.",
-      "ErrorIndex": 4
+      "Index": 4
     }
   },
   {
@@ -1182,9 +1182,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid domain.",
-      "ErrorIndex": 21
+      "Index": 21
     }
   },
   {
@@ -1193,9 +1193,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: ......",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid domain.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -1204,9 +1204,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: This isn't FWS so Dominic Sayers says it's invalid",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 7
+      "Index": 7
     }
   },
   {
@@ -1215,9 +1215,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: obs-fws must have at least one WSP per line",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 7
+      "Index": 7
     }
   },
   {
@@ -1226,9 +1226,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Cannot have unescaped Unicode Character 'NULL' (U+0000)",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unescaped special character.",
-      "ErrorIndex": 14
+      "Index": 14
     }
   },
   {
@@ -1237,9 +1237,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Escaped Unicode Character 'NULL' (U+0000) must be in quoted string",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 11
+      "Index": 11
     }
   },
   {
@@ -1248,9 +1248,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 12
+      "Index": 12
     }
   },
   {
@@ -1259,9 +1259,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1270,9 +1270,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1281,9 +1281,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1292,9 +1292,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1303,9 +1303,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1314,9 +1314,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1325,9 +1325,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1336,9 +1336,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1347,9 +1347,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1358,9 +1358,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1369,9 +1369,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1380,9 +1380,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1391,9 +1391,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1402,9 +1402,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1413,9 +1413,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1424,9 +1424,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 47
+      "Index": 47
     }
   },
   {
@@ -1435,9 +1435,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1446,9 +1446,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1457,9 +1457,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1468,9 +1468,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1479,9 +1479,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1490,9 +1490,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1501,9 +1501,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1512,9 +1512,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1523,9 +1523,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1534,9 +1534,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1545,9 +1545,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: IPv6 authority is RFC 4291",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid IPv6 address specification.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1556,9 +1556,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: Address has a newline at the end",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 16
+      "Index": 16
     }
   },
   {
@@ -1567,9 +1567,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "[ak] total local part exceeds 64 chars. Tag: 044523bc-6c75-4ef4-bac0-51ec9628fc0a",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Local part is too long.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -1578,9 +1578,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Comment: [ak] two hosts separated by comment",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 22
+      "Index": 22
     }
   },
   {
@@ -1589,9 +1589,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "[ak] total local part exceeds 64 chars. Tag: 044523bc-6c75-4ef4-bac0-51ec9628fc0a",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 13
+      "Index": 13
     }
   },
   {
@@ -1600,9 +1600,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1611,9 +1611,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 17
+      "Index": 17
     }
   },
   {
@@ -1622,9 +1622,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 31
+      "Index": 31
     }
   },
   {
@@ -1633,9 +1633,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 20
+      "Index": 20
     }
   },
   {
@@ -1644,9 +1644,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 11
+      "Index": 11
     }
   },
   {
@@ -1655,9 +1655,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 13
+      "Index": 13
     }
   },
   {
@@ -1666,9 +1666,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 23
+      "Index": 23
     }
   },
   {
@@ -1677,9 +1677,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 23
+      "Index": 23
     }
   },
   {
@@ -1688,9 +1688,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 23
+      "Index": 23
     }
   },
   {
@@ -1699,9 +1699,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 13
+      "Index": 13
     }
   },
   {
@@ -1710,9 +1710,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 8
+      "Index": 8
     }
   },
   {
@@ -1721,9 +1721,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 5
+      "Index": 5
     }
   },
   {
@@ -1732,9 +1732,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 12
+      "Index": 12
     }
   },
   {
@@ -1743,9 +1743,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 12
+      "Index": 12
     }
   },
   {
@@ -1754,9 +1754,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected end.",
-      "ErrorIndex": 13
+      "Index": 13
     }
   },
   {
@@ -1765,9 +1765,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 13
+      "Index": 13
     }
   },
   {
@@ -1776,9 +1776,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Low ascii in comment",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 15
+      "Index": 15
     }
   },
   {
@@ -1787,9 +1787,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Escaped low ascii in comment",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 16
+      "Index": 16
     }
   },
   {
@@ -1798,9 +1798,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unescaped special character.",
-      "ErrorIndex": 16
+      "Index": 16
     }
   },
   {
@@ -1809,9 +1809,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Escaped low ascii in comment (another example)",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 16
+      "Index": 16
     }
   },
   {
@@ -1820,9 +1820,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Un-escaped low ascii in comment",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 15
+      "Index": 15
     }
   },
   {
@@ -1831,9 +1831,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Escaped low ascii in quoted string",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 23
+      "Index": 23
     }
   },
   {
@@ -1842,9 +1842,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Un-escaped low ascii in quoted string",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 22
+      "Index": 22
     }
   },
   {
@@ -1853,9 +1853,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "low ascii in local part",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 4
+      "Index": 4
     }
   },
   {
@@ -1864,9 +1864,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "low ascii in host",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Unexpected character.",
-      "ErrorIndex": 11
+      "Index": 11
     }
   },
   {
@@ -1875,9 +1875,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Domain is too long (254 chars)",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Host name is too long.",
-      "ErrorIndex": 257
+      "Index": 257
     }
   },
   {
@@ -1886,9 +1886,9 @@
     "ExpectedResult": null,
     "ExpectedEmailAddress": null,
     "Comment": "Domain is 253 which is ok, but total email address length is 255 which is not acceptable (254 is max)",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Email address is too long.",
-      "ErrorIndex": 255
+      "Index": 255
     }
   }
 ]

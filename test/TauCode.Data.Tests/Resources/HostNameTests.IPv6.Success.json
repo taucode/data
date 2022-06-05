@@ -6,7 +6,7 @@
     "ExpectedHostName": "::1",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "loopback, compressed, non-routable",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 1,
@@ -15,7 +15,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "unspecified, compressed, non-routable",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 2,
@@ -24,7 +24,7 @@
     "ExpectedHostName": "::1",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "loopback, full",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 3,
@@ -33,7 +33,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "unspecified, full",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 4,
@@ -42,7 +42,7 @@
     "ExpectedHostName": "2001:db8::8:800:200c:417a",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "unicast, full",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 5,
@@ -51,7 +51,7 @@
     "ExpectedHostName": "ff01::101",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "multicast, full",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 6,
@@ -60,7 +60,7 @@
     "ExpectedHostName": "2001:db8::8:800:200c:417a",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "unicast, compressed",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 7,
@@ -69,7 +69,7 @@
     "ExpectedHostName": "ff01::101",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "multicast, compressed",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 8,
@@ -78,7 +78,7 @@
     "ExpectedHostName": "fe80::217:f2ff:fe07:ed62",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 9,
@@ -87,7 +87,7 @@
     "ExpectedHostName": "2001:0:1234::c1c0:abcd:876",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 10,
@@ -96,7 +96,7 @@
     "ExpectedHostName": "3ffe:b00::1:0:0:a",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 11,
@@ -105,7 +105,7 @@
     "ExpectedHostName": "ff02::1",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 12,
@@ -114,7 +114,7 @@
     "ExpectedHostName": "::1",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 13,
@@ -123,7 +123,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 14,
@@ -132,7 +132,7 @@
     "ExpectedHostName": "2::10",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 15,
@@ -141,7 +141,7 @@
     "ExpectedHostName": "ff02::1",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 16,
@@ -150,7 +150,7 @@
     "ExpectedHostName": "fe80::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 17,
@@ -159,7 +159,7 @@
     "ExpectedHostName": "2002::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 18,
@@ -168,7 +168,7 @@
     "ExpectedHostName": "2001:db8::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 19,
@@ -177,7 +177,7 @@
     "ExpectedHostName": "2001:db8:1234::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 20,
@@ -186,7 +186,7 @@
     "ExpectedHostName": "::ffff:0:0",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 21,
@@ -195,7 +195,7 @@
     "ExpectedHostName": "::1",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 22,
@@ -204,7 +204,7 @@
     "ExpectedHostName": "1:2:3:4:5:6:7:8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 23,
@@ -213,7 +213,7 @@
     "ExpectedHostName": "1:2:3:4:5:6:0:8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 24,
@@ -222,7 +222,7 @@
     "ExpectedHostName": "1:2:3:4:5::8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 25,
@@ -231,7 +231,7 @@
     "ExpectedHostName": "1:2:3:4::8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 26,
@@ -240,7 +240,7 @@
     "ExpectedHostName": "1:2:3::8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 27,
@@ -249,7 +249,7 @@
     "ExpectedHostName": "1:2::8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 28,
@@ -258,7 +258,7 @@
     "ExpectedHostName": "1::8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 29,
@@ -267,7 +267,7 @@
     "ExpectedHostName": "1:0:2:3:4:5:6:7",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 30,
@@ -276,7 +276,7 @@
     "ExpectedHostName": "1::2:3:4:5:6",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 31,
@@ -285,7 +285,7 @@
     "ExpectedHostName": "1::2:3:4:5",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 32,
@@ -294,7 +294,7 @@
     "ExpectedHostName": "1::2:3:4",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 33,
@@ -303,7 +303,7 @@
     "ExpectedHostName": "1::2:3",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 34,
@@ -312,7 +312,7 @@
     "ExpectedHostName": "1::8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 35,
@@ -321,7 +321,7 @@
     "ExpectedHostName": "0:2:3:4:5:6:7:8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 36,
@@ -330,7 +330,7 @@
     "ExpectedHostName": "::2:3:4:5:6:7",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 37,
@@ -339,7 +339,7 @@
     "ExpectedHostName": "::2:3:4:5:6",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 38,
@@ -348,7 +348,7 @@
     "ExpectedHostName": "::2:3:4:5",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 39,
@@ -357,7 +357,7 @@
     "ExpectedHostName": "::2:3:4",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 40,
@@ -366,7 +366,7 @@
     "ExpectedHostName": "::0.2.0.3",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 41,
@@ -375,7 +375,7 @@
     "ExpectedHostName": "::8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 42,
@@ -384,7 +384,7 @@
     "ExpectedHostName": "1:2:3:4:5:6::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 43,
@@ -393,7 +393,7 @@
     "ExpectedHostName": "1:2:3:4:5::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 44,
@@ -402,7 +402,7 @@
     "ExpectedHostName": "1:2:3:4::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 45,
@@ -411,7 +411,7 @@
     "ExpectedHostName": "1:2:3::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 46,
@@ -420,7 +420,7 @@
     "ExpectedHostName": "1:2::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 47,
@@ -429,7 +429,7 @@
     "ExpectedHostName": "1::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 48,
@@ -438,7 +438,7 @@
     "ExpectedHostName": "1:2:3:4:5:0:7:8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 49,
@@ -447,7 +447,7 @@
     "ExpectedHostName": "1:2:3:4::7:8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 50,
@@ -456,7 +456,7 @@
     "ExpectedHostName": "1:2:3::7:8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 51,
@@ -465,7 +465,7 @@
     "ExpectedHostName": "1:2::7:8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 52,
@@ -474,7 +474,7 @@
     "ExpectedHostName": "1::7:8",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 53,
@@ -483,7 +483,7 @@
     "ExpectedHostName": "1:2:3:4:5:6:102:304",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 54,
@@ -492,7 +492,7 @@
     "ExpectedHostName": "1:2:3:4:5:0:102:304",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 55,
@@ -501,7 +501,7 @@
     "ExpectedHostName": "1:2:3:4::102:304",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 56,
@@ -510,7 +510,7 @@
     "ExpectedHostName": "1:2:3::102:304",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 57,
@@ -519,7 +519,7 @@
     "ExpectedHostName": "1:2::102:304",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 58,
@@ -528,7 +528,7 @@
     "ExpectedHostName": "1::102:304",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 59,
@@ -537,7 +537,7 @@
     "ExpectedHostName": "1:2:3:4:0:5:102:304",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 60,
@@ -546,7 +546,7 @@
     "ExpectedHostName": "1:2:3::5:102:304",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 61,
@@ -555,7 +555,7 @@
     "ExpectedHostName": "1:2::5:102:304",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 62,
@@ -564,7 +564,7 @@
     "ExpectedHostName": "1::5:102:304",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 63,
@@ -573,7 +573,7 @@
     "ExpectedHostName": "1::5:b16:212c",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 64,
@@ -582,7 +582,7 @@
     "ExpectedHostName": "fe80::217:f2ff:fe07:ed62",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 65,
@@ -591,7 +591,7 @@
     "ExpectedHostName": "::ffff:192.168.1.26",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 66,
@@ -600,7 +600,7 @@
     "ExpectedHostName": "::ffff:192.168.1.1",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 67,
@@ -609,7 +609,7 @@
     "ExpectedHostName": "::13.1.68.3",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "IPv4-compatible IPv6 address, full, deprecated",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 68,
@@ -618,7 +618,7 @@
     "ExpectedHostName": "::ffff:129.144.52.38",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "IPv4-mapped IPv6 address, full",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 69,
@@ -627,7 +627,7 @@
     "ExpectedHostName": "::13.1.68.3",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "IPv4-compatible IPv6 address, compressed, deprecated",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 70,
@@ -636,7 +636,7 @@
     "ExpectedHostName": "::ffff:129.144.52.38",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "IPv4-mapped IPv6 address, compressed",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 71,
@@ -645,7 +645,7 @@
     "ExpectedHostName": "fe80::204:61ff:fe9d:f156",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 72,
@@ -654,7 +654,7 @@
     "ExpectedHostName": "fe80::204:61ff:fe9d:f156",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 73,
@@ -663,7 +663,7 @@
     "ExpectedHostName": "::ffff:12.34.56.78",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 74,
@@ -672,7 +672,7 @@
     "ExpectedHostName": "::ffff:192.0.2.128",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "# but this is OK, since there's a single digit",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 75,
@@ -681,7 +681,7 @@
     "ExpectedHostName": "fe80::204:61ff:fe9d:f156",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 76,
@@ -690,7 +690,7 @@
     "ExpectedHostName": "fe80::204:61ff:fe9d:f156",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 77,
@@ -699,7 +699,7 @@
     "ExpectedHostName": "fe80::204:61ff:fe9d:f156",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 78,
@@ -708,7 +708,7 @@
     "ExpectedHostName": "::1",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 79,
@@ -717,7 +717,7 @@
     "ExpectedHostName": "fe80::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 80,
@@ -726,7 +726,7 @@
     "ExpectedHostName": "fe80::1",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 81,
@@ -735,7 +735,7 @@
     "ExpectedHostName": "::ffff:192.0.2.128",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 82,
@@ -744,7 +744,7 @@
     "ExpectedHostName": "2001:db8:85a3::8a2e:370:7334",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 83,
@@ -753,7 +753,7 @@
     "ExpectedHostName": "2001:db8:85a3::8a2e:370:7334",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 84,
@@ -762,7 +762,7 @@
     "ExpectedHostName": "2001:db8:85a3::8a2e:370:7334",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 85,
@@ -771,7 +771,7 @@
     "ExpectedHostName": "2001:db8::1428:57ab",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 86,
@@ -780,7 +780,7 @@
     "ExpectedHostName": "2001:db8::1428:57ab",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 87,
@@ -789,7 +789,7 @@
     "ExpectedHostName": "2001:db8::1428:57ab",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 88,
@@ -798,7 +798,7 @@
     "ExpectedHostName": "2001:db8::1428:57ab",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 89,
@@ -807,7 +807,7 @@
     "ExpectedHostName": "2001:db8::1428:57ab",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 90,
@@ -816,7 +816,7 @@
     "ExpectedHostName": "2001:db8::1428:57ab",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 91,
@@ -825,7 +825,7 @@
     "ExpectedHostName": "::1",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 92,
@@ -834,7 +834,7 @@
     "ExpectedHostName": "::1",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 93,
@@ -843,7 +843,7 @@
     "ExpectedHostName": "::ffff:12.34.56.78",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 94,
@@ -852,7 +852,7 @@
     "ExpectedHostName": "2001:db8:1234::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 95,
@@ -861,7 +861,7 @@
     "ExpectedHostName": "2001:db8:1234:ffff:ffff:ffff:ffff:ffff",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 96,
@@ -870,7 +870,7 @@
     "ExpectedHostName": "2001:db8:a::123",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 97,
@@ -879,7 +879,7 @@
     "ExpectedHostName": "fe80::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 98,
@@ -888,7 +888,7 @@
     "ExpectedHostName": "1111:2222:3333:4444:5555:6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 99,
@@ -897,7 +897,7 @@
     "ExpectedHostName": "1111:2222:3333:4444:5555:6666:7777:0",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 100,
@@ -906,7 +906,7 @@
     "ExpectedHostName": "1111:2222:3333:4444:5555:6666::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 101,
@@ -915,7 +915,7 @@
     "ExpectedHostName": "1111:2222:3333:4444:5555::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 102,
@@ -924,7 +924,7 @@
     "ExpectedHostName": "1111:2222:3333:4444::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 103,
@@ -933,7 +933,7 @@
     "ExpectedHostName": "1111:2222:3333::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 104,
@@ -942,7 +942,7 @@
     "ExpectedHostName": "1111:2222::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 105,
@@ -951,7 +951,7 @@
     "ExpectedHostName": "1111::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 106,
@@ -960,7 +960,7 @@
     "ExpectedHostName": "1111:2222:3333:4444:5555:6666:0:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 107,
@@ -969,7 +969,7 @@
     "ExpectedHostName": "1111:2222:3333:4444:5555::8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 108,
@@ -978,7 +978,7 @@
     "ExpectedHostName": "1111:2222:3333:4444::8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 109,
@@ -987,7 +987,7 @@
     "ExpectedHostName": "1111:2222:3333::8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 110,
@@ -996,7 +996,7 @@
     "ExpectedHostName": "1111:2222::8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 111,
@@ -1005,7 +1005,7 @@
     "ExpectedHostName": "1111::8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 112,
@@ -1014,7 +1014,7 @@
     "ExpectedHostName": "::8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 113,
@@ -1023,7 +1023,7 @@
     "ExpectedHostName": "1111:2222:3333:4444:5555:0:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 114,
@@ -1032,7 +1032,7 @@
     "ExpectedHostName": "1111:2222:3333:4444::7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 115,
@@ -1041,7 +1041,7 @@
     "ExpectedHostName": "1111:2222:3333::7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 116,
@@ -1050,7 +1050,7 @@
     "ExpectedHostName": "1111:2222::7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 117,
@@ -1059,7 +1059,7 @@
     "ExpectedHostName": "1111::7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 118,
@@ -1068,7 +1068,7 @@
     "ExpectedHostName": "::119.119.136.136",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 119,
@@ -1077,7 +1077,7 @@
     "ExpectedHostName": "1111:2222:3333:4444:0:6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 120,
@@ -1086,7 +1086,7 @@
     "ExpectedHostName": "1111:2222:3333::6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 121,
@@ -1095,7 +1095,7 @@
     "ExpectedHostName": "1111:2222::6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 122,
@@ -1104,7 +1104,7 @@
     "ExpectedHostName": "1111::6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 123,
@@ -1113,7 +1113,7 @@
     "ExpectedHostName": "::6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 124,
@@ -1122,7 +1122,7 @@
     "ExpectedHostName": "1111:2222:3333:0:5555:6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 125,
@@ -1131,7 +1131,7 @@
     "ExpectedHostName": "1111:2222::5555:6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 126,
@@ -1140,7 +1140,7 @@
     "ExpectedHostName": "1111::5555:6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 127,
@@ -1149,7 +1149,7 @@
     "ExpectedHostName": "::5555:6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 128,
@@ -1158,7 +1158,7 @@
     "ExpectedHostName": "1111:2222:0:4444:5555:6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 129,
@@ -1167,7 +1167,7 @@
     "ExpectedHostName": "1111::4444:5555:6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 130,
@@ -1176,7 +1176,7 @@
     "ExpectedHostName": "::4444:5555:6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 131,
@@ -1185,7 +1185,7 @@
     "ExpectedHostName": "1111:0:3333:4444:5555:6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 132,
@@ -1194,7 +1194,7 @@
     "ExpectedHostName": "::3333:4444:5555:6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 133,
@@ -1203,7 +1203,7 @@
     "ExpectedHostName": "0:2222:3333:4444:5555:6666:7777:8888",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 134,
@@ -1212,7 +1212,7 @@
     "ExpectedHostName": "1111:2222:3333:4444:5555:6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 135,
@@ -1221,7 +1221,7 @@
     "ExpectedHostName": "1111:2222:3333:4444:5555:0:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 136,
@@ -1230,7 +1230,7 @@
     "ExpectedHostName": "1111:2222:3333:4444::7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 137,
@@ -1239,7 +1239,7 @@
     "ExpectedHostName": "1111:2222:3333::7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 138,
@@ -1248,7 +1248,7 @@
     "ExpectedHostName": "1111:2222::7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 139,
@@ -1257,7 +1257,7 @@
     "ExpectedHostName": "1111::7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 140,
@@ -1266,7 +1266,7 @@
     "ExpectedHostName": "::123.123.123.123",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 141,
@@ -1275,7 +1275,7 @@
     "ExpectedHostName": "1111:2222:3333:4444:0:6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 142,
@@ -1284,7 +1284,7 @@
     "ExpectedHostName": "1111:2222:3333::6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 143,
@@ -1293,7 +1293,7 @@
     "ExpectedHostName": "1111:2222::6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 144,
@@ -1302,7 +1302,7 @@
     "ExpectedHostName": "1111::6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 145,
@@ -1311,7 +1311,7 @@
     "ExpectedHostName": "::6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 146,
@@ -1320,7 +1320,7 @@
     "ExpectedHostName": "1111:2222:3333:0:5555:6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 147,
@@ -1329,7 +1329,7 @@
     "ExpectedHostName": "1111:2222::5555:6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 148,
@@ -1338,7 +1338,7 @@
     "ExpectedHostName": "1111::5555:6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 149,
@@ -1347,7 +1347,7 @@
     "ExpectedHostName": "::5555:6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 150,
@@ -1356,7 +1356,7 @@
     "ExpectedHostName": "1111:2222:0:4444:5555:6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 151,
@@ -1365,7 +1365,7 @@
     "ExpectedHostName": "1111::4444:5555:6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 152,
@@ -1374,7 +1374,7 @@
     "ExpectedHostName": "::4444:5555:6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 153,
@@ -1383,7 +1383,7 @@
     "ExpectedHostName": "1111:0:3333:4444:5555:6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 154,
@@ -1392,7 +1392,7 @@
     "ExpectedHostName": "0:2222:3333:4444:5555:6666:7b7b:7b7b",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 155,
@@ -1401,7 +1401,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 156,
@@ -1410,7 +1410,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 157,
@@ -1419,7 +1419,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 158,
@@ -1428,7 +1428,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 159,
@@ -1437,7 +1437,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 160,
@@ -1446,7 +1446,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 161,
@@ -1455,7 +1455,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 162,
@@ -1464,7 +1464,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 163,
@@ -1473,7 +1473,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 164,
@@ -1482,7 +1482,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 165,
@@ -1491,7 +1491,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 166,
@@ -1500,7 +1500,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 167,
@@ -1509,7 +1509,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 168,
@@ -1518,7 +1518,7 @@
     "ExpectedHostName": "::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 169,
@@ -1527,7 +1527,7 @@
     "ExpectedHostName": "0:a:b:c:d:e:f:0",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 170,
@@ -1536,7 +1536,7 @@
     "ExpectedHostName": "::a:b:c:d:e:f",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "# syntactically correct, but bad form (::0:... could be combined)",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 171,
@@ -1545,6 +1545,6 @@
     "ExpectedHostName": "a:b:c:d:e:f::",
     "ExpectedHostNameKind": "IPv6",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   }
 ]

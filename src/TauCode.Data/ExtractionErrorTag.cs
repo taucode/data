@@ -1,6 +1,6 @@
 ﻿namespace TauCode.Data
 {
-    internal enum ExtractionError
+    internal enum ExtractionErrorTag
     {
         // Common
         EmptyInput = 1000,

@@ -16,10 +16,10 @@ namespace TauCode.Data.Exceptions
         {
         }
 
-        public TextDataExtractionException(string message, int? errorIndex)
+        public TextDataExtractionException(string message, int? index)
             : base(message)
         {
-            this.ErrorIndex = errorIndex;
+            this.Index = index;
         }
 
         public TextDataExtractionException(string message, Exception inner)
@@ -27,10 +27,10 @@ namespace TauCode.Data.Exceptions
         {
         }
 
-        public TextDataExtractionException(string message, int? errorIndex, Exception inner)
+        public TextDataExtractionException(string message, int? index, Exception inner)
             : base(message, inner)
         {
-            this.ErrorIndex = errorIndex;
+            this.Index = index;
         }
 
         protected TextDataExtractionException(
@@ -39,8 +39,8 @@ namespace TauCode.Data.Exceptions
         {
         }
 
-        public int? ErrorIndex { get; }
+        public int? Index { get; }
 
-        internal ExtractionError? ExtractionError;
+        internal ExtractionErrorTag? ExtractionError;
     }
 }

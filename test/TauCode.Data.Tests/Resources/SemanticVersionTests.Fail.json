@@ -10,9 +10,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Empty input.",
-      "ErrorIndex": null
+      "Index": null
     }
   },
   {
@@ -26,9 +26,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -42,9 +42,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -58,9 +58,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -74,9 +74,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -90,9 +90,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -106,9 +106,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -122,9 +122,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -138,9 +138,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -154,9 +154,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -170,9 +170,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -186,9 +186,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -202,9 +202,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -218,9 +218,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -234,9 +234,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -250,9 +250,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -266,9 +266,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -282,9 +282,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -298,9 +298,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -314,9 +314,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   },
   {
@@ -330,9 +330,9 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Not full form",
-    "ExpectedError": {
+    "ExpectedException": {
       "Message": "Invalid semantic version.",
-      "ErrorIndex": 0
+      "Index": 0
     }
   }
 ]

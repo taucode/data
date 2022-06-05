@@ -9,7 +9,7 @@ public class EmailAddressTestDto
     public int? ExpectedResult { get; set; }
     public string ExpectedEmailAddress { get; set; }
     public string Comment { get; set; }
-    public ErrorDto ExpectedError { get; set; }
+    public ExceptionDto ExpectedException { get; set; }
 
     public override string ToString()
     {

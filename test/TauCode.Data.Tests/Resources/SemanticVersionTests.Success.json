@@ -10,7 +10,7 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": null,
     "Comment": "Release version",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 1,
@@ -23,7 +23,7 @@
     "ExpectedPreRelease": "alpha",
     "ExpectedBuildMetadata": null,
     "Comment": "Pre-release, no metadata",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 2,
@@ -36,7 +36,7 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": "build.0123",
     "Comment": "Release, with metadata",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 3,
@@ -49,7 +49,7 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": "-build.000.---",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 4,
@@ -62,7 +62,7 @@
     "ExpectedPreRelease": null,
     "ExpectedBuildMetadata": "-",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 5,
@@ -75,7 +75,7 @@
     "ExpectedPreRelease": "rc2.0.20-.--",
     "ExpectedBuildMetadata": null,
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   },
   {
     "Index": 6,
@@ -88,6 +88,6 @@
     "ExpectedPreRelease": "rc.700---",
     "ExpectedBuildMetadata": "d",
     "Comment": "",
-    "ExpectedError": null
+    "ExpectedException": null
   }
 ]

@@ -14,7 +14,7 @@ public class SemanticVersionTestDto
     public string ExpectedPreRelease { get; set; }
     public string ExpectedBuildMetadata { get; set; }
     public string Comment { get; set; }
-    public ErrorDto ExpectedError { get; set; }
+    public ExceptionDto ExpectedException { get; set; }
 
 
     public override string ToString()

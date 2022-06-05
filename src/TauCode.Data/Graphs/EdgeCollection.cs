@@ -31,6 +31,11 @@ namespace TauCode.Data.Graphs
             _edges.Add(edge);
         }
 
+        internal void RemoveEdge(IEdge edge)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region IReadOnlyCollection<IEdge> Members

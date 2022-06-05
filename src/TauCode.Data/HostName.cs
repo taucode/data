@@ -25,7 +25,7 @@ namespace TauCode.Data
                 UseStd3AsciiRules = true,
             };
 
-            // todo: ut all. got into error.
+            // todo: ut all. got into er-ror.
             var list = new List<char>
             {
                 '\r',
@@ -90,24 +90,24 @@ namespace TauCode.Data
 
         public static HostName Parse(ReadOnlySpan<char> input)
         {
-            var parsed = TryParse(input, out var hostName, out var error);
+            var parsed = TryParse(input, out var hostName, out var exception);
             if (parsed)
             {
                 return hostName;
             }
 
-            throw error;
+            throw exception;
         }
 
         public static bool TryParse(
             ReadOnlySpan<char> input,
             out HostName hostName,
-            out TextDataExtractionException error)
+            out TextDataExtractionException exception)
         {
             var consumed = TryExtract(
                 input,
                 out hostName,
-                out error,
+                out exception,
                 Helper.EmptyChars);
 
             return consumed.HasValue;
@@ -125,7 +125,7 @@ namespace TauCode.Data
             var consumed = TryExtractInternal(
                 input,
                 out hostName,
-                out var error,
+                out var exception,
                 terminatingChars);
 
             if (consumed.HasValue)
@@ -133,19 +133,19 @@ namespace TauCode.Data
                 return consumed;
             }
 
-            throw error;
+            throw exception;
         }
 
         public static int? TryExtract(
             ReadOnlySpan<char> input,
             out HostName hostName,
-            out TextDataExtractionException error,
+            out TextDataExtractionException exception,
             HashSet<char> terminatingChars = null)
         {
             return TryExtractInternal(
                 input,
                 out hostName,
-                out error,
+                out exception,
                 terminatingChars);
         }
 
@@ -156,7 +156,7 @@ namespace TauCode.Data
         public static int? TryExtractInternal(
             ReadOnlySpan<char> input,
             out HostName hostName,
-            out TextDataExtractionException error,
+            out TextDataExtractionException exception,
             HashSet<char> terminatingChars = null)
         {
             terminatingChars ??= AcceptableTerminatingChars;
@@ -172,7 +172,7 @@ namespace TauCode.Data
             if (input.IsEmpty)
             {
                 hostName = default;
-                error = Helper.CreateException(ExtractionError.EmptyInput, null); // todo ut
+                exception = Helper.CreateException(ExtractionErrorTag.EmptyInput, null); // todo ut
                 return null;
             }
 
@@ -201,7 +201,7 @@ namespace TauCode.Data
                     {
                         // these chars cannot be last ones
                         hostName = default;
-                        error = Helper.CreateException(ExtractionError.UnexpectedEnd, pos);
+                        exception = Helper.CreateException(ExtractionErrorTag.UnexpectedEnd, pos);
                         return null;
                     }
 
@@ -211,7 +211,7 @@ namespace TauCode.Data
                 if (pos == MaxLength)
                 {
                     hostName = default;
-                    error = Helper.CreateException(ExtractionError.InputTooLong, pos);
+                    exception = Helper.CreateException(ExtractionErrorTag.InputTooLong, pos);
                     return null;
                 }
 
@@ -227,7 +227,7 @@ namespace TauCode.Data
                     else
                     {
                         hostName = default;
-                        error = Helper.CreateException(ExtractionError.InvalidIPv6Address, 0);
+                        exception = Helper.CreateException(ExtractionErrorTag.InvalidIPv6Address, 0);
                         return null;
                     }
                 }
@@ -239,7 +239,7 @@ namespace TauCode.Data
                     if (pos == 0)
                     {
                         hostName = default;
-                        error = Helper.CreateException(ExtractionError.EmptyInput, null); // note: not '0'
+                        exception = Helper.CreateException(ExtractionErrorTag.EmptyInput, null); // note: not '0'
                         return null;
                     }
 
@@ -252,7 +252,7 @@ namespace TauCode.Data
                     {
                         // these chars cannot be last ones
                         hostName = default;
-                        error = Helper.CreateException(ExtractionError.UnexpectedEnd, pos);
+                        exception = Helper.CreateException(ExtractionErrorTag.UnexpectedEnd, pos);
                         return null;
                     }
 
@@ -271,7 +271,7 @@ namespace TauCode.Data
                     if (badSituationForPeriod)
                     {
                         hostName = default;
-                        error = Helper.CreateException(ExtractionError.UnexpectedChar, pos);
+                        exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, pos);
                         return null;
                     }
 
@@ -298,7 +298,7 @@ namespace TauCode.Data
                         {
                             // got colon, but now have a latin char that is not a hex digit => error.
                             hostName = default;
-                            error = Helper.CreateException(ExtractionError.UnexpectedChar, pos);
+                            exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, pos);
                             return null;
                         }
                     }
@@ -317,7 +317,7 @@ namespace TauCode.Data
                 {
                     if (!canBeIPv6)
                     {
-                        error = Helper.CreateException(ExtractionError.UnexpectedChar, pos);
+                        exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, pos);
                         hostName = default;
                         return null;
                     }
@@ -325,7 +325,7 @@ namespace TauCode.Data
                     if (periodCount > 0)
                     {
                         // ':' cannot follow a '.'
-                        error = Helper.CreateException(ExtractionError.UnexpectedChar, pos);
+                        exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, pos);
                         hostName = default;
                         return null;
                     }
@@ -347,7 +347,7 @@ namespace TauCode.Data
                     if (badSituationForHyphen)
                     {
                         hostName = default;
-                        error = Helper.CreateException(ExtractionError.UnexpectedChar, pos);
+                        exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, pos);
                         return null;
                     }
 
@@ -371,7 +371,7 @@ namespace TauCode.Data
                     if (gotColon)
                     {
                         hostName = default;
-                        error = Helper.CreateException(ExtractionError.UnexpectedChar, pos);
+                        exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, pos);
                         return null;
                     }
 
@@ -392,14 +392,14 @@ namespace TauCode.Data
                 {
                     // wrong char for a host name.
                     hostName = default;
-                    error = Helper.CreateException(ExtractionError.UnexpectedChar, pos);
+                    exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, pos);
                     return null;
                 }
 
                 if (currentAsciiLabelLength > Helper.MaxAsciiLabelLength)
                 {
                     hostName = default;
-                    error = Helper.CreateException(ExtractionError.DomainLabelTooLong, pos);
+                    exception = Helper.CreateException(ExtractionErrorTag.DomainLabelTooLong, pos);
                     return null;
                 }
 
@@ -411,7 +411,7 @@ namespace TauCode.Data
             {
                 if (!canBeIPv6) // todo resharper tells always false
                 {
-                    error = Helper.CreateException(ExtractionError.InvalidIPv6Address, 0);
+                    exception = Helper.CreateException(ExtractionErrorTag.InvalidIPv6Address, 0);
                     hostName = default;
                     return null;
                 }
@@ -422,13 +422,13 @@ namespace TauCode.Data
                 if (parsed)
                 {
                     hostName = new HostName(HostNameKind.IPv6, ipAddress.ToString());
-                    error = null;
+                    exception = null;
                     return pos;
                 }
                 else
                 {
                     hostName = default;
-                    error = Helper.CreateException(ExtractionError.InvalidIPv6Address, 0);
+                    exception = Helper.CreateException(ExtractionErrorTag.InvalidIPv6Address, 0);
                     return null;
                 }
             }
@@ -443,12 +443,12 @@ namespace TauCode.Data
                     if (parsed)
                     {
                         hostName = new HostName(HostNameKind.IPv4, ipAddress.ToString());
-                        error = null;
+                        exception = null;
                         return pos;
                     }
                     else
                     {
-                        error = Helper.CreateException(ExtractionError.InvalidIPv4Address, 0);
+                        exception = Helper.CreateException(ExtractionErrorTag.InvalidIPv4Address, 0);
                         hostName = default;
                         return null;
                     }
@@ -457,7 +457,7 @@ namespace TauCode.Data
                 {
                     // only numeric segments, but their count not equal to 4
                     hostName = default;
-                    error = Helper.CreateException(ExtractionError.InvalidHostName, 0);
+                    exception = Helper.CreateException(ExtractionErrorTag.InvalidHostName, 0);
                     return null;
                 }
             }
@@ -466,7 +466,7 @@ namespace TauCode.Data
             if (canBeAscii)
             {
                 hostName = new HostName(HostNameKind.Regular, input[..pos].ToString().ToLowerInvariant());
-                error = null;
+                exception = null;
                 return pos;
             }
 
@@ -475,13 +475,13 @@ namespace TauCode.Data
             {
                 var ascii = Idn.GetAscii(input[..pos].ToString().ToLowerInvariant());
                 hostName = new HostName(HostNameKind.Internationalized, ascii);
-                error = null;
+                exception = null;
                 return pos;
             }
             catch
             {
                 hostName = default;
-                error = Helper.CreateException(ExtractionError.InvalidHostName, 0);
+                exception = Helper.CreateException(ExtractionErrorTag.InvalidHostName, 0);
                 return null;
             }
         }

@@ -369,12 +369,12 @@ namespace TauCode.Data
             var result = TryExtract(
                 input,
                 out semanticVersion,
-                out var error,
+                out var exception,
                 terminatingChars);
 
-            if (error != null)
+            if (exception != null)
             {
-                throw error;
+                throw exception;
             }
 
             return result;
@@ -383,7 +383,7 @@ namespace TauCode.Data
         public static int TryExtract(
             ReadOnlySpan<char> input,
             out SemanticVersion semanticVersion,
-            out TextDataExtractionException error,
+            out TextDataExtractionException exception,
             HashSet<char> terminatingChars = null)
         {
             // todo check terminatingChars
@@ -408,7 +408,7 @@ namespace TauCode.Data
 
 
                 semanticVersion = null;
-                error = Helper.CreateException(ExtractionError.UnexpectedChar, pos);
+                exception = Helper.CreateException(ExtractionErrorTag.UnexpectedChar, pos);
 
                 return 0;
             }
@@ -416,7 +416,7 @@ namespace TauCode.Data
             if (pos == 0)
             {
                 semanticVersion = null;
-                error = Helper.CreateException(ExtractionError.EmptyInput, null);
+                exception = Helper.CreateException(ExtractionErrorTag.EmptyInput, null);
                 return 0;
             }
 
@@ -426,7 +426,7 @@ namespace TauCode.Data
             if (!match.Success)
             {
                 semanticVersion = null;
-                error = Helper.CreateException(ExtractionError.InvalidSemanticVersion, 0);
+                exception = Helper.CreateException(ExtractionErrorTag.InvalidSemanticVersion, 0);
                 return 0;
             }
 
@@ -449,7 +449,7 @@ namespace TauCode.Data
             catch
             {
                 semanticVersion = null;
-                error = Helper.CreateException(ExtractionError.InvalidSemanticVersion, 0);
+                exception = Helper.CreateException(ExtractionErrorTag.InvalidSemanticVersion, 0);
                 return 0;
             }
 
@@ -466,7 +466,7 @@ namespace TauCode.Data
             }
 
             semanticVersion = new SemanticVersion(major, minor, patch, preRelease, buildMetadata);
-            error = null;
+            exception = null;
             return match.Length;
         }
 
