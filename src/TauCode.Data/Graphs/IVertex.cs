@@ -8,8 +8,8 @@ namespace TauCode.Data.Graphs
 
         IDictionary<string, object> Properties { get; set; }
 
-        IReadOnlyCollection<IEdge> OutgoingEdges { get; }
+        IReadOnlyCollection<IArc> OutgoingArcs { get; }
 
-        IReadOnlyCollection<IEdge> IncomingEdges { get; }
+        IReadOnlyCollection<IArc> IncomingArcs { get; }
     }
 }

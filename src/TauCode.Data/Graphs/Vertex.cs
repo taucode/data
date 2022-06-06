@@ -8,8 +8,8 @@ namespace TauCode.Data.Graphs
     {
         #region Fields
 
-        private readonly EdgeCollection _outgoingEdges;
-        private readonly EdgeCollection _incomingEdges;
+        private readonly ArcCollection _outgoingArcs;
+        private readonly ArcCollection _incomingArcs;
 
         #endregion
 
@@ -17,8 +17,8 @@ namespace TauCode.Data.Graphs
 
         public Vertex()
         {
-            _outgoingEdges = new EdgeCollection(this);
-            _incomingEdges = new EdgeCollection(this);
+            _outgoingArcs = new ArcCollection(this);
+            _incomingArcs = new ArcCollection(this);
         }
 
         public Vertex(string name)
@@ -31,14 +31,14 @@ namespace TauCode.Data.Graphs
 
         #region Internal
 
-        internal void AddOutgoingEdge(Edge edge)
+        internal void AddOutgoingArc(Arc arc)
         {
-            _outgoingEdges.AddEdge(edge);
+            _outgoingArcs.AddArc(arc);
         }
 
-        internal void AddIncomingEdge(Edge edge)
+        internal void AddIncomingArc(Arc arc)
         {
-            _incomingEdges.AddEdge(edge);
+            _incomingArcs.AddArc(arc);
         }
 
         #endregion
@@ -49,9 +49,9 @@ namespace TauCode.Data.Graphs
 
         public IDictionary<string, object> Properties { get; set; }
 
-        public IReadOnlyCollection<IEdge> OutgoingEdges => _outgoingEdges;
+        public IReadOnlyCollection<IArc> OutgoingArcs => _outgoingArcs;
 
-        public IReadOnlyCollection<IEdge> IncomingEdges => _incomingEdges;
+        public IReadOnlyCollection<IArc> IncomingArcs => _incomingArcs;
 
         #endregion
     }

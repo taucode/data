@@ -7,7 +7,7 @@ namespace TauCode.Data.Graphs
 {
     public static class GraphExtensions
     {
-        public static IEnumerable<IEdge> GetOutgoingEdgesLyingInGraph(this IVertex vertex, IGraph graph)
+        public static IEnumerable<IArc> GetOutgoingArcsLyingInGraph(this IVertex vertex, IGraph graph)
         {
             if (vertex == null)
             {
@@ -24,18 +24,18 @@ namespace TauCode.Data.Graphs
                 throw new InvalidOperationException("Graph does not contain this vertex.");
             }
 
-            foreach (var outgoingEdge in vertex.OutgoingEdges)
+            foreach (var outgoingArc in vertex.OutgoingArcs)
             {
-                var head = outgoingEdge.Head;
+                var head = outgoingArc.Head;
 
                 if (graph.Contains(head))
                 {
-                    yield return outgoingEdge;
+                    yield return outgoingArc;
                 }
             }
         }
 
-        public static IEnumerable<IEdge> GetIncomingEdgesLyingInGraph(this IVertex vertex, IGraph graph)
+        public static IEnumerable<IArc> GetIncomingArcsLyingInGraph(this IVertex vertex, IGraph graph)
         {
             if (vertex == null)
             {
@@ -52,25 +52,25 @@ namespace TauCode.Data.Graphs
                 throw new InvalidOperationException("Graph does not contain this vertex.");
             }
 
-            foreach (var incomingEdge in vertex.IncomingEdges)
+            foreach (var incomingArc in vertex.IncomingArcs)
             {
-                var tail = incomingEdge.Tail;
+                var tail = incomingArc.Tail;
 
                 if (graph.Contains(tail))
                 {
-                    yield return incomingEdge;
+                    yield return incomingArc;
                 }
             }
         }
 
-        public static IEnumerable<IEdge> GetEdges(this IGraph graph)
+        public static IEnumerable<IArc> GetArcs(this IGraph graph)
         {
             if (graph == null)
             {
                 throw new ArgumentNullException(nameof(graph));
             }
 
-            return graph.SelectMany(x => x.GetOutgoingEdgesLyingInGraph(graph));
+            return graph.SelectMany(x => x.GetOutgoingArcsLyingInGraph(graph));
         }
 
         public static void CaptureNodesFrom(

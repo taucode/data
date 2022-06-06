@@ -2,19 +2,19 @@
 
 namespace TauCode.Data.Graphs
 {
-    public interface IEdge
+    public interface IArc
     {
         string Name { get; set; }
 
         IDictionary<string, object> Properties { get; set; }
 
         /// <summary>
-        /// Vertex from which edge starts
+        /// Vertex from which arc starts
         /// </summary>
         IVertex Tail { get; }
 
         /// <summary>
-        /// Vertex with which edge ends
+        /// Vertex with which arc ends
         /// </summary>
         IVertex Head { get; }
 

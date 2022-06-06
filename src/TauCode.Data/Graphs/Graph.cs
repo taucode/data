@@ -8,7 +8,7 @@ namespace TauCode.Data.Graphs
     {
         #region Fields
 
-        private readonly HashSet<IVertex> _vertexes;
+        private readonly HashSet<IVertex> _vertices;
 
         #endregion
 
@@ -16,7 +16,7 @@ namespace TauCode.Data.Graphs
 
         public Graph()
         {
-            _vertexes = new HashSet<IVertex>();
+            _vertices = new HashSet<IVertex>();
         }
 
         #endregion
@@ -30,43 +30,43 @@ namespace TauCode.Data.Graphs
                 throw new ArgumentNullException(nameof(vertex));
             }
 
-            if (_vertexes.Contains(vertex))
+            if (_vertices.Contains(vertex))
             {
                 throw new InvalidOperationException("Graph already contains this vertex.");
             }
 
-            _vertexes.Add(vertex);
+            _vertices.Add(vertex);
         }
 
         #endregion
 
         #region IGraph Members
 
-        public IEnumerator<IVertex> GetEnumerator() => _vertexes.GetEnumerator();
+        public IEnumerator<IVertex> GetEnumerator() => _vertices.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => _vertexes.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => _vertices.GetEnumerator();
 
         void ICollection<IVertex>.Add(IVertex vertex) => this.AddPrivate(vertex);
 
-        public void ExceptWith(IEnumerable<IVertex> other) => _vertexes.ExceptWith(other);
+        public void ExceptWith(IEnumerable<IVertex> other) => _vertices.ExceptWith(other);
 
-        public void IntersectWith(IEnumerable<IVertex> other) => _vertexes.IntersectWith(other);
+        public void IntersectWith(IEnumerable<IVertex> other) => _vertices.IntersectWith(other);
 
-        public bool IsProperSubsetOf(IEnumerable<IVertex> other) => _vertexes.IsProperSubsetOf(other);
+        public bool IsProperSubsetOf(IEnumerable<IVertex> other) => _vertices.IsProperSubsetOf(other);
 
-        public bool IsProperSupersetOf(IEnumerable<IVertex> other) => _vertexes.IsProperSupersetOf(other);
+        public bool IsProperSupersetOf(IEnumerable<IVertex> other) => _vertices.IsProperSupersetOf(other);
 
-        public bool IsSubsetOf(IEnumerable<IVertex> other) => _vertexes.IsSubsetOf(other);
+        public bool IsSubsetOf(IEnumerable<IVertex> other) => _vertices.IsSubsetOf(other);
 
-        public bool IsSupersetOf(IEnumerable<IVertex> other) => _vertexes.IsSupersetOf(other);
+        public bool IsSupersetOf(IEnumerable<IVertex> other) => _vertices.IsSupersetOf(other);
 
-        public bool Overlaps(IEnumerable<IVertex> other) => _vertexes.Overlaps(other);
+        public bool Overlaps(IEnumerable<IVertex> other) => _vertices.Overlaps(other);
 
-        public bool SetEquals(IEnumerable<IVertex> other) => _vertexes.SetEquals(other);
+        public bool SetEquals(IEnumerable<IVertex> other) => _vertices.SetEquals(other);
 
-        public void SymmetricExceptWith(IEnumerable<IVertex> other) => _vertexes.SymmetricExceptWith(other);
+        public void SymmetricExceptWith(IEnumerable<IVertex> other) => _vertices.SymmetricExceptWith(other);
 
-        public void UnionWith(IEnumerable<IVertex> other) => _vertexes.UnionWith(other);
+        public void UnionWith(IEnumerable<IVertex> other) => _vertices.UnionWith(other);
 
         bool ISet<IVertex>.Add(IVertex vertex)
         {
@@ -74,7 +74,7 @@ namespace TauCode.Data.Graphs
             return true;
         }
 
-        public void Clear() => _vertexes.Clear();
+        public void Clear() => _vertices.Clear();
 
         public bool Contains(IVertex vertex)
         {
@@ -83,10 +83,10 @@ namespace TauCode.Data.Graphs
                 throw new ArgumentNullException(nameof(vertex));
             }
 
-            return _vertexes.Contains(vertex);
+            return _vertices.Contains(vertex);
         }
 
-        public void CopyTo(IVertex[] array, int arrayIndex) => _vertexes.CopyTo(array, arrayIndex);
+        public void CopyTo(IVertex[] array, int arrayIndex) => _vertices.CopyTo(array, arrayIndex);
 
         public bool Remove(IVertex vertex)
         {
@@ -95,12 +95,12 @@ namespace TauCode.Data.Graphs
                 throw new ArgumentNullException(nameof(vertex));
             }
 
-            return _vertexes.Remove(vertex);
+            return _vertices.Remove(vertex);
         }
 
-        public int Count => _vertexes.Count;
+        public int Count => _vertices.Count;
 
-        public bool IsReadOnly => ((ICollection<IVertex>)_vertexes).IsReadOnly;
+        public bool IsReadOnly => ((ICollection<IVertex>)_vertices).IsReadOnly;
 
         #endregion
     }

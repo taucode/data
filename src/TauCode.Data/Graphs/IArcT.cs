@@ -1,6 +1,6 @@
 ﻿namespace TauCode.Data.Graphs
 {
-    public interface IEdge<T> : IEdge
+    public interface IArc<T> : IArc
     {
         T Data { get; set; }
     }

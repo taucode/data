@@ -1,19 +1,19 @@
 ﻿namespace TauCode.Data.Graphs
 {
-    public class Edge<T> : Edge, IEdge<T>
+    public class Arc<T> : Arc, IArc<T>
     {
         #region ctor
 
-        public Edge()
+        public Arc()
         {
         }
 
-        public Edge(string name)
+        public Arc(string name)
             : base(name)
         {
         }
 
-        public Edge(string name, T data)
+        public Arc(string name, T data)
             : base(name)
         {
             this.Data = data;
@@ -21,7 +21,7 @@
 
         #endregion
 
-        #region IEdge<T> Members
+        #region IArc<T> Members
 
         public T Data { get; set; }
 

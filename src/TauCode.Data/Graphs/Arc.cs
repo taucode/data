@@ -5,22 +5,22 @@ using System.Diagnostics;
 namespace TauCode.Data.Graphs
 {
     [DebuggerDisplay("{Name} ({Tail} -> {Head})")]
-    public class Edge : IEdge
+    public class Arc : IArc
     {
         #region ctor
 
-        public Edge()
+        public Arc()
         {
         }
 
-        public Edge(string name)
+        public Arc(string name)
         {
             this.Name = name;
         }
 
         #endregion
 
-        #region IEdge Members
+        #region IArc Members
 
         public string Name { get; set; }
 
@@ -44,7 +44,7 @@ namespace TauCode.Data.Graphs
 
             if (this.Tail != null || this.Head != null)
             {
-                throw new InvalidOperationException("Edge is not free.");
+                throw new InvalidOperationException("Arc is not free.");
             }
 
             if (!(tail is Vertex tailImpl))
@@ -57,8 +57,8 @@ namespace TauCode.Data.Graphs
                 throw new ArgumentException($"'{nameof(head)}' is not an instance of '{typeof(Vertex).FullName}'.", nameof(head));
             }
 
-            tailImpl.AddOutgoingEdge(this);
-            headImpl.AddIncomingEdge(this);
+            tailImpl.AddOutgoingArc(this);
+            headImpl.AddIncomingArc(this);
 
             this.Tail = tail;
             this.Head = head;
