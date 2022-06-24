@@ -1,0 +1,235 @@
+﻿[
+  // ======= deal with {x, x} =======
+  {
+    "TestInterval": "[10, 10]",
+    "ExpectedInterval": {
+      "Start": 10,
+      "End": 10,
+      "IsStartIncluded": true,
+      "IsEndIncluded": true
+    },
+    "ExceptionException": null
+  },
+  {
+    "TestInterval": "(10, 10]",
+    "ExpectedInterval": null,
+    "ExceptionException": {
+      "Type": "System.ArgumentException",
+      "Message": "If 'start' equals 'end' and their value is not null, both 'isStartIncluded' and 'isEndIncluded' must be either true or false.",
+      "ParamName": null
+    }
+  },
+  {
+    "TestInterval": "[10, 10)",
+    "ExpectedInterval": null,
+    "ExceptionException": {
+      "Type": "System.ArgumentException",
+      "Message": "If 'start' equals 'end' and their value is not null, both 'isStartIncluded' and 'isEndIncluded' must be either true or false.",
+      "ParamName": null
+    }
+  },
+  {
+    "TestInterval": "(10, 10)",
+    "ExpectedInterval": {
+      "Start": 10,
+      "End": 10,
+      "IsStartIncluded": false,
+      "IsEndIncluded": false
+    },
+    "ExceptionException": null
+  },
+  // ======= deal with {-∞, +∞} =======
+  {
+    "TestInterval": "[-∞, +∞]",
+    "ExpectedInterval": null,
+    "ExceptionException": {
+      "Type": "System.ArgumentException",
+      "Message": "-∞ cannot be included.",
+      "ParamName": "start/isStartIncluded"
+    }
+  },
+  {
+    "TestInterval": "(-∞, +∞]",
+    "ExpectedInterval": null,
+    "ExceptionException": {
+      "Type": "System.ArgumentException",
+      "Message": "+∞ cannot be included.",
+      "ParamName": "end/isEndIncluded"
+    }
+  },
+  {
+    "TestInterval": "[-∞, +∞)",
+    "ExpectedInterval": null,
+    "ExceptionException": {
+      "Type": "System.ArgumentException",
+      "Message": "-∞ cannot be included.",
+      "ParamName": "start/isStartIncluded"
+    }
+  },
+  {
+    "TestInterval": "(-∞, +∞)",
+    "ExpectedInterval": {
+      "Start": null,
+      "End": null,
+      "IsStartIncluded": false,
+      "IsEndIncluded": false
+    },
+    "ExceptionException": null
+  },
+  // ======= deal with {-∞, x} =======
+  {
+    "TestInterval": "[-∞, 10]",
+    "ExpectedInterval": null,
+    "ExceptionException": {
+      "Type": "System.ArgumentException",
+      "Message": "-∞ cannot be included.",
+      "ParamName": "start/isStartIncluded"
+    }
+  },
+  {
+    "TestInterval": "(-∞, 10]",
+    "ExpectedInterval": {
+      "Start": null,
+      "End": 10,
+      "IsStartIncluded": false,
+      "IsEndIncluded": true
+    },
+    "ExceptionException": null
+  },
+  {
+    "TestInterval": "[-∞, 10)",
+    "ExpectedInterval": null,
+    "ExceptionException": {
+      "Type": "System.ArgumentException",
+      "Message": "-∞ cannot be included.",
+      "ParamName": "start/isStartIncluded"
+    }
+  },
+  {
+    "TestInterval": "(-∞, 10)",
+    "ExpectedInterval": {
+      "Start": null,
+      "End": 10,
+      "IsStartIncluded": false,
+      "IsEndIncluded": false
+    },
+    "ExceptionException": null
+  },
+  // ======= deal with {x, +∞} =======
+  {
+    "TestInterval": "[10, +∞]",
+    "ExpectedInterval": null,
+    "ExceptionException": {
+      "Type": "System.ArgumentException",
+      "Message": "+∞ cannot be included.",
+      "ParamName": "end/isEndIncluded"
+    }
+  },
+  {
+    "TestInterval": "(10, +∞]",
+    "ExpectedInterval": null,
+    "ExceptionException": {
+      "Type": "System.ArgumentException",
+      "Message": "+∞ cannot be included.",
+      "ParamName": "end/isEndIncluded"
+    }
+  },
+  {
+    "TestInterval": "[10, +∞)",
+    "ExpectedInterval": {
+      "Start": 10,
+      "End": null,
+      "IsStartIncluded": true,
+      "IsEndIncluded": false
+    },
+    "ExceptionException": null
+  },
+  {
+    "TestInterval": "(10, +∞)",
+    "ExpectedInterval": {
+      "Start": 10,
+      "End": null,
+      "IsStartIncluded": false,
+      "IsEndIncluded": false
+    },
+    "ExceptionException": null
+  },
+  // ======= deal with {x, y} (x > y) =======
+  {
+    "TestInterval": "[10, 7]",
+    "ExpectedInterval": null,
+    "ExceptionException": {
+      "Type": "System.ArgumentException",
+      "Message": "'start' must be less than or equal to 'end'.",
+      "ParamName": "start/end"
+    }
+  },
+  {
+    "TestInterval": "(10, 7]",
+    "ExpectedInterval": null,
+    "ExceptionException": {
+      "Type": "System.ArgumentException",
+      "Message": "'start' must be less than or equal to 'end'.",
+      "ParamName": "start/end"
+    }
+  },
+  {
+    "TestInterval": "[10, 7)",
+    "ExpectedInterval": null,
+    "ExceptionException": {
+      "Type": "System.ArgumentException",
+      "Message": "'start' must be less than or equal to 'end'.",
+      "ParamName": "start/end"
+    }
+  },
+  {
+    "TestInterval": "(10, 7)",
+    "ExpectedInterval": null,
+    "ExceptionException": {
+      "Type": "System.ArgumentException",
+      "Message": "'start' must be less than or equal to 'end'.",
+      "ParamName": "start/end"
+    }
+  },
+  // ======= deal with {x, y} (x < y) =======
+  {
+    "TestInterval": "[7, 10]",
+    "ExpectedInterval": {
+      "Start": 7,
+      "End": 10,
+      "IsStartIncluded": true,
+      "IsEndIncluded": true
+    },
+    "ExceptionException": null
+  },
+  {
+    "TestInterval": "(7, 10]",
+    "ExpectedInterval": {
+      "Start": 7,
+      "End": 10,
+      "IsStartIncluded": false,
+      "IsEndIncluded": true
+    },
+    "ExceptionException": null
+  },
+  {
+    "TestInterval": "[7, 10)",
+    "ExpectedInterval": {
+      "Start": 7,
+      "End": 10,
+      "IsStartIncluded": true,
+      "IsEndIncluded": false
+    },
+    "ExceptionException": null
+  },
+  {
+    "TestInterval": "(7, 10)",
+    "ExpectedInterval": {
+      "Start": 7,
+      "End": 10,
+      "IsStartIncluded": false,
+      "IsEndIncluded": false
+    },
+    "ExceptionException": null
+  }
+]
