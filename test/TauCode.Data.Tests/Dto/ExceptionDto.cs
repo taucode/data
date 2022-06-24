@@ -1,7 +1,15 @@
-﻿namespace TauCode.Data.Tests.Dto;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class ExceptionDto
+namespace TauCode.Data.Tests.Dto
 {
-    public string Message { get; set; }
-    public int? Index { get; set; }
+    public class ExceptionDto
+    {
+        public string Type { get; set; }
+        public string Message { get; set; }
+        public string ParamName { get; set; }
+    }
 }

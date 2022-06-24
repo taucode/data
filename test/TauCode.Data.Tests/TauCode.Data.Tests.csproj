@@ -12,23 +12,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\EmailAddressTests.Fail.ForParsing.json" />
-    <None Remove="Resources\EmailAddressTests.Success.json" />
-    <None Remove="Resources\HostNameTests.IPv6.Fail.json" />
-    <None Remove="Resources\HostNameTests.IPv6.Success.json" />
-    <None Remove="Resources\HostNameTests.json" />
-    <None Remove="Resources\SemanticVersionTests.Fail.json" />
-    <None Remove="Resources\SemanticVersionTests.Success.json" />
+    <None Remove="Resources\IntervalCtorTests.NonNullable.json" />
+    <None Remove="Resources\IntervalCtorTests.Nullable.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\EmailAddressTests.Fail.ForParsing.json" />
-    <EmbeddedResource Include="Resources\EmailAddressTests.Success.json" />
-    <EmbeddedResource Include="Resources\SemanticVersionTests.Fail.json" />
-    <EmbeddedResource Include="Resources\SemanticVersionTests.Success.json" />
-    <EmbeddedResource Include="Resources\HostNameTests.IPv6.Fail.json" />
-    <EmbeddedResource Include="Resources\HostNameTests.IPv6.Success.json" />
-    <EmbeddedResource Include="Resources\HostNameTests.json" />
+    <EmbeddedResource Include="Resources\IntervalCtorTests.NonNullable.json" />
+    <EmbeddedResource Include="Resources\IntervalCtorTests.Nullable.json" />
   </ItemGroup>
 
   <ItemGroup>
