@@ -2,28 +2,24 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>TauCode.Data</id>
-    <version>1.3.7-alpha.1.2022-06-24.19-19</version>
+    <version>1.3.7-alpha.1.2022-07-26.22-36</version>
     <authors>TauCode</authors>
     <owners>TauCode</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <license type="file">LICENSE.txt</license>
+    <license type="file">LICENSE</license>
     <projectUrl>https://github.com/taucode/taucode.data</projectUrl>
     <repository type="git" url="https://github.com/taucode/taucode.data"/>
     <description>TauCode all-purpose data structures</description>
     <releaseNotes>
-      * Refactored HostName data structure
-      * Refactored EmailAddress data structure
-      * Added Emoji data structure
-      * Refactored SemanticVersion
+      * Added Interval data structure
     </releaseNotes>
-    <tags>taucode data semantic version email address emoji parsing</tags>
+    <tags>taucode data interval value dictionary</tags>
     <dependencies>
       <group targetFramework=".NETStandard2.1" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\LICENSE.txt" target="" />
-    <file src="..\README.md" target="" />
+    <file src="..\LICENSE*" target="" />
     <file src="..\src\TauCode.Data\bin\Release\netstandard2.1\TauCode.Data.dll" target="lib\netstandard2.1" />
     <file src="..\src\TauCode.Data\bin\Release\netstandard2.1\TauCode.Data.pdb" target="lib\netstandard2.1" />
   </files>
