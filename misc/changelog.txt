@@ -1,4 +1,4 @@
-2019-07-03
+﻿2019-07-03
 ==========
     1. Initial version
 
@@ -8,5 +8,31 @@
 
 2019-11-22
 ==========
-    Version: Release v3.0.0.1
     1. Updated project structure.
+
+2020-11-14
+==========
+    1. Huge dev refactoring.
+
+2021-03-01
+==========
+    1. Resurrection.
+
+2021-06-25
+==========
+    1. LibDev initiative started
+
+2021-10-29
+==========
+    1. Resurrected the project.
+
+2021-11-19
+==========
+    1. Resurrected again.
+
+2022-05-29
+==========
+    1. Resurrected again
+    2. Refactored HostName data structure
+    3. Refactored EmailAddress data structure
+    4. Added Emoji data structure

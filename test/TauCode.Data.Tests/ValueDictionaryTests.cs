@@ -3,7 +3,7 @@
 namespace TauCode.Data.Tests
 {
     [TestFixture]
-    public class ValueDictionaryTest
+    public class ValueDictionaryTests
     {
         [Test]
         public void Constructor_ObjectProvided_CreatesDictionary()
