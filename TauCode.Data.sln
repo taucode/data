@@ -9,10 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{EE8B33C7-9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{BB0AD8E1-B336-4058-9737-E2AE2B447BFC}"
 	ProjectSection(SolutionItems) = preProject
-		misc\all-emojis.json = misc\all-emojis.json
 		misc\changelog.txt = misc\changelog.txt
-		misc\emojis.txt = misc\emojis.txt
-		misc\links.txt = misc\links.txt
 		misc\todo.txt = misc\todo.txt
 	EndProjectSection
 EndProject
