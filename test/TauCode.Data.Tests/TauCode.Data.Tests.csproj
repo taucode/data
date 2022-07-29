@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <IsPackable>false</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,13 +13,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\IntervalCtorTests.NonNullable.json" />
-    <None Remove="Resources\IntervalCtorTests.Nullable.json" />
+    <None Remove="Resources\Contains.txt" />
+    <None Remove="Resources\Ctor.json" />
+    <None Remove="Resources\IntersectWith.txt" />
+    <None Remove="Resources\IsEmpty.txt" />
+    <None Remove="Resources\IsFinite.txt" />
+    <None Remove="Resources\IsInfinite.txt" />
+    <None Remove="Resources\IsSingleValue.txt" />
+    <None Remove="Resources\IsSubsetOf.txt" />
+    <None Remove="Resources\IsUniversal.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\IntervalCtorTests.NonNullable.json" />
-    <EmbeddedResource Include="Resources\IntervalCtorTests.Nullable.json" />
+    <EmbeddedResource Include="Resources\IsFinite.txt" />
+    <EmbeddedResource Include="Resources\IsSingleValue.txt" />
+    <EmbeddedResource Include="Resources\IsInfinite.txt" />
+    <EmbeddedResource Include="Resources\IsUniversal.txt" />
+    <EmbeddedResource Include="Resources\IsEmpty.txt" />
+    <EmbeddedResource Include="Resources\Ctor.json" />
+    <EmbeddedResource Include="Resources\Contains.txt" />
+    <EmbeddedResource Include="Resources\IsSubsetOf.txt" />
+    <EmbeddedResource Include="Resources\IntersectWith.txt" />
   </ItemGroup>
 
   <ItemGroup>

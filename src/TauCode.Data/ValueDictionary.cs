@@ -4,8 +4,6 @@
 // 1. https://github.com/aspnet/AspNetWebStack/blob/master/src/Common/PropertyHelper.cs
 // 2. https://github.com/aspnet/AspNetWebStack/blob/master/src/System.Web.Http/Routing/HttpRouteValueDictionary.cs
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace TauCode.Data
@@ -23,7 +21,7 @@ namespace TauCode.Data
         {
             if (dictionary != null)
             {
-                foreach (KeyValuePair<string, object> current in dictionary)
+                foreach (var current in dictionary)
                 {
                     Add(current.Key, current.Value);
                 }
@@ -33,10 +31,9 @@ namespace TauCode.Data
         public ValueDictionary(object values)
             : base(StringComparer.OrdinalIgnoreCase)
         {
-            IDictionary<string, object> valuesAsDictionary = values as IDictionary<string, object>;
-            if (valuesAsDictionary != null)
+            if (values is IDictionary<string, object> valuesAsDictionary)
             {
-                foreach (KeyValuePair<string, object> current in valuesAsDictionary)
+                foreach (var current in valuesAsDictionary)
                 {
                     Add(current.Key, current.Value);
                 }
