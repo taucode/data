@@ -1,0 +1,15 @@
+﻿false : (-∞, +∞)
+true  : ∅
+
+false : (-∞, 10]
+false : (-∞, 10)
+
+false : [10, +∞)
+false : (10, +∞)
+
+false : [11, 11]
+
+false : [11, 17]
+false : (11, 17)
+false : (11, 17]
+false : [11, 17)
