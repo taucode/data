@@ -36,3 +36,10 @@
     2. Refactored HostName data structure
     3. Refactored EmailAddress data structure
     4. Added Emoji data structure
+
+2022-07-29
+==========
+    1. Text data like Emoji, HostName, EmailAddress were moved to TauCode.Data.Text
+    2. Graphs moved to TauCode.Data.Graphs.
+    3. Moved to NET 6.
+    4. Completed Interval<T> and ValueTypeInterval<T>.
