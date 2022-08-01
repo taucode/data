@@ -1,4 +1,4 @@
 ﻿2022-07-31
 ==========
-    1. Get rid of #? in .txt ut-s
-    2. IntersectWith.txt: second argument [x, x] for all ut-s.
++   1. Get rid of #? in .txt ut-s
++   2. IntersectWith.txt: second argument [x, x] for all ut-s.
