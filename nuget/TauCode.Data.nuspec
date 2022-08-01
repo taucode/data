@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>TauCode.Data</id>
-    <version>1.5.0-alpha.1.2022-08-01.11-25</version>
+    <version>1.5.0</version>
     <authors>TauCode</authors>
     <owners>TauCode</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,7 +11,7 @@
     <repository type="git" url="https://github.com/taucode/taucode.data"/>
     <description>TauCode all-purpose data structures</description>
     <releaseNotes>
-      Developing release 1.5.0.
+      Release 1.5.0.
     </releaseNotes>
     <tags>taucode data interval value dictionary</tags>
     <dependencies>
