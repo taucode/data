@@ -1,34 +1,18 @@
-﻿2019-07-03
+﻿2024-10-14
 ==========
-    1. Initial version
+    1. Resurrected.
+    2. Ported to .NET 8
 
-2019-10-20
+2023-04-08
 ==========
-    1. Release v3.0
+    1. Ported from lab.
 
-2019-11-22
+2022-07-29
 ==========
-    1. Updated project structure.
-
-2020-11-14
-==========
-    1. Huge dev refactoring.
-
-2021-03-01
-==========
-    1. Resurrection.
-
-2021-06-25
-==========
-    1. LibDev initiative started
-
-2021-10-29
-==========
-    1. Resurrected the project.
-
-2021-11-19
-==========
-    1. Resurrected again.
+    1. Text data like Emoji, HostName, EmailAddress were moved to TauCode.Data.Text
+    2. Graphs moved to TauCode.Data.Graphs.
+    3. Moved to NET 6.
+    4. Completed Interval<T> and ValueTypeInterval<T>.
 
 2022-05-29
 ==========
@@ -37,9 +21,35 @@
     3. Refactored EmailAddress data structure
     4. Added Emoji data structure
 
-2022-07-29
+2021-11-19
 ==========
-    1. Text data like Emoji, HostName, EmailAddress were moved to TauCode.Data.Text
-    2. Graphs moved to TauCode.Data.Graphs.
-    3. Moved to NET 6.
-    4. Completed Interval<T> and ValueTypeInterval<T>.
+    1. Resurrected again.
+
+2021-10-29
+==========
+    1. Resurrected the project.
+
+2021-06-25
+==========
+    1. LibDev initiative started
+
+2021-03-01
+==========
+    1. Resurrection.
+
+2020-11-14
+==========
+    1. Huge dev refactoring.
+
+2019-11-22
+==========
+    1. Updated project structure.
+
+2019-10-20
+==========
+    1. Release v3.0
+
+2019-07-03
+==========
+    1. Initial version
+
